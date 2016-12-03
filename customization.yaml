@@ -1,0 +1,58 @@
+#customize:
+
+    sensor.studio_humidity:
+      icon: mdi:water-percent
+
+    sensor.bad_humidity:
+      icon: mdi:water-percent
+
+    sensor.james_humidity:
+      icon: mdi:water-percent
+      sensor_class: moisture
+
+    switch.bad_licht:
+      icon: mdi:lightbulb
+
+    switch.bad_luefter:
+      icon: mdi:fan
+
+    switch.flur:
+      icon: mdi:lightbulb
+
+    switch.garage:
+      icon: mdi:lightbulb
+
+    switch.studio_hinten:
+      icon: mdi:lightbulb
+
+    switch.studio_sonne:
+      icon: mdi:lightbulb
+
+    switch.studio_vorne:
+      icon: mdi:lightbulb
+
+    switch.bad_heizung:
+      icon: mdi:radiator
+      sensor_class: heat
+
+    switch.bad_strahler:
+      icon: mdi:radiator
+      sensor_class: heat
+
+    switch.studio_heizung:
+      icon: mdi:radiator
+      sensor_class: heat
+
+    switch.lautsprecher:
+      icon: mdi:speaker
+
+    sensor.water_temperature:
+      friendly_name: Aare Temperature
+      icon: mdi:oil-temperature
+
+    sensor.aaredischarge:
+      icon: mdi:transfer
+
+    sensor.aarelevel:
+      icon: mdi:trending-up
+

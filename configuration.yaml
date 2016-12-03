@@ -1,0 +1,62 @@
+homeassistant:
+# Name of the location where Home Assistant is running
+  name: Home
+
+# get lat/long from http://www.latlong.net/convert-address-to-lat-long.html
+  latitude: !secret config_latitude
+  longitude: !secret config_longitude
+
+# Impacts weather/sunrise data (altitude above sea level) 
+  elevation: 508
+
+# C for Celsius, F for Fahrenheit
+  unit_system: metric
+
+# Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Zurich
+
+  customize: !include customization.yaml
+
+# Allows you to issue voice commands from the frontend
+conversation:
+
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.1.1/24
+    home_interval: 10
+    exclude:
+     - 192.168.1.7
+
+# Discover some devices automatically
+discovery:
+
+# Enables the frontend
+frontend:
+
+# Enables support for tracking state changes over time.
+history:
+
+# Enable some Keyboard items
+keyboard:
+
+# View all events in a logbook
+logbook:
+
+# log and debug homeassistant
+logger:
+  default: critical
+  logs:
+    homeassistant.components: debug
+
+# Track the sun
+sun:
+
+# Checks for available updates
+updater:
+  reporting: false
+
+camera: !include cameras.yaml
+switch: !include switches.yaml
+sensor: !include sensors.yaml
+group: !include groups.yaml
+

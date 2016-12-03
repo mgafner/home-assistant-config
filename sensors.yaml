@@ -1,0 +1,57 @@
+- platform: command_line
+  command: "/home/hass/bin/homewizard -t -d Studio"
+  name: Studio Temperature
+  unit_of_measurement: "°C"
+
+- platform: command_line
+  command: "/home/hass/bin/homewizard -t -d James"
+  name: James Temperature
+  unit_of_measurement: "°C"
+
+- platform: command_line
+  command: "/home/hass/bin/homewizard -t -d Bad"
+  name: Bad Temperature
+  unit_of_measurement: "°C"
+
+- platform: command_line
+  command: "/home/hass/bin/homewizard -h -d Studio"
+  name: Studio Humidity
+  unit_of_measurement: "%"
+
+- platform: command_line
+  command: "/home/hass/bin/homewizard -h -d James"
+  name: James Humidity
+  unit_of_measurement: "%"
+
+- platform: command_line
+  command: "/home/hass/bin/homewizard -h -d Bad"
+  name: Bad Humidity
+  unit_of_measurement: "%"
+
+- platform: swiss_public_transport
+  from: Bern, Monbijoubr
+  to: Bern, Eigerp
+# help: https://home-assistant.io/components/sensor.swiss_public_transport/
+
+- platform: time_date
+  display_options:
+    - 'date'
+    - 'time'
+
+- platform: template
+  sensors:
+    aarelevel:
+      value_template: '{{ states.sensor.water_temperature.attributes.level }}'
+      friendly_name: 'Aare Level'
+      unit_of_measurement: 'm'
+    aaredischarge:
+      value_template: '{{ states.sensor.water_temperature.attributes.discharge }}'
+      friendly_name: 'Aare Discharge'
+      unit_of_measurement: 'm3/s'
+
+- platform: swiss_hydrological_data
+  station: 2135
+#  friendly_name: Aare Temperature
+#  icon: mdi:thermometer
+
+

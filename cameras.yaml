@@ -1,0 +1,52 @@
+# Weather Maps
+
+- platform: generic
+  still_image_url: http://data.meteomedia.de/data/maps/generated/schweiz_sytl_uwz-ch_de.png
+  name: Wetter Schweiz
+
+- platform: generic
+  still_image_url: http://alarm.meteocentrale.ch/images/map/schweiz_index.png
+  name: Wetter Alarm Schweiz
+
+- platform: generic
+  still_image_url: http://www.unwetterzentrale.de/images/map/europe_index.png
+  name: Wetter Alarm Europa
+
+# My Cams
+
+- platform: mjpeg
+  mjpeg_url: http://192.168.1.16/video/mjpg.cgi
+  name: Garage DCS-820L
+  username: admin
+  password: !secret camera_dcs820l
+
+# DCS-820L
+# from http://forums.dlink.com/index.php?topic=57687.0
+#
+# To access you have to use:
+# user = admin
+# password = the password of your webcam, usually configured during first time setup wizard
+#
+# 1. http://ip_address/eng/liveView.cgi or http://ip_address/eng/mainFrame.cgi
+# Here you can access the typical DLink web config page with several sections:
+# - a liveview page which requires the CamCliCtrl (InstallCamCliCtrl.msi)
+# - a setup page where you can config the wireless lan setup and also access to the SD storage
+# - a maintenance page where to upgrade the firmware
+# - a status page with the typical info (ip address, mac address, etc.)
+# - a help page containing some disclaimers
+#
+# 2. http://ip_address/image/jpeg.cgi
+# here you get a screenshot of the actual webcam view
+#
+# 3. http://ip_address/video/mjpg.cgi
+# here you get a live stream of your webcam. To access I use VLC player, by opening a Network Stream and putting in the url above.
+#
+# 4. rtsp://admin:passwd@ipaddr:554/play1.sdp ~ 720p 25fps
+# 5. rtsp://admin:passwd@ipaddr:554/play2.sdp ~ 360p 10fps
+# 6. rtsp://admin:passwd@ipaddr:554/play3.sdp ~ 360p 10fps
+# These are available to view an ffMPEG live stream with audio using RTSP (H.264/MPEG4 encoding).
+# Achieved successful playback of these streams over TCP or UDP using various methods:
+#    RTSP Player (Android)
+#    VLC Media Player (Linux, Mac, Windows)
+
+

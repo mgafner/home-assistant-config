@@ -1,0 +1,71 @@
+default_view:
+  view: yes
+  entities:
+    - group.Status
+    - group.Aussen
+    - group.Aare
+    - group.Bad
+    - group.Studio
+    - group.Flur
+    - group.Garage
+    - group.Kamera
+
+weather:
+  view: yes
+  entities:
+    - group.wetter1
+    - group.wetter2
+    - group.wetter3
+
+Status:
+  - sun.sun
+  - device_tracker.galaxynotehome
+  - sensor.date
+  - sensor.time
+  - sensor.next_departure
+
+Aussen:
+  - sensor.james_temperature
+  - sensor.james_humidity
+
+Aare:
+  - sensor.aarelevel
+  - sensor.aaredischarge
+  - sensor.water_temperature
+
+Studio:
+  - sensor.studio_temperature
+  - sensor.studio_humidity
+  - switch.Studio_vorne
+  - switch.Studio_Sonne
+  - switch.Studio_hinten
+  - switch.Studio_Heizung
+  - switch.Lautsprecher
+
+Flur:
+  - switch.Flur
+
+Bad:
+  - sensor.bad_temperature
+  - sensor.bad_humidity
+  - switch.Bad_Licht
+  - switch.Bad_Luefter
+  - switch.Bad_Heizung
+  - switch.Bad_Strahler
+
+Garage:
+  - switch.Garage
+  - switch.Signal
+
+Kamera:
+  - camera.garage_dcs820l
+
+wetter1:
+  - camera.wetter_alarm_schweiz
+
+wetter2:
+  - camera.wetter_schweiz
+
+wetter3:
+  - camera.wetter_alarm_europa
+
