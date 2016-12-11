@@ -1,30 +1,30 @@
 - platform: command_line
-  command: "/home/hass/bin/homewizard -t -d Studio"
+  command: "/home/mgafner/bin/homewizard.sh -t -d Studio"
   name: Studio Temperature
   unit_of_measurement: "°C"
 
 - platform: command_line
-  command: "/home/hass/bin/homewizard -t -d James"
+  command: "/home/mgafner/bin/homewizard.sh -t -d James"
   name: James Temperature
   unit_of_measurement: "°C"
 
 - platform: command_line
-  command: "/home/hass/bin/homewizard -t -d Bad"
+  command: "/home/mgafner/bin/homewizard.sh -t -d Bad"
   name: Bad Temperature
   unit_of_measurement: "°C"
 
 - platform: command_line
-  command: "/home/hass/bin/homewizard -h -d Studio"
+  command: "/home/mgafner/bin/homewizard.sh -h -d Studio"
   name: Studio Humidity
   unit_of_measurement: "%"
 
 - platform: command_line
-  command: "/home/hass/bin/homewizard -h -d James"
+  command: "/home/mgafner/bin/homewizard.sh -h -d James"
   name: James Humidity
   unit_of_measurement: "%"
 
 - platform: command_line
-  command: "/home/hass/bin/homewizard -h -d Bad"
+  command: "/home/mgafner/bin/homewizard.sh -h -d Bad"
   name: Bad Humidity
   unit_of_measurement: "%"
 

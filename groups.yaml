@@ -23,6 +23,7 @@ Status:
   - sensor.date
   - sensor.time
   - sensor.next_departure
+  - media_player.kodi
 
 Aussen:
   - sensor.james_temperature

@@ -1,74 +1,74 @@
 - platform: command_line
   switches:
     garage:
-      command_on: "/home/hass/bin/homewizard -d Garage -s on"
-      command_off: "/home/hass/bin/homewizard -d Garage -s off"
-      command_state: "/home/hass/bin/homewizard -d Garage -g"
+      command_on: "/home/mgafner/bin/homewizard.sh -d Garage -s on"
+      command_off: "/home/mgafner/bin/homewizard.sh -d Garage -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d Garage -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Garage
     signal:
-      command_on:    "/home/hass/bin/homewizard -d Signal -s on"
-      command_off:   "/home/hass/bin/homewizard -d Signal -s off"
-      command_state: "/home/hass/bin/homewizard -d Signal -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d Signal -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d Signal -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d Signal -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Signal
     flur:
-      command_on:    "/home/hass/bin/homewizard -d Flur -s on"
-      command_off:   "/home/hass/bin/homewizard -d Flur -s off"
-      command_state: "/home/hass/bin/homewizard -d Flur -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d Flur -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d Flur -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d Flur -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Flur
     bad_licht:
-      command_on:    "/home/hass/bin/homewizard -d BadLicht -s on"
-      command_off:   "/home/hass/bin/homewizard -d BadLicht -s off"
-      command_state: "/home/hass/bin/homewizard -d BadLicht -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d BadLicht -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d BadLicht -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d BadLicht -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Bad Licht
     bad_heizung:
-      command_on:    "/home/hass/bin/homewizard -d BadHeizung -s on"
-      command_off:   "/home/hass/bin/homewizard -d BadHeizung -s off"
-      command_state: "/home/hass/bin/homewizard -d BadHeizung -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d BadHeizung -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d BadHeizung -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d BadHeizung -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Bad Heizung
     bad_strahler:
-      command_on:    "/home/hass/bin/homewizard -d BadStrahler -s on"
-      command_off:   "/home/hass/bin/homewizard -d BadStrahler -s off"
-      command_state: "/home/hass/bin/homewizard -d BadStrahler -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d BadStrahler -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d BadStrahler -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d BadStrahler -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Bad Strahler
     bad_luefter:
-      command_on:    "/home/hass/bin/homewizard -d BadLuefter -s on"
-      command_off:   "/home/hass/bin/homewizard -d BadLuefter -s off"
-      command_state: "/home/hass/bin/homewizard -d BadLuefter -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d BadLuefter -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d BadLuefter -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d BadLuefter -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Bad Lüfter
     studio_vorne:
-      command_on:    "/home/hass/bin/homewizard -d StudioVorne -s on"
-      command_off:   "/home/hass/bin/homewizard -d StudioVorne -s off"
-      command_state: "/home/hass/bin/homewizard -d StudioVorne -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d StudioVorne -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d StudioVorne -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d StudioVorne -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Studio vorne
     studio_sonne:
-      command_on:    "/home/hass/bin/homewizard -d StudioSonne -s on"
-      command_off:   "/home/hass/bin/homewizard -d StudioSonne -s off"
-      command_state: "/home/hass/bin/homewizard -d StudioSonne -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d StudioSonne -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d StudioSonne -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d StudioSonne -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Studio Sonne
     studio_hinten:
-      command_on:    "/home/hass/bin/homewizard -d StudioHinten -s on"
-      command_off:   "/home/hass/bin/homewizard -d StudioHinten -s off"
-      command_state: "/home/hass/bin/homewizard -d StudioHinten -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d StudioHinten -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d StudioHinten -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d StudioHinten -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Studio hinten
     studio_heizung:
-      command_on:    "/home/hass/bin/homewizard -d StudioHeizung -s on"
-      command_off:   "/home/hass/bin/homewizard -d StudioHeizung -s off"
-      command_state: "/home/hass/bin/homewizard -d StudioHeizung -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d StudioHeizung -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d StudioHeizung -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d StudioHeizung -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Studio Heizung
     lautsprecher:
-      command_on:    "/home/hass/bin/homewizard -d Lautsprecher -s on"
-      command_off:   "/home/hass/bin/homewizard -d Lautsprecher -s off"
-      command_state: "/home/hass/bin/homewizard -d Lautsprecher -g"
+      command_on:    "/home/mgafner/bin/homewizard.sh -d Lautsprecher -s on"
+      command_off:   "/home/mgafner/bin/homewizard.sh -d Lautsprecher -s off"
+      command_state: "/home/mgafner/bin/homewizard.sh -d Lautsprecher -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Lautsprecher

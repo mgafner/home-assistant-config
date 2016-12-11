@@ -48,6 +48,13 @@ logger:
   logs:
     homeassistant.components: debug
 
+# Mediaplayer
+media_player:
+  - platform: kodi
+    host: http://192.168.1.7
+    username: kodi
+    password: kodi
+
 # Track the sun
 sun:
 
