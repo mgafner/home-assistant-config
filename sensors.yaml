@@ -50,6 +50,10 @@
       value_template: '{{ states.sensor.water_temperature.attributes.discharge }}'
       friendly_name: 'Aare Discharge'
       unit_of_measurement: 'm3/s'
+    template_diff_humidity:
+      value_template: '{{ states.sensor.bad_humidity.state - states.sensor.studio_humidity.state }}'
+      friendly_name: 'Bath High Humidity'
+      unit_of_measurement: '%'
 
 - platform: swiss_hydrological_data
   station: 2135
@@ -67,5 +71,4 @@
       arg: wlan1
     - type: last_boot
     - type: since_last_boot
-
 

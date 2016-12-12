@@ -52,6 +52,7 @@ sun:
 updater:
   reporting: false
 
+automation: !include automation.yaml
 camera: !include cameras.yaml
 switch: !include switches.yaml
 sensor: !include sensors.yaml
