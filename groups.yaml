@@ -6,7 +6,6 @@ default_view:
     - group.Aare
     - group.Bad
     - group.Studio
-    - group.Flur
     - group.Garage
     - group.Kamera
 
@@ -17,13 +16,19 @@ weather:
     - group.wetter2
     - group.wetter3
 
+system:
+  view: yes
+  entities:
+    - group.system_status
+
 Status:
   - sun.sun
   - device_tracker.galaxynotehome
+  - device_tracker.sonyhome
   - sensor.date
   - sensor.time
   - sensor.next_departure
-  - media_player.kodi
+  - sensor.cpu_speed
 
 Aussen:
   - sensor.james_temperature
@@ -42,8 +47,6 @@ Studio:
   - switch.Studio_hinten
   - switch.Studio_Heizung
   - switch.Lautsprecher
-
-Flur:
   - switch.Flur
 
 Bad:
@@ -69,4 +72,16 @@ wetter2:
 
 wetter3:
   - camera.wetter_alarm_europa
+
+system_status:
+  - sensor.date
+  - sensor.time
+  - sensor.last_boot
+  - sensor.since_last_boot
+  - sensor.cpu_use
+  - sensor.cpu_speed
+  - sensor.disk_use
+  - sensor.disk_free
+  - sensor.received_wlan1
+  - sensor.sent_wlan1
 

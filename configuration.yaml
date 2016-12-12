@@ -36,9 +36,6 @@ frontend:
 # Enables support for tracking state changes over time.
 history:
 
-# Enable some Keyboard items
-keyboard:
-
 # View all events in a logbook
 logbook:
 
@@ -47,13 +44,6 @@ logger:
   default: critical
   logs:
     homeassistant.components: debug
-
-# Mediaplayer
-media_player:
-  - platform: kodi
-    host: http://192.168.1.7
-    username: kodi
-    password: kodi
 
 # Track the sun
 sun:

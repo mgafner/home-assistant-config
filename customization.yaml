@@ -1,5 +1,8 @@
 #customize:
 
+    device_tracker.sonyhome:
+      icon: mdi:heart
+
     sensor.studio_humidity:
       icon: mdi:water-percent
 

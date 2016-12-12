@@ -1,3 +1,5 @@
+- platform: cpuspeed
+
 - platform: command_line
   command: "/home/mgafner/bin/homewizard.sh -t -d Studio"
   name: Studio Temperature
@@ -51,7 +53,19 @@
 
 - platform: swiss_hydrological_data
   station: 2135
-#  friendly_name: Aare Temperature
-#  icon: mdi:thermometer
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: disk_free
+      arg: /
+    - type: processor_use
+    - type: network_in
+      arg: wlan1
+    - type: network_out
+      arg: wlan1
+    - type: last_boot
+    - type: since_last_boot
 
 
