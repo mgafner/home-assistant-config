@@ -2,11 +2,11 @@ default_view:
   view: yes
   entities:
     - group.Status
+    - group.Music
     - group.Aussen
     - group.Aare
     - group.Bad
     - group.Studio
-    - group.Garage
     - group.Kamera
 
 weather:
@@ -30,6 +30,11 @@ Status:
   - sensor.next_departure
   - sensor.cpu_speed
 
+Music:
+  - sensor.music_title
+  - sensor.music_artist
+  - switch.music_playpause
+
 Aussen:
   - sensor.james_temperature
   - sensor.james_humidity
@@ -48,18 +53,17 @@ Studio:
   - switch.Studio_Heizung
   - switch.Lautsprecher
   - switch.Flur
+  - switch.Garage
+  - switch.Signal
 
 Bad:
   - sensor.bad_temperature
   - sensor.bad_humidity
+  - sensor.template_diff_humidity
   - switch.Bad_Licht
   - switch.Bad_Luefter
   - switch.Bad_Heizung
   - switch.Bad_Strahler
-
-Garage:
-  - switch.Garage
-  - switch.Signal
 
 Kamera:
   - camera.garage_dcs820l

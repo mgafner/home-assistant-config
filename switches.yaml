@@ -72,3 +72,9 @@
       command_state: "/home/mgafner/bin/homewizard.sh -d Lautsprecher -g"
       value_template: '{{ value == "on" }}'
       friendly_name: Lautsprecher
+    music_playpause:
+      command_on:    "/home/mgafner/bin/clementine-remote-bash.sh -c play"
+      command_off:   "/home/mgafner/bin/clementine-remote-bash.sh -c pause"
+      command_state: "/home/mgafner/bin/clementine-remote-bash.sh -g status"
+      value_template: '{{ value == "Playing" }}'
+      friendly_name: Play/Plause

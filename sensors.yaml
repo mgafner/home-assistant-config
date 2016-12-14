@@ -30,6 +30,21 @@
   name: Bad Humidity
   unit_of_measurement: "%"
 
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g status"
+  name: Music Status
+  unit_of_measurement: ""
+
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g title"
+  name: Music Title
+  unit_of_measurement: ""
+
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g artist"
+  name: Music Artist
+  unit_of_measurement: ""
+
 - platform: swiss_public_transport
   from: Bern, Monbijoubr
   to: Bern, Eigerp
@@ -51,9 +66,9 @@
       friendly_name: 'Aare Discharge'
       unit_of_measurement: 'm3/s'
     template_diff_humidity:
-      value_template: '{{ states.sensor.bad_humidity.state - states.sensor.studio_humidity.state }}'
       friendly_name: 'Bath High Humidity'
       unit_of_measurement: '%'
+      value_template: '{{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}'
 
 - platform: swiss_hydrological_data
   station: 2135

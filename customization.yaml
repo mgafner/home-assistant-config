@@ -59,3 +59,14 @@
     sensor.aarelevel:
       icon: mdi:trending-up
 
+    sensor.music_title:
+      friendly_name: Titel
+      icon: mdi:alphabetical
+ 
+    sensor.music_artist:
+      friendly_name: Artist
+      icon: mdi:account
+
+    switch.music_playpause:
+      icon: mdi:play-pause
+

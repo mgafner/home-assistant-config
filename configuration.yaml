@@ -52,7 +52,7 @@ sun:
 updater:
   reporting: false
 
-automation: !include automation.yaml
+automation: !include_dir_merge_list automation
 camera: !include cameras.yaml
 switch: !include switches.yaml
 sensor: !include sensors.yaml
