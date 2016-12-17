@@ -20,14 +20,16 @@ system:
   view: yes
   entities:
     - group.system_status
+    - group.system_automation
 
 Status:
-  - sun.sun
-  - device_tracker.galaxynotehome
-  - device_tracker.sonyhome
   - sensor.date
   - sensor.time
   - sensor.next_departure
+  - sun.sun
+  - sensor.automation_preset
+  - device_tracker.galaxynotehome
+  - device_tracker.sonyhome
   - sensor.cpu_speed
 
 Music:
@@ -88,4 +90,10 @@ system_status:
   - sensor.disk_free
   - sensor.received_wlan1
   - sensor.sent_wlan1
+
+system_automation:
+  - automation.bad_heizung_einschalten
+  - automation.bad_heizung_ausschalten
+  - automation.studio_heizung_einschalten
+  - automation.studio_heizung_ausschalten
 

@@ -1,0 +1,27 @@
+- alias: 'Bad Heizung einschalten'
+  initial_state: true
+  hide_entity: false
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.bad_temperature
+    below: 20
+  condition:
+    - condition: template
+      value_template: '{{ states.sensor.automation_preset.state != away }}'
+  action:
+    service: switch.turn_on
+    data:
+      entity_id: switch.bad_heizung 
+
+- alias: 'Bad Heizung ausschalten'
+  initial_state: true
+  hide_entity: false
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.bad_temperature
+    above: 20.5
+  action:
+    service: switch.turn_off
+    data:
+      entity_id: switch.bad_heizung
+

@@ -31,6 +31,11 @@
   unit_of_measurement: "%"
 
 - platform: command_line
+  command: "/home/mgafner/bin/homewizard.sh -p ?"
+  name: Automation Preset
+  unit_of_measurement: ""
+
+- platform: command_line
   command: "/home/mgafner/bin/clementine-remote-bash.sh -g status"
   name: Music Status
   unit_of_measurement: ""
