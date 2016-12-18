@@ -35,9 +35,44 @@ frontend:
 
 # Enables support for tracking state changes over time.
 history:
+  exclude:
+    domains:
+      - sun
+      - weblink
+      - updater
+    entities:
+      - sensor.date
+      - sensor.time
+      - sensor.next_departure
+      - sensor.music_title
+      - sensor.music_artist
+      - switch.music_playpause
+      - camera.garage_dcs820l
+      - camera.wetter_alarm_schweiz
+      - camera.wetter_schweiz
+      - camera.wetter_alarm_europa
+      - sensor.since_last_boot
+      - sensor.last_boot
+      - sensor.cpu_use
+      - sensor.cpu_speed
+      - sensor.disk_use
+      - sensor.received_wlan1
+      - sensor.sent_wlan1
 
 # View all events in a logbook
 logbook:
+  exclude:
+    entities:
+      - sensor.date
+      - sensor.time
+      - sensor.next_departure
+      - sensor.cpu_speed
+      - sensor.music_title
+      - sensor.music_artist
+      - sensor.since_last_boot
+    domains:
+      - sun
+      - weblink
 
 # log and debug homeassistant
 logger:
