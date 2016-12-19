@@ -76,9 +76,8 @@ logbook:
 
 # log and debug homeassistant
 logger:
-  default: critical
-  logs:
-    homeassistant.components: debug
+#  default: critical
+  default: debug
 
 # Track the sun
 sun:
@@ -92,4 +91,22 @@ camera: !include cameras.yaml
 switch: !include switches.yaml
 sensor: !include sensors.yaml
 group: !include groups.yaml
+
+shell_command:
+  set_music_playlist: 'bash /home/mgafner/bin/clementine-remote-bash.sh -p {{ states.input_select.music_playlist.state }}'
+
+input_select:
+  music_playlist:
+    name: Playlist
+    options:
+     - SmoothJazz
+     - Blues
+     - SwissPop
+     - Relax
+     - Chillout
+     - Classical
+     - Kuschelrock
+     - Piano
+    initial: SmoothJazz
+    icon: mdi:library-music
 

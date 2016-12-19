@@ -74,6 +74,9 @@
       friendly_name: 'Bath High Humidity'
       unit_of_measurement: '%'
       value_template: '{{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}'
+    alarm_time:
+      friendly_name: 'Alarm Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_slider.alarm_hour") | int, states("input_slider.alarm_minute") | int) }}'
 
 - platform: swiss_hydrological_data
   station: 2135

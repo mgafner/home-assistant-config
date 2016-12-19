@@ -36,6 +36,8 @@ Music:
   - sensor.music_title
   - sensor.music_artist
   - switch.music_playpause
+  - input_select.music_playlist
+  - input_slider.music_volume
 
 Aussen:
   - sensor.james_temperature
