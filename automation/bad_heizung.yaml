@@ -2,24 +2,45 @@
   initial_state: true
   hide_entity: false
   trigger:
-    platform: numeric_state
-    entity_id: sensor.bad_temperature
-    below: 20
+    - platform: numeric_state
+      entity_id: sensor.bad_temperature
+      below: 20.4
+    - platform: time
+      after: '05:30:00'
+    - platform: time
+      after: '17:00:00'
+    - platform: state
+      entity_id: sensor.automation_preset
+      to: 'home'
   condition:
-    - condition: template
-      value_template: '{{ states.sensor.automation_preset.state != away }}'
+    - condition: or
+      conditions:
+        - condition: time
+          after: '05:30:00'
+          before: '09:00:00'
+        - condition: time
+          after: '17:00:00'
+          before: '22:00:00'
+    - condition: or
+      conditions:
+        - condition: template
+          value_template: "{{ is_state('sensor.automation_preset', 'home') }}"
+        - condition: template
+          value_template: "{{ is_state('sensor.automation_preset', 'sleep') }}"
+        - condition: template
+          value_template: "{{ is_state('sensor.automation_preset', 'guest') }}"
   action:
     service: switch.turn_on
     data:
-      entity_id: switch.bad_heizung 
+      entity_id: switch.bad_heizung
 
 - alias: 'Bad Heizung ausschalten'
   initial_state: true
   hide_entity: false
   trigger:
-    platform: numeric_state
-    entity_id: sensor.bad_temperature
-    above: 20.5
+    - platform: numeric_state
+      entity_id: sensor.bad_temperature
+      above: 20.5
   action:
     service: switch.turn_off
     data:

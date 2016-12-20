@@ -94,6 +94,7 @@ group: !include groups.yaml
 
 shell_command:
   set_music_playlist: 'bash /home/mgafner/bin/clementine-remote-bash.sh -p {{ states.input_select.music_playlist.state }}'
+  set_automation_preset: 'bash /home/mgafner/bin/homewizard.sh -p {{ states.input_select.automation_preset.state }}'
 
 input_select:
   music_playlist:
@@ -109,4 +110,13 @@ input_select:
      - Piano
     initial: SmoothJazz
     icon: mdi:library-music
+  automation_preset:
+    name: Automation Preset
+    options:
+     - home
+     - away
+     - sleep
+     - guest
+    initial: home
+    icon: mdi:account-location
 

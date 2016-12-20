@@ -27,10 +27,10 @@ Status:
   - sensor.time
   - sensor.next_departure
   - sun.sun
-  - sensor.automation_preset
   - device_tracker.galaxynotehome
   - device_tracker.sonyhome
-  - sensor.cpu_speed
+  - sensor.automation_preset
+  - input_select.automation_preset
 
 Music:
   - sensor.music_title
