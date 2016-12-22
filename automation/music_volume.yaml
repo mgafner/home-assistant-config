@@ -1,0 +1,20 @@
+  - alias: Set Music Volume
+    trigger:
+      platform: state
+      entity_id: input_slider.music_volume
+    action:
+      - service: shell_command.set_music_volume
+
+  - alias: Update Input Slider Music Volume
+    trigger:
+      - platform: state
+        entity_id: sensor.music_volume
+      - platform: time
+        minutes: '/1'
+        seconds: 00
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.music_volume
+          value: '{{ states.sensor.music_volume.state | float }}'
+

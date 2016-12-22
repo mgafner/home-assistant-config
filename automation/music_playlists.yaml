@@ -4,3 +4,4 @@
       entity_id: input_select.music_playlist
     action:
       - service: shell_command.set_music_playlist
+

@@ -4,3 +4,16 @@
       entity_id: input_select.automation_preset
     action:
       - service: shell_command.set_automation_preset
+
+  - alias: Update Input Select Automation Preset
+    trigger:
+      - platform: state
+        entity_id: sensor.automation_preset
+      - platform: time
+        minutes: '/1'
+        seconds: 00
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.automation_preset
+          option: '{{ states.sensor.automation_preset.state }}'

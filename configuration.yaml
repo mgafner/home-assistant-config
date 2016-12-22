@@ -37,20 +37,19 @@ frontend:
 history:
   exclude:
     domains:
-      - sun
-      - weblink
+      - automation
+      - camera
+      - device_tracker
+      - group
       - updater
+      - weblink
     entities:
+      - switch.music_playpause
       - sensor.date
       - sensor.time
       - sensor.next_departure
       - sensor.music_title
       - sensor.music_artist
-      - switch.music_playpause
-      - camera.garage_dcs820l
-      - camera.wetter_alarm_schweiz
-      - camera.wetter_schweiz
-      - camera.wetter_alarm_europa
       - sensor.since_last_boot
       - sensor.last_boot
       - sensor.cpu_use
@@ -58,10 +57,24 @@ history:
       - sensor.disk_use
       - sensor.received_wlan1
       - sensor.sent_wlan1
+  include:
+    entities:
+      - device_tracker.galaxynotehome
+      - device_tracker.galaxytabhome
+      - device_tracker.lenovohome
+      - device_tracker.sonyhome
 
 # View all events in a logbook
 logbook:
   exclude:
+    domains:
+      - automation
+      - camera
+      - device_tracker
+      - group
+      - sun
+      - updater
+      - weblink
     entities:
       - sensor.date
       - sensor.time
@@ -70,9 +83,12 @@ logbook:
       - sensor.music_title
       - sensor.music_artist
       - sensor.since_last_boot
-    domains:
-      - sun
-      - weblink
+  include:
+    entities:
+      - device_tracker.galaxynotehome
+      - device_tracker.galaxytabhome
+      - device_tracker.lenovohome
+      - device_tracker.sonyhome
 
 # log and debug homeassistant
 logger:
@@ -94,6 +110,7 @@ group: !include groups.yaml
 
 shell_command:
   set_music_playlist: 'bash /home/mgafner/bin/clementine-remote-bash.sh -p {{ states.input_select.music_playlist.state }}'
+  set_music_volume: 'bash /home/mgafner/bin/clementine-remote-bash.sh -v {{ states.input_slider.music_volume.state }}'
   set_automation_preset: 'bash /home/mgafner/bin/homewizard.sh -p {{ states.input_select.automation_preset.state }}'
 
 input_select:
@@ -117,6 +134,16 @@ input_select:
      - away
      - sleep
      - guest
+     - unknown
     initial: home
     icon: mdi:account-location
+
+input_slider:
+  music_volume:
+    name: Volume
+    initial: 0.5
+    min: 0
+    max: 1
+    step: 0.1
+    icon: mdi:volume-medium
 

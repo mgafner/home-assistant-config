@@ -2,25 +2,15 @@
   initial_state: true
   hide_entity: false
   trigger:
-    - platform: numeric_state
-      entity_id: sensor.bad_temperature
-      below: 20.4
     - platform: time
-      after: '05:30:00'
-    - platform: time
-      after: '17:00:00'
-    - platform: state
-      entity_id: sensor.automation_preset
-      to: 'home'
+      minutes: '/5'
+      seconds: 00
   condition:
-    - condition: or
-      conditions:
-        - condition: time
-          after: '05:30:00'
-          before: '09:00:00'
-        - condition: time
-          after: '17:00:00'
-          before: '22:00:00'
+    - condition: time
+      after: '05:29:00'
+      before: '22:00:00'
+    - condition: template
+      value_template: "{{ states.sensor.bad_temperature.state|float < 20 }}"
     - condition: or
       conditions:
         - condition: template
@@ -38,9 +28,12 @@
   initial_state: true
   hide_entity: false
   trigger:
-    - platform: numeric_state
-      entity_id: sensor.bad_temperature
-      above: 20.5
+    platform: time
+    minutes: '/5'
+    seconds: 00
+  condition:
+    - condition: template
+      value_template: "{{ states.sensor.bad_temperature.state|float > 20 }}"
   action:
     service: switch.turn_off
     data:

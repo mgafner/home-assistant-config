@@ -50,6 +50,11 @@
   name: Music Artist
   unit_of_measurement: ""
 
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g volume"
+  name: Music Volume
+  unit_of_measurement: ""
+
 - platform: swiss_public_transport
   from: Bern, Monbijoubr
   to: Bern, Eigerp

@@ -29,15 +29,14 @@ Status:
   - sun.sun
   - device_tracker.galaxynotehome
   - device_tracker.sonyhome
-  - sensor.automation_preset
   - input_select.automation_preset
 
 Music:
   - sensor.music_title
   - sensor.music_artist
   - switch.music_playpause
-  - input_select.music_playlist
   - input_slider.music_volume
+  - input_select.music_playlist
 
 Aussen:
   - sensor.james_temperature
@@ -98,4 +97,9 @@ system_automation:
   - automation.bad_heizung_ausschalten
   - automation.studio_heizung_einschalten
   - automation.studio_heizung_ausschalten
-
+  - automation.set_automation_preset
+  - automation.update_input_select_automation_preset
+  - automation.set_music_playlist
+  - automation.set_music_volume
+  - automation.wakeup_alarm_weekday
+  - automation.wakeup_alarm_weekend

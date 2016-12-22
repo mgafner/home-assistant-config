@@ -2,31 +2,23 @@
   initial_state: true
   hide_entity: false
   trigger:
-    - platform: numeric_state
-      entity_id: sensor.studio_temperature
-      below: 20
-    - platform: time
-      after: '06:00:00'
-    - platform: time
-      after: '17:00:00'
-    - platform: state
-      entity_id: sensor.automation_preset
-      to: 'home'
+    platform: time
+    minutes: '/5'
+    seconds: 00
   condition:
-    - condition: or
-      conditions:
-        - condition: time
-          after: '06:00:00'
-          before: '09:00:00'
-        - condition: time
-          after: '17:00:00'
-          before: '22:00:00'
+    - condition: time
+      after: '05:59:00'
+      before: '22:00:00'
+    - condition: template
+      value_template: "{{ states.sensor.studio_temperature.state|float < 20 }}"
     - condition: or
       conditions:
         - condition: template
           value_template: "{{ is_state('sensor.automation_preset', 'home') }}"
         - condition: template
           value_template: "{{ is_state('sensor.automation_preset', 'sleep') }}"
+        - condition: template
+          value_template: "{{ is_state('sensor.automation_preset', 'guest') }}"
   action:
     service: switch.turn_on
     data:
@@ -36,9 +28,12 @@
   initial_state: true
   hide_entity: false
   trigger:
-    platform: numeric_state
-    entity_id: sensor.studio_temperature
-    above: 20.1
+    platform: time
+    minutes: '/5'
+    seconds: 00
+  condition:
+    - condition: template
+      value_template: "{{ states.sensor.studio_temperature.state|float > 20 }}"
   action:
     service: switch.turn_off
     data:
