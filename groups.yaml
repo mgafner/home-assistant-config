@@ -34,7 +34,7 @@ Status:
 Music:
   - sensor.music_title
   - sensor.music_artist
-  - switch.music_playpause
+  - cover.music_next__playpause__prev
   - input_slider.music_volume
   - input_select.music_playlist
 

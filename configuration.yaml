@@ -106,6 +106,7 @@ automation: !include_dir_merge_list automation
 camera: !include cameras.yaml
 switch: !include switches.yaml
 sensor: !include sensors.yaml
+cover: !include covers.yaml
 group: !include groups.yaml
 
 shell_command:

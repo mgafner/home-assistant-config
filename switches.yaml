@@ -78,3 +78,4 @@
       command_state: "/home/mgafner/bin/clementine-remote-bash.sh -g status"
       value_template: '{{ value == "Playing" }}'
       friendly_name: Play/Plause
+

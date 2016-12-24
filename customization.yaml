@@ -70,3 +70,5 @@
     switch.music_playpause:
       icon: mdi:play-pause
 
+    cover.music_next__playpause__prev:
+      icon: mdi:play-pause
