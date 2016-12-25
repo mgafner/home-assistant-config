@@ -112,7 +112,9 @@ group: !include groups.yaml
 shell_command:
   set_music_playlist: 'bash /home/mgafner/bin/clementine-remote-bash.sh -p {{ states.input_select.music_playlist.state }}'
   set_music_volume: 'bash /home/mgafner/bin/clementine-remote-bash.sh -v {{ states.input_slider.music_volume.state }}'
+  set_music_paused: 'bash /home/mgafner/bin/clementine-remote-bash.sh -c pause'
   set_automation_preset: 'bash /home/mgafner/bin/homewizard.sh -p {{ states.input_select.automation_preset.state }}'
+  get_automation_preset: 'bash /home/mgafner/bin/homewizard.sh -p ?'
 
 input_select:
   music_playlist:

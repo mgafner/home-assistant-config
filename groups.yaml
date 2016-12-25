@@ -101,5 +101,6 @@ system_automation:
   - automation.update_input_select_automation_preset
   - automation.set_music_playlist
   - automation.set_music_volume
+  - automation.turn_loudspeaker_on
   - automation.wakeup_alarm_weekday
   - automation.wakeup_alarm_weekend

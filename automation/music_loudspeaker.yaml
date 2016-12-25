@@ -1,0 +1,23 @@
+  - alias: turn loudspeaker on
+    trigger:
+      - platform: state
+        entity_id: sensor.music_status
+        state: 'Playing'
+      - platform: state
+        entity_id: switch.music_playpause
+        state: 'on'
+      - platform: state
+        entity_id: cover.music_next__playpause__prev
+    action:
+      - service: switch.turn_on
+        entity_id: switch.lautsprecher
+
+  - alias: stop Music
+    trigger:
+      - platform: state
+        entity_id: switch.lautsprecher
+        from: 'on'
+        to:   'off'
+    action:
+      - service: shell_command.set_music_paused
+ 

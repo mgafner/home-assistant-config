@@ -9,9 +9,6 @@
     trigger:
       - platform: state
         entity_id: sensor.automation_preset
-      - platform: time
-        minutes: '/1'
-        seconds: 00
     action:
       - service: input_select.select_option
         data_template:
