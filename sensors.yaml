@@ -55,6 +55,11 @@
   name: Music Volume
   unit_of_measurement: ""
 
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g playlist | awk '{ print $2 }'"
+  name: Music Playlist
+  unit_of_measurement: ""
+
 - platform: swiss_public_transport
   name: Abfahrt Monbijoubrücke
   from: Bern, Monbijoubr
@@ -85,7 +90,13 @@
     template_diff_humidity:
       friendly_name: 'Bath High Humidity'
       unit_of_measurement: '%'
-      value_template: '{{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}'
+      value_template: >
+        {% if states.sensor.bad_humidity.state|float > 0 and  states.sensor.studio_humidity.state|float > 0 %}
+          {{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}  
+        {% else %}
+          0
+        {% endif %}
+#      value_template: '{{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}'
     alarm_time:
       friendly_name: 'Alarm Time'
       value_template: '{{ "%0.02d:%0.02d" | format(states("input_slider.alarm_hour") | int, states("input_slider.alarm_minute") | int) }}'
