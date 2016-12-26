@@ -25,7 +25,7 @@ system:
 Status:
   - sensor.date
   - sensor.time
-  - sensor.next_departure
+  - sensor.abfahrt_monbijoubrucke
   - sun.sun
   - device_tracker.galaxynotehome
   - device_tracker.sonyhome

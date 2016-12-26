@@ -56,9 +56,16 @@
   unit_of_measurement: ""
 
 - platform: swiss_public_transport
+  name: Abfahrt Monbijoubrücke
   from: Bern, Monbijoubr
   to: Bern, Eigerp
 # help: https://home-assistant.io/components/sensor.swiss_public_transport/
+
+# more than one sensor of swiss_public_transport is not possible right now
+#- platform: swiss_public_transport
+#  name: Abfahrt Dampfzentrale
+#  from: Bern, Dampfzentrale
+#  to: Bern, Bahnhof
 
 - platform: time_date
   display_options:
