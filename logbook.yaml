@@ -1,0 +1,24 @@
+  exclude:
+    domains:
+      - automation
+      - camera
+      - device_tracker
+      - group
+      - sun
+      - updater
+      - weblink
+    entities:
+      - sensor.date
+      - sensor.time
+      - sensor.next_departure
+      - sensor.cpu_speed
+      - sensor.music_title
+      - sensor.music_artist
+      - sensor.since_last_boot
+  include:
+    entities:
+      - device_tracker.galaxynotehome
+      - device_tracker.galaxytabhome
+      - device_tracker.lenovohome
+      - device_tracker.sonyhome
+
