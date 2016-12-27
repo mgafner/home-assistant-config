@@ -1,0 +1,26 @@
+  automation_preset:
+    name: Automation Preset
+    options:
+     - home
+     - away
+     - sleep
+     - guest
+     - unknown
+    initial: home
+    icon: mdi:account-location
+
+  music_playlist:
+    name: Playlist
+    options:
+     - SmoothJazz
+     - Blues
+     - SwissPop
+     - Relax
+     - Chillout
+     - Classical
+     - Kuschelrock
+     - Piano
+     - Lounge
+    initial: SmoothJazz
+    icon: mdi:library-music
+

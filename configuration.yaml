@@ -3,8 +3,8 @@ homeassistant:
   name: Home
 
 # get lat/long from http://www.latlong.net/convert-address-to-lat-long.html
-  latitude: !secret config_latitude
-  longitude: !secret config_longitude
+  latitude:    !secret config_latitude
+  longitude:   !secret config_longitude
 
 # Impacts weather/sunrise data (altitude above sea level) 
   elevation: 508
@@ -15,14 +15,15 @@ homeassistant:
 # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Zurich
 
-  customize: !include customization.yaml
+  customize:   !include customization.yaml
 
 # Allows you to issue voice commands from the frontend
 conversation:
 
 device_tracker:
   - platform: nmap_tracker
-    hosts: 192.168.1.1/24
+    # scan only from 192.168.1.1 to 192.168.1.30
+    hosts: 192.168.1.1/27
     home_interval: 10
     exclude:
      - 192.168.1.7
@@ -34,64 +35,10 @@ discovery:
 frontend:
 
 # Enables support for tracking state changes over time.
-history:
-  include:
-    domains:
-      - sensors
-      - switches
-    entities:
-      - device_tracker.galaxynotehome
-      - device_tracker.galaxytabhome
-      - device_tracker.lenovohome
-      - device_tracker.sonyhome
-  exclude:
-    domains:
-      - automation
-      - camera
-      - device_tracker
-      - group
-      - updater
-      - weblink
-    entities:
-      - switch.music_playpause
-      - sensor.date
-      - sensor.time
-      - sensor.next_departure
-      - sensor.music_title
-      - sensor.music_artist
-      - sensor.since_last_boot
-      - sensor.last_boot
-      - sensor.cpu_use
-      - sensor.cpu_speed
-      - sensor.disk_use
-      - sensor.received_wlan1
-      - sensor.sent_wlan1
+history:       !include history.yaml
 
 # View all events in a logbook
-logbook:
-  exclude:
-    domains:
-      - automation
-      - camera
-      - device_tracker
-      - group
-      - sun
-      - updater
-      - weblink
-    entities:
-      - sensor.date
-      - sensor.time
-      - sensor.next_departure
-      - sensor.cpu_speed
-      - sensor.music_title
-      - sensor.music_artist
-      - sensor.since_last_boot
-  include:
-    entities:
-      - device_tracker.galaxynotehome
-      - device_tracker.galaxytabhome
-      - device_tracker.lenovohome
-      - device_tracker.sonyhome
+logbook:       !include logbook.yaml
 
 # log and debug homeassistant
 logger:
@@ -105,52 +52,13 @@ sun:
 updater:
   reporting: false
 
-automation: !include_dir_merge_list automation
-camera: !include cameras.yaml
-switch: !include switches.yaml
-sensor: !include sensors.yaml
-cover: !include covers.yaml
-group: !include groups.yaml
-
-shell_command:
-  set_music_playlist: 'bash /home/mgafner/bin/clementine-remote-bash.sh -p {{ states.input_select.music_playlist.state }}'
-  set_music_volume: 'bash /home/mgafner/bin/clementine-remote-bash.sh -v {{ states.input_slider.music_volume.state }}'
-  set_music_paused: 'bash /home/mgafner/bin/clementine-remote-bash.sh -c pause'
-  set_automation_preset: 'bash /home/mgafner/bin/homewizard.sh -p {{ states.input_select.automation_preset.state }}'
-  get_automation_preset: 'bash /home/mgafner/bin/homewizard.sh -p ?'
-
-input_select:
-  music_playlist:
-    name: Playlist
-    options:
-     - SmoothJazz
-     - Blues
-     - SwissPop
-     - Relax
-     - Chillout
-     - Classical
-     - Kuschelrock
-     - Piano
-     - Lounge
-    initial: SmoothJazz
-    icon: mdi:library-music
-  automation_preset:
-    name: Automation Preset
-    options:
-     - home
-     - away
-     - sleep
-     - guest
-     - unknown
-    initial: home
-    icon: mdi:account-location
-
-input_slider:
-  music_volume:
-    name: Volume
-    initial: 0.5
-    min: 0
-    max: 1
-    step: 0.1
-    icon: mdi:volume-medium
+automation:    !include_dir_merge_list automation
+camera:        !include cameras.yaml
+cover:         !include covers.yaml
+sensor:        !include sensors.yaml
+shell_command: !include shell_commands.yaml
+switch:        !include switches.yaml
+group:         !include groups.yaml
+input_select:  !include selects.yaml
+input_slider:  !include sliders.yaml
 
