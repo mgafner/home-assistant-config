@@ -35,6 +35,15 @@ frontend:
 
 # Enables support for tracking state changes over time.
 history:
+  include:
+    domains:
+      - sensors
+      - switches
+    entities:
+      - device_tracker.galaxynotehome
+      - device_tracker.galaxytabhome
+      - device_tracker.lenovohome
+      - device_tracker.sonyhome
   exclude:
     domains:
       - automation
@@ -57,12 +66,6 @@ history:
       - sensor.disk_use
       - sensor.received_wlan1
       - sensor.sent_wlan1
-  include:
-    entities:
-      - device_tracker.galaxynotehome
-      - device_tracker.galaxytabhome
-      - device_tracker.lenovohome
-      - device_tracker.sonyhome
 
 # View all events in a logbook
 logbook:
@@ -128,6 +131,7 @@ input_select:
      - Classical
      - Kuschelrock
      - Piano
+     - Lounge
     initial: SmoothJazz
     icon: mdi:library-music
   automation_preset:

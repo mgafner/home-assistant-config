@@ -9,6 +9,8 @@
     trigger:
       - platform: state
         entity_id: sensor.music_playlist
+      - platform: state
+        entity_id: sensor.music_title
     action:
       - service: input_select.select_option
         data_template:
