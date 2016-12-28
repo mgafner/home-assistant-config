@@ -39,6 +39,7 @@ Music:
   - sensor.music_auto_rating
   - sensor.music_comment
   - cover.music_next__playpause__prev
+  - switch.Lautsprecher
   - input_slider.music_volume
   - input_select.music_playlist
 
@@ -58,7 +59,6 @@ Studio:
   - switch.Studio_Sonne
   - switch.Studio_hinten
   - switch.Studio_Heizung
-  - switch.Lautsprecher
   - switch.Flur
   - switch.Garage
   - switch.Signal

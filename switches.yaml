@@ -71,7 +71,7 @@
       command_off:   "/home/mgafner/bin/homewizard.sh -d Lautsprecher -s off"
       command_state: "/home/mgafner/bin/homewizard.sh -d Lautsprecher -g"
       value_template: '{{ value == "on" }}'
-      friendly_name: Lautsprecher
+      friendly_name: Amp & Speaker
     music_playpause:
       command_on:    "/home/mgafner/bin/clementine-remote-bash.sh -c play"
       command_off:   "/home/mgafner/bin/clementine-remote-bash.sh -c pause"
