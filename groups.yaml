@@ -34,6 +34,10 @@ Status:
 Music:
   - sensor.music_title
   - sensor.music_artist
+  - sensor.music_last_played
+  - sensor.music_play_count
+  - sensor.music_auto_rating
+  - sensor.music_comment
   - cover.music_next__playpause__prev
   - input_slider.music_volume
   - input_select.music_playlist

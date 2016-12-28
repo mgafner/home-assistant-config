@@ -60,6 +60,26 @@
   name: Music Playlist
   unit_of_measurement: ""
 
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g lastplayed"
+  name: Music Last Played
+  unit_of_measurement: ""
+
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g playcount"
+  name: Music Play Count
+  unit_of_measurement: ""
+
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g rating"
+  name: Music Auto Rating
+  unit_of_measurement: ""
+
+- platform: command_line
+  command: "/home/mgafner/bin/clementine-remote-bash.sh -g comment | sed 's/Tinu; //;s/Amazon; //;'"
+  name: Music Comment
+  unit_of_measurement: ""
+
 - platform: swiss_public_transport
   name: Abfahrt Monbijoubrücke
   from: Bern, Monbijoubr

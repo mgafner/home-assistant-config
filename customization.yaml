@@ -60,7 +60,7 @@
       icon: mdi:trending-up
 
     sensor.music_title:
-      friendly_name: Titel
+      friendly_name: Title
       icon: mdi:alphabetical
  
     sensor.music_artist:
@@ -71,4 +71,22 @@
       icon: mdi:play-pause
 
     cover.music_next__playpause__prev:
+      friendly_name: Next  -  Play/Pause  -  Prev
       icon: mdi:play-pause
+
+    sensor.music_last_played:
+      friendly_name: Last played
+      icon: mdi:calendar-clock
+
+    sensor.music_play_count:
+      friendly_name: Play count
+      icon: mdi:counter
+
+    sensor.music_auto_rating:
+      friendly_name: Rating
+      icon: mdi:star-half
+
+    sensor.music_comment:
+      friendly_name: Comments
+      icon: mdi:comment-outline
+
