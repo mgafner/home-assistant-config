@@ -20,7 +20,9 @@
      - Classical
      - Kuschelrock
      - Piano
-     - Lounge
+     - Radio_SRF1
+     - Radio_SRF3
+     - Radio_RaBe
     initial: SmoothJazz
     icon: mdi:library-music
 
