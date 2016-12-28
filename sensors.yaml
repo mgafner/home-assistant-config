@@ -80,6 +80,16 @@
   name: Music Comment
   unit_of_measurement: ""
 
+- platform: command_line
+  command: "/usr/local/bin/hass --version"
+  name: Homeassistant Version Local
+  unit_of_measurement: ""
+
+- platform: command_line
+  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+  name: Homeassistant Version Newest
+  unit_of_measurement: ""
+
 - platform: swiss_public_transport
   name: Abfahrt Monbijoubrücke
   from: Bern, Monbijoubr

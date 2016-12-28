@@ -1,0 +1,9 @@
+- alias: 'Update Available Notification'
+  trigger:
+    platform: state
+    entity_id: updater.updater
+  action:
+    service: persistent_notification.create
+    data:
+      message: "Newest available Version is {{ states.sensor.homeassistant_version_newest.state }}, installed Version is {{ states.sensor.homeassistant_version_local.state }}. See release notes at: https://home-assistant.io/blog/categories/release-notes/"
+      title:   "Home Assistant Update Available"
