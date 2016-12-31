@@ -10,7 +10,7 @@
     icon: mdi:account-location
 
   music_playlist:
-    name: Playlist
+    name: Change Playlist to
     options:
      - SmoothJazz
      - Blues

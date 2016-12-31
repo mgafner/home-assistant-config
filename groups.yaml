@@ -41,6 +41,7 @@ Music:
   - cover.music_next__playpause__prev
   - switch.Lautsprecher
   - input_slider.music_volume
+  - sensor.music_playlist
   - input_select.music_playlist
 
 Aussen:
