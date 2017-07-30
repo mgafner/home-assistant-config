@@ -5,16 +5,15 @@
     action:
       - service: shell_command.set_music_playlist
 
-# this works, but the dbus gives not the correct playing playlist back, so we have to fix this before
-#  - alias: Update Input Select Music Playlist
-#    trigger:
-#      - platform: state
-#        entity_id: sensor.music_playlist
-#      - platform: state
-#        entity_id: sensor.music_title
-#    action:
-#      - service: input_select.select_option
-#        data_template:
-#          entity_id: input_select.music_playlist
-#          option: '{{ states.sensor.music_playlist.state }}'
+  - alias: Update Input Select Music Playlist
+    trigger:
+      - platform: state
+        entity_id: sensor.music_playlist
+      - platform: state
+        entity_id: sensor.music_title
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.music_playlist
+          option: '{{ states.sensor.music_playlist.state }}'
 

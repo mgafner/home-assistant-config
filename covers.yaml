@@ -1,19 +1,8 @@
 - platform: command_line
   covers:
     music_prevnext:
-      command_open:  "/home/mgafner/bin/clementine-remote-bash.sh -c next"
-      command_close: "/home/mgafner/bin/clementine-remote-bash.sh -c prev"
-      command_stop:  "/home/mgafner/bin/clementine-remote-bash.sh -c playpause"
-      command_state: "/home/mgafner/bin/clementine-remote-bash.sh -g status"
-      value_template: >
-        {% if value == 'playing' %}
-        100
-        {% elif value == 'paused' %}
-        50
-        {% elif value == 'stopped' %}
-        0
-        {% else %}
-        50
-        {% endif %}
+      command_open:  "bash /home/mgafner/bin/mpd-remote-bash.sh -c next"
+      command_close: "bash /home/mgafner/bin/mpd-remote-bash.sh -c prev"
+      command_stop:  "bash /home/mgafner/bin/mpd-remote-bash.sh -c playpause"
       friendly_name: "Music: Next - Play/Pause - Prev"
 

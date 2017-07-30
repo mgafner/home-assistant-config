@@ -12,17 +12,21 @@
   music_playlist:
     name: Change Playlist to
     options:
-     - SmoothJazz
-     - Blues
-     - SwissPop
-     - Relax
-     - Chillout
-     - Classical
-     - Kuschelrock
-     - Piano
-     - Radio_SRF1
-     - Radio_SRF3
-     - Radio_RaBe
-    initial: SmoothJazz
+     - choose
+    initial: choose
+    icon: mdi:library-music
+
+  music_add_tag:
+    name: Add tag
+    options:
+     - choose
+     - Slow
+     - Car
+     - Vocal
+     - Instrumental
+     - Live
+     - Fixit
+     - Summer17
+    initial: choose
     icon: mdi:library-music
 

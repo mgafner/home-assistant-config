@@ -9,6 +9,21 @@ default_view:
     - group.Studio
     - group.Kamera
 
+remote:
+  view: yes
+  entities:
+    - group.remote_left
+    - group.remote_right
+
+media:
+  view: yes
+  entities:
+    - group.Music
+    - media_player.snapcast
+    - media_player.mpd
+    - media_player.snapcast_client_1008b1e58e31
+    - media_player.snapcast_group_c5987977b67a779d9fdcb30e6b563109
+
 weather:
   view: yes
   entities:
@@ -25,6 +40,7 @@ system:
 Status:
   - sensor.date
   - sensor.time
+  - sensor.internet_roundtrip
   - sensor.abfahrt_monbijoubrucke
   - sun.sun
   - device_tracker.galaxynotehome
@@ -32,6 +48,34 @@ Status:
   - input_select.automation_preset
 
 Music:
+  - cover.music_next__playpause__prev
+  - input_select.music_playlist
+  - input_select.music_add_tag
+  - input_slider.music_volume
+  - sensor.mpd_title
+  - sensor.mpd_artist
+  - sensor.mpd_last_played
+  - sensor.mpd_play_count
+  - input_slider.music_rating
+  - sensor.mpd_rating
+  - sensor.mpd_comment
+
+remote_left:
+  - sensor.mpd_title
+  - sensor.mpd_artist
+  - sensor.mpd_last_played
+  - sensor.mpd_play_count
+  - sensor.mpd_rating
+  - sensor.mpd_comment
+
+remote_right:
+  - cover.music_next__playpause__prev
+  - input_select.music_add_tag
+  - input_slider.music_rating
+  - input_slider.music_volume
+  - input_select.music_playlist
+
+Clementine:
   - sensor.music_title
   - sensor.music_artist
   - sensor.music_last_played

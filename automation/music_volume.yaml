@@ -13,5 +13,5 @@
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.music_volume
-          value: '{{ states.sensor.music_volume.state | float }}'
+          value: '{{ states.sensor.music_volume.state | int }}'
 

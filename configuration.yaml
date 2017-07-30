@@ -21,12 +21,10 @@ homeassistant:
 conversation:
 
 device_tracker:
-  - platform: nmap_tracker
-    # scan only from 192.168.1.1 to 192.168.1.30
-    hosts: 192.168.1.1/27
-    home_interval: 10
-    exclude:
-     - 192.168.1.7
+  - platform: netgear
+    host: 192.168.1.1
+    username: !secret netgear_admin_user
+    password: !secret netgear_admin_pass
 
 # Discover some devices automatically
 discovery:
@@ -43,7 +41,7 @@ logbook:       !include logbook.yaml
 # log and debug homeassistant
 logger:
 #  default: critical
-  default: debug
+#  default: debug
 
 # Track the sun
 sun:
@@ -52,13 +50,28 @@ sun:
 updater:
   reporting: false
 
+media_player:
+  - platform: snapcast
+    name: snapcast
+    host: 127.0.0.1
+  - platform: mpd
+    name: mpd
+    location: Living Room
+    host: 127.0.0.1
+
 automation:    !include_dir_merge_list automation
+
+binary_sensor:
+- platform: ping
+  host: 217.168.56.93
+  name: Internet
+
 camera:        !include cameras.yaml
 cover:         !include covers.yaml
-sensor:        !include sensors.yaml
-shell_command: !include shell_commands.yaml
-switch:        !include switches.yaml
 group:         !include groups.yaml
 input_select:  !include selects.yaml
 input_slider:  !include sliders.yaml
+sensor:        !include sensors.yaml
+shell_command: !include shell_commands.yaml
+switch:        !include switches.yaml
 

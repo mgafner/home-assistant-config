@@ -1,87 +1,6 @@
-- platform: cpuspeed
 
 - platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -t -d Studio"
-  name: Studio Temperature
-  unit_of_measurement: "°C"
-
-- platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -t -d James"
-  name: James Temperature
-  unit_of_measurement: "°C"
-
-- platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -t -d Bad"
-  name: Bad Temperature
-  unit_of_measurement: "°C"
-
-- platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -h -d Studio"
-  name: Studio Humidity
-  unit_of_measurement: "%"
-
-- platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -h -d James"
-  name: James Humidity
-  unit_of_measurement: "%"
-
-- platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -h -d Bad"
-  name: Bad Humidity
-  unit_of_measurement: "%"
-
-- platform: command_line
-  command: "/home/mgafner/bin/homewizard.sh -p ?"
-  name: Automation Preset
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g status"
-  name: Music Status
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g title"
-  name: Music Title
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g artist"
-  name: Music Artist
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g volume"
-  name: Music Volume
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g playlist | awk '{ print $2 }'"
-  name: Music Playlist
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g lastplayed"
-  name: Music Last Played
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g playcount"
-  name: Music Play Count
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g rating"
-  name: Music Auto Rating
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/home/mgafner/bin/clementine-remote-bash.sh -g comment | sed 's/Tinu; //;s/Amazon; //;'"
-  name: Music Comment
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: "/usr/local/bin/hass --version"
+  command: "~/bin/hass --version"
   name: Homeassistant Version Local
   unit_of_measurement: ""
 
@@ -90,18 +9,6 @@
   name: Homeassistant Version Newest
   unit_of_measurement: ""
 
-- platform: swiss_public_transport
-  name: Abfahrt Monbijoubrücke
-  from: Bern, Monbijoubr
-  to: Bern, Eigerp
-# help: https://home-assistant.io/components/sensor.swiss_public_transport/
-
-# more than one sensor of swiss_public_transport is not possible right now
-#- platform: swiss_public_transport
-#  name: Abfahrt Dampfzentrale
-#  from: Bern, Dampfzentrale
-#  to: Bern, Bahnhof
-
 - platform: time_date
   display_options:
     - 'date'
@@ -109,30 +16,10 @@
 
 - platform: template
   sensors:
-    aarelevel:
-      value_template: '{{ states.sensor.water_temperature.attributes.level }}'
-      friendly_name: 'Aare Level'
-      unit_of_measurement: 'm'
-    aaredischarge:
-      value_template: '{{ states.sensor.water_temperature.attributes.discharge }}'
-      friendly_name: 'Aare Discharge'
-      unit_of_measurement: 'm3/s'
-    template_diff_humidity:
-      friendly_name: 'Bath High Humidity'
-      unit_of_measurement: '%'
-      value_template: >
-        {% if states.sensor.bad_humidity.state|float > 0 and  states.sensor.studio_humidity.state|float > 0 %}
-          {{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}  
-        {% else %}
-          0
-        {% endif %}
-#      value_template: '{{ states.sensor.bad_humidity.state|float - states.sensor.studio_humidity.state|float }}'
-    alarm_time:
-      friendly_name: 'Alarm Time'
-      value_template: '{{ "%0.02d:%0.02d" | format(states("input_slider.alarm_hour") | int, states("input_slider.alarm_minute") | int) }}'
-
-- platform: swiss_hydrological_data
-  station: 2135
+    internet_roundtrip:
+      value_template: '{{ states.binary_sensor.internet.attributes.round_trip_time_avg }}'
+      friendly_name: 'Internet Roundtrip'
+      unit_of_measurement: 'ms'
 
 - platform: systemmonitor
   resources:
