@@ -1,0 +1,6 @@
+- alias: 'music_playlists_update'
+  trigger:
+    platform: event
+    event_type: homeassistant_start
+  action:
+      - service: shell_command.music_playlists_update
