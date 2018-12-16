@@ -15,8 +15,8 @@
 # along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 - platform: broadlink
-  host: !secret broadlink_ip 192.168.178.34
-  mac: !secret broadlink_mac '34:EA:34:41:43:5B'
+  host: !secret broadlink_ip
+  mac: !secret broadlink_mac
   timeout: 60
   switches:
   # always add '==' to the end of the received code. otherwise the broadlink component fails at start of hass
