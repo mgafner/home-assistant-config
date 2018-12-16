@@ -1,0 +1,281 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
+- id: Ya Leave Home Notification
+  alias: Ya Leave Home Notification
+  trigger:
+  - platform: state
+    entity_id: device_tracker.room1_phone_ya
+    from: home
+    to: not_home
+  action:
+  - service: notify.pushover
+    data:
+      message: Ya left the house
+- id: Ya Enter Home Notification
+  alias: Ya Enter Home Notification
+  trigger:
+  - platform: state
+    entity_id: device_tracker.room1_phone_ya
+    from: not_home
+    to: home
+  action:
+  - service: notify.pushover
+    data:
+      message: Ya came home
+- id: Neala Leave Home Notification
+  alias: Neala Leave Home Notification
+  trigger:
+  - platform: state
+    entity_id: device_tracker.room6_phone_neala
+    from: home
+    to: not_home
+  action:
+  - service: notify.pushover
+    data:
+      message: Neala left the house
+- id: Neala Enter Home Notification
+  alias: Neala Enter Home Notification
+  trigger:
+  - platform: state
+    entity_id: device_tracker.room6_phone_neala
+    from: not_home
+    to: home
+  action:
+  - service: notify.pushover
+    data:
+      message: Neala came home
+- id: Level0 Enter Home Notification
+  alias: Level0 Enter Home Notification
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.level0_ip_count
+    above: 2
+  action:
+  - service: notify.pushover
+    data:
+      message: Level0 is busy
+- id: Level0 Leave Home Notification
+  alias: Level0 Leave Home Notification
+  trigger:
+  - platform: state
+    entity_id: sensor.level0_ip_count
+    to: '2'
+  action:
+  - service: notify.pushover
+    data:
+      message: Level0 is free
+- id: Level0 No Connection Notification
+  alias: Level0 No Connection Notification
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.level0_ip_count
+    below: 2
+  action:
+  - service: notify.pushover
+    data:
+      message: Level0 Counter is below two, check Network Connection
+- id: Update Available Notification
+  alias: Update Available Notification
+  trigger:
+  - platform: state
+    entity_id: updater.updater
+  action:
+  - service: persistent_notification.create
+    data:
+      message: 'Newest available Version is {{ states.sensor.homeassistant_version_newest.state
+        }}, installed Version is {{ states.sensor.homeassistant_version_local.state
+        }}. See release notes at: https://home-assistant.io/blog/categories/release-notes/'
+      title: Home Assistant Update Available
+- id: Bath Music Play
+  alias: Bath Music Play
+  trigger:
+  - platform: state
+    entity_id: sensor.bath_door
+    from: open
+    to: closed
+  action:
+  - service: media_player.media_play
+    entity_id: media_player.bath_music
+- id: Bath Music Pause
+  alias: Bath Music Pause
+  trigger:
+  - entity_id: sensor.bath_door
+    from: closed
+    platform: state
+    to: open
+  action:
+  - service: media_player.media_pause
+    entity_id: media_player.bath_music
+- id: Shower Music Play
+  alias: Shower Music Play
+  trigger:
+  - platform: state
+    entity_id: sensor.shower_door
+    from: open
+    to: closed
+  action:
+  - service: media_player.media_play
+    entity_id: media_player.shower_music
+- id: Shower Music Pause
+  alias: Shower Music Pause
+  trigger:
+  - platform: state
+    entity_id: sensor.shower_door
+    from: closed
+    to: open
+  action:
+  - service: media_player.media_pause
+    entity_id: media_player.shower_music
+- id: Room 4 Light toggle
+  alias: Room 4 Light
+  trigger:
+    platform: state
+    entity_id: switch.room4_t1
+    to: 'on'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.room4_light_ceiling
+  - service: switch.turn_off
+    entity_id: switch.room4_t1
+- id: Room 4 Venti off
+  alias: Room 4 Venti off
+  trigger:
+    platform: state
+    entity_id: switch.room4_t2
+    to: 'off'
+  action:
+    service: switch.turn_off
+    entity_id: switch.room4_venti_mlow
+- id: Room 4 Venti on
+  alias: Room 4 Venti on
+  trigger:
+    platform: state
+    entity_id: switch.room4_t2
+    to: 'on'
+  action:
+    service: switch.turn_on
+    entity_id: switch.room4_venti_mlow
+- id: Room 4 Sun off
+  alias: Room 4 Sun off
+  trigger:
+    platform: state
+    entity_id: switch.room4_t3
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: light.room4_sun
+    state: 'on'
+  action:
+    service: script.turn_on
+    entity_id: script.sunset
+- id: Room 4 Sun on
+  alias: Room 4 Sun on
+  trigger:
+    platform: state
+    entity_id: switch.room4_t3
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.room4_sun
+- id: Room 4 Sun on detected
+  alias: Room 4 Sun on detected
+  trigger:
+    platform: state
+    entity_id: light.room4_sun
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: switch.room4_t3
+    state: 'off'
+  action:
+    service: switch.turn_on
+    entity_id: switch.room4_t3
+- id: Room 4 Sun on detected 2
+  alias: Room 4 Sun on detected 2
+  trigger:
+    platform: state
+    entity_id: light.room4_sun
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: input_boolean.script_sun_running
+    state: 'off'
+  action:
+    service: script.turn_on
+    entity_id: script.sun_daytime_light
+- id: Room 4 Sun off detected
+  alias: Room 4 Sun off detected
+  trigger:
+    platform: state
+    entity_id: light.room4_sun
+    to: 'off'
+  action:
+    service: switch.turn_off
+    entity_id: switch.room4_t3
+- id: Room 4 Sun toggle
+  alias: Room 4 Sun toggle
+  trigger:
+    platform: state
+    entity_id: binary_sensor.button22_single
+  action:
+    service: light.toggle
+    entity_id: light.room4_sun
+- id: Weekday Sunrise
+  alias: Weekday Sunrise
+  initial_state: 'on'
+  trigger:
+  - platform: time
+    minutes: /1
+    seconds: 0
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: state
+    entity_id: input_boolean.weekday_sunrise
+    state: 'on'
+  - condition: template
+    value_template: '{{ ((as_timestamp(now())|int)|timestamp_custom("%H:%M"))  ==
+      states("sensor.weekday_alarm_time") }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.sunrise
+- id: Weekend Sunrise
+  alias: Weekend Sunrise
+  initial_state: 'on'
+  trigger:
+  - platform: time
+    minutes: /1
+    seconds: 0
+  condition:
+  - condition: time
+    weekday:
+    - sat
+    - sun
+  - condition: state
+    entity_id: input_boolean.weekend_sunrise
+    state: 'on'
+  - condition: template
+    value_template: '{{ ((as_timestamp(now())|int)|timestamp_custom("%H:%M"))  ==
+      states("sensor.weekend_alarm_time") }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.sunrise

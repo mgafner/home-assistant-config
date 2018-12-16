@@ -1,24 +1,34 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
   exclude:
     domains:
       - automation
       - camera
-      - device_tracker
       - group
       - sun
       - updater
-      - weblink
     entities:
       - sensor.date
       - sensor.time
-      - sensor.next_departure
-      - sensor.cpu_speed
-      - sensor.music_title
-      - sensor.music_artist
       - sensor.since_last_boot
-  include:
-    entities:
-      - device_tracker.galaxynotehome
-      - device_tracker.galaxytabhome
-      - device_tracker.lenovohome
-      - device_tracker.sonyhome
+      - sensor.last_boot
+      - sensor.cpu_use
+      - sensor.cpu_speed
+      - sensor.disk_use
+      - sensor.received_wlan1
+      - sensor.sent_wlan1
 

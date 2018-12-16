@@ -1,135 +1,215 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
 default_view:
   view: yes
+  icon: mdi:home
   entities:
-    - group.Status
-    - group.Music
-    - group.Aussen
-    - group.Aare
-    - group.Bad
-    - group.Studio
-    - group.Kamera
-
-remote:
-  view: yes
-  entities:
-    - group.remote_left
-    - group.remote_right
+    - sun.sun
+    - sensor.moonphase
+    - sensor.time
+    - group.Outside
+    - group.Kitchen
+    - group.Room_1
+    - group.Room_4
+    - group.Shower
+    - group.Bath
+    - group.weekday_sunrise_panel
+    - group.weekend_sunrise_panel
 
 media:
   view: yes
+  icon: mdi:music
   entities:
-    - group.Music
-    - media_player.snapcast
-    - media_player.mpd
-    - media_player.snapcast_client_1008b1e58e31
-    - media_player.snapcast_group_c5987977b67a779d9fdcb30e6b563109
+    - media_player.room1_tv
+    - media_player.room2_tv
+    - media_player.room2_kodi
+    - media_player.room4_tv
 
 weather:
   view: yes
+  icon: mdi:weather-partlycloudy
   entities:
-    - group.wetter1
-    - group.wetter2
-    - group.wetter3
+    - group.wetter_bern_heute
+    - group.wetter_bern_morgen
+    - group.wetter_bern_uebermorgen
+    - group.camera_schweiz
+    - group.camera_alarm_schweiz
+    - group.camera_alarm_europa
+
+cameras:
+  view: yes
+  icon: mdi:image-multiple
+  entities:
+    - group.camera_monbijou
+    - group.camera_baerenplatz
+    - group.camera_alpen
+    - group.camera_gurten
+    - group.camera_muri
+    - group.camera_grauholz
+    - group.camera_villeneuve
+    - group.camera_thun
+    - group.camera_spiez
+    - group.camera_niesen
+    - group.camera_luzern
+    - group.camera_tenero
 
 system:
   view: yes
+  icon: mdi:message-settings
   entities:
-    - group.system_status
-    - group.system_automation
+    - sensor.internet_roundtrip
+    - sensor.homeassistant_version_local
+    - sensor.homeassistant_version_newest
+    - sensor.disk_free_
+    - group.Status
+    - group.System_Status
+    - group.Network_Status
+
+# groups
+
+Outside:
+  - sensor.outside_temperature
+  - sensor.outside_humidity
+  - sensor.aare_bern_temperatur
+  - sensor.aare_bern_pegelstand
+  - sensor.thunersee_spiez_temperatur
+  - sensor.thunersee_spiez_pegelstand
+  - sensor.thunersee_spiez_gefahrenstufe
+  - weblink.thunersee_spiez_infos
+
+weekday_sunrise_panel:
+  name: Weekday Alarm Clock
+  entities:
+    - input_boolean.weekday_sunrise
+    - sensor.weekday_alarm_time
+    - input_number.weekday_alarm_hour
+    - input_number.weekday_alarm_minutes
+    - script.sunrise
+
+weekend_sunrise_panel:
+  name: Weekend Alarm Clock
+  entities:
+    - input_boolean.weekend_sunrise
+    - sensor.weekend_alarm_time
+    - input_number.weekend_alarm_hour
+    - input_number.weekend_alarm_minutes
+
+Kitchen:
+  - vacuum.robbie
+
+Room 1:
+  - sensor.room1_temperature
+  - sensor.room1_humidity
+
+Room 4:
+  - sensor.room4_temperature
+  - sensor.room4_humidity
+  - light.room4_bed
+  - light.room4_sun
+  - scene.room4_light_ceiling
+  - scene.room4_venti_low
+  - scene.room4_venti_mlow
+  - scene.room4_venti_medium
+  - scene.room4_venti_high
+  - scene.room4_venti_off
+  - switch.room4_t1
+  - switch.room4_t2
+  - switch.room4_t3
+  
+Shower:
+  - sensor.dusche_tuere
+  - switch.sonoff_shower_power
+  - sensor.sonoff_shower_temperature
+  - sensor.shower_temperature_stats_mean
+  - sensor.sonoff_shower_humidity
+  - sensor.shower_humidity_stats_mean
+  - binary_sensor.shower_heating
+  - binary_sensor.shower_ventillator
+
+Bath:
+  - sensor.bad_tuere
+  - switch.sonoff_bath_power
+  - sensor.sonoff_bath_temperature
+  - sensor.bath_temperature_stats_mean
+  - sensor.sonoff_bath_humidity
+  - sensor.bath_humidity_stats_mean
 
 Status:
-  - sensor.date
-  - sensor.time
-  - sensor.internet_roundtrip
-  - sensor.abfahrt_monbijoubrucke
-  - sun.sun
-  - device_tracker.galaxynotehome
-  - device_tracker.sonyhome
-  - input_select.automation_preset
+  - device_tracker.room4_phone_tinu
+  - device_tracker.room1_phone_ya
+  - device_tracker.room6_phone_neala
+  - sensor.level0_phone_hugo_last_home
+  - sensor.level0_phone_ruth_last_home
+  - sensor.level0_tablet_ruth_last_home
+  - sensor.room1_phone_ya_last_home
+  - sensor.room4_phone_tinu_last_home
+  - sensor.room6_phone_neala_last_home
+  - sensor.level0_ip_count
 
-Music:
-  - cover.music_next__playpause__prev
-  - input_select.music_playlist
-  - input_select.music_add_tag
-  - input_slider.music_volume
-  - sensor.mpd_title
-  - sensor.mpd_artist
-  - sensor.mpd_last_played
-  - sensor.mpd_play_count
-  - input_slider.music_rating
-  - sensor.mpd_rating
-  - sensor.mpd_comment
+Wetter Bern Heute:
+  - sensor.yw_bern_day0_condition
+  - sensor.yw_bern_day0_temperature_max
+  - sensor.yw_bern_day0_temperature_min
+  - sensor.yw_bern_day0_visibility
 
-remote_left:
-  - sensor.mpd_title
-  - sensor.mpd_artist
-  - sensor.mpd_last_played
-  - sensor.mpd_play_count
-  - sensor.mpd_rating
-  - sensor.mpd_comment
+Wetter Bern Morgen:
+  - sensor.yw_bern_day1_condition
+  - sensor.yw_bern_day1_temperature_max
+  - sensor.yw_bern_day1_temperature_min
+  - sensor.yw_bern_day1_visibility
 
-remote_right:
-  - cover.music_next__playpause__prev
-  - input_select.music_add_tag
-  - input_slider.music_rating
-  - input_slider.music_volume
-  - input_select.music_playlist
+Wetter Bern Uebermorgen:
+  - sensor.yw_bern_day2_condition
+  - sensor.yw_bern_day2_temperature_max
+  - sensor.yw_bern_day2_temperature_min
+  - sensor.yw_bern_day2_visibility
 
-Clementine:
-  - sensor.music_title
-  - sensor.music_artist
-  - sensor.music_last_played
-  - sensor.music_play_count
-  - sensor.music_auto_rating
-  - sensor.music_comment
-  - cover.music_next__playpause__prev
-  - switch.Lautsprecher
-  - input_slider.music_volume
-  - sensor.music_playlist
-  - input_select.music_playlist
-
-Aussen:
-  - sensor.james_temperature
-  - sensor.james_humidity
-
-Aare:
-  - sensor.aarelevel
-  - sensor.aaredischarge
-  - sensor.water_temperature
-
-Studio:
-  - sensor.studio_temperature
-  - sensor.studio_humidity
-  - switch.Studio_vorne
-  - switch.Studio_Sonne
-  - switch.Studio_hinten
-  - switch.Studio_Heizung
-  - switch.Flur
-  - switch.Garage
-  - switch.Signal
-
-Bad:
-  - sensor.bad_temperature
-  - sensor.bad_humidity
-  - sensor.template_diff_humidity
-  - switch.Bad_Licht
-  - switch.Bad_Luefter
-  - switch.Bad_Heizung
-  - switch.Bad_Strahler
-
-Kamera:
-  - camera.garage_dcs820l
-
-wetter1:
-  - camera.wetter_alarm_schweiz
-
-wetter2:
+camera_schweiz:
   - camera.wetter_schweiz
-
-wetter3:
+camera_alarm_schweiz:
+  - camera.wetter_alarm_schweiz
+camera_alarm_europa:
   - camera.wetter_alarm_europa
+camera_monbijou:
+  - camera.monbijou
+camera_baerenplatz:
+  - camera.baerenplatz
+camera_alpen:
+  - camera.alpen
+camera_gurten:
+  - camera.gurten
+camera_muri:
+  - camera.muri
+camera_grauholz:
+  - camera.grauholz
+camera_villeneuve:
+  - camera.villeneuve
+camera_thun:
+  - camera.thun
+camera_spiez:
+  - camera.spiez
+camera_niesen:
+  - camera.niesen
+camera_luzern:
+  - camera.luzern
+camera_tenero:
+  - camera.tenero
 
-system_status:
+System Status:
   - sensor.date
   - sensor.time
   - sensor.last_boot
@@ -138,18 +218,6 @@ system_status:
   - sensor.cpu_speed
   - sensor.disk_use
   - sensor.disk_free
-  - sensor.received_wlan1
-  - sensor.sent_wlan1
-
-system_automation:
-  - automation.bad_heizung_einschalten
-  - automation.bad_heizung_ausschalten
-  - automation.studio_heizung_einschalten
-  - automation.studio_heizung_ausschalten
-  - automation.set_automation_preset
-  - automation.update_input_select_automation_preset
-  - automation.set_music_playlist
-  - automation.set_music_volume
-  - automation.turn_loudspeaker_on
-  - automation.wakeup_alarm_weekday
-  - automation.wakeup_alarm_weekend
+  
+Network Status:
+  - sensor.fritz_netmonitor

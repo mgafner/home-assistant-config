@@ -1,9 +1,145 @@
-- platform: command_line
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
+- platform: broadlink
+  host: !secret broadlink_ip 192.168.178.34
+  mac: !secret broadlink_mac '34:EA:34:41:43:5B'
+  timeout: 60
   switches:
-    music_playpause:
-      command_on:    "/home/mgafner/bin/mpd-remote-bash.sh -c play"
-      command_off:   "/home/mgafner/bin/mpd-remote-bash.sh -c pause"
-      command_state: "/home/mgafner/bin/mpd-remote-bash.sh -g status"
-      value_template: '{{ value == "play" }}'
-      friendly_name: Play/Plause
+  # always add '==' to the end of the received code. otherwise the broadlink component fails at start of hass
+  # how to obtain codes:
+  # https://www.home-assistant.io/components/switch.broadlink/
+    room4_light_ceiling:
+      friendly_name: 'Room 4 Licht Decke'
+      command_on: 'JgA4ASsNKw0OKSoOKg0PKSoNDioPKA8pDygPAAEHKwwrDQ4pKg4rDA8pKg0PKQ8oDykPKA8AAQcrDCoODygrDSoNDykqDg4pDikPKQ4pEAABBioPKQ0OKioNKw0OKSsNDygPKQ8oDioPAAEGKw0rDBAoKwwrDQ4pKw0OKQ8pDygQKA4AAQcrDSsNDikqDikODioqDQ8pDygOKg8oDgABCCoNKw0OKSoOKg0OKisMDykPKA8pDygPAAEHKwwqDg4pKw0rDQ8oKg4PKA8pDikOKg8AAQYrDSoNDykrDCoODikrDQ8oDykPKA8pDgABByoOLAsPKSsMKw0PKCsODSkPKQ4pECgOAAEGLA0rDQ4pKw0rDA8pKg0OKg8oDykPKA8AAQcrDCoODygqDisMDiorDA8pDygPKQ4pEAANBQ=='
+      command_off: 'JgA4ASsNKw0OKSoOKg0PKSoNDioPKA8pDygPAAEHKwwrDQ4pKg4rDA8pKg0PKQ8oDykPKA8AAQcrDCoODygrDSoNDykqDg4pDikPKQ4pEAABBioPKQ0OKioNKw0OKSsNDygPKQ8oDioPAAEGKw0rDBAoKwwrDQ4pKw0OKQ8pDygQKA4AAQcrDSsNDikqDikODioqDQ8pDygOKg8oDgABCCoNKw0OKSoOKg0OKisMDykPKA8pDygPAAEHKwwqDg4pKw0rDQ8oKg4PKA8pDikOKg8AAQYrDSoNDykrDCoODikrDQ8oDykPKA8pDgABByoOLAsPKSsMKw0PKCsODSkPKQ4pECgOAAEGLA0rDQ4pKw0rDA8pKg0OKg8oDykPKA8AAQcrDCoODygqDisMDiorDA8pDygPKQ4pEAANBQ=='
+    room4_venti_high:
+      friendly_name: 'Room 4 Venti High'
+      command_on: 'JgCCASoNKw0OKSsNKg0OKg8oDykPKA8pDikr6ysMKw4NKSsNKg4OKQ8pDygOKQ8pDykr6ioOKg0PKSsMKw0OKQ8pDygPKQ8oECgr6ioOKg0QKCoOKQ4PKBAoDykOKQ8pDygq7CoNKg4PKCsNKg0PKRAnDykPKA8pECcq7CoNKg4PKCoOKwwPKQ8oECgOKg4pDykq6yoOKg0OKioOKQ4OKQ8pDygPKQ4pDioq6yoOKwwPKSoOKg0OKg8oDygQKA8oDykr6yoNKg4OKSsNKg0OKg4pDykPKA8pDikr6ysMKg4PKCsNKg0PKQ4pDykPKA8pDygq7CsNKQ4PKSoNKw0OKQ8pDikPKQ8oDykq6yoOKwwPKSsMKw0PKA8pDygPKQ8pDygq6yoOKw0OKSoOKwwOKhAnDykPKA8pDygr6yoNKg4OKSoOKg0OKg8oDykPKA8pDikq7CsNKQ4PKSoNKw0PKA4qDikPKQ8oDykr6isNKwwPKSsMKg4PKA8pDygPKQ4pDykqAA0FAAAAAAAA=='
+      command_off: 'JgAEASoOKwwQKCsNKg0OKRAoKwwQKA8oECgPAAEHKwwrDQ8oKw0qDQ4qDygrDQ8oDykPKA8AAQcrDCsNDygrDSsNDikOKSsNDykPKA8pDwABBioOKwwOKisMKw0PKA4qKwwPKQ8oECgPAAEGKw0rDQ8oKw0rDA4qDygqDg8oDykOKQ8AAQcqDSsNDikqDisMDykOKSsNDygPKQ4pEAABBisNKg0PKSsMLAwQJw8pKg0PKQ4pDykPAAEGKw0rDBAoKg0qDg8oECgrDQ4pDykPKA8AAQcqDSsNDikrDSsMDykPKCsNDygQKA8oEAABBisMKw0PKSoNKw0OKQ4qKg0PKQ8oDioPAA0FAAAAAA=='
+    room4_venti_medium:
+      friendly_name: 'Room 4 Venti Medium'
+      command_on: 'JgDQACsMKw0PKCsNKwwQKA8oECgPKCsNDykPAAEGKw0rDA4qKwwrDQ8oECgPKBAoKw0PKA8AAQcqDSsNDygqDisMECgPKBAoDygrDQ8pDwABBisNKwwQKCsMKw0PKBAoDygQKCsMECgPAAEHKg0rDQ8oKw0rDBAoDygPKQ8oLAwPKA8AAQcrDSsMECgqDSsNDygPKQ8oDykrDBAoDwABBiwMKw0PKCwMKwwOKg8oDykPKCsNDygQAAEGKw0rDA8pKwwrDQ8oDykPKA8pKwwQKA8ADQUAAAAAAAAAAA=='
+      command_off: 'JgAEASoOKwwQKCsNKg0OKRAoKwwQKA8oECgPAAEHKwwrDQ8oKw0qDQ4qDygrDQ8oDykPKA8AAQcrDCsNDygrDSsNDikOKSsNDykPKA8pDwABBioOKwwOKisMKw0PKA4qKwwPKQ8oECgPAAEGKw0rDQ8oKw0rDA4qDygqDg8oDykOKQ8AAQcqDSsNDikqDisMDykOKSsNDygPKQ4pEAABBisNKg0PKSsMLAwQJw8pKg0PKQ4pDykPAAEGKw0rDBAoKg0qDg8oECgrDQ4pDykPKA8AAQcqDSsNDikrDSsMDykPKCsNDygQKA8oEAABBisMKw0PKSoNKw0OKQ4qKg0PKQ8oDioPAA0FAAAAAA=='
+    room4_venti_mlow:
+      friendly_name: 'Room 4 Venti Mlow'
+      command_on: 'JgDyACsNKwwPKSsMKw0rDBAoDygQKA8oKw0r6ysMKw0PKCsNKwwrDQ8oDykPKBAoKg0r6ysNKwwPKSsMKw0rDBAoDygQKA8oKw0r6ioOKw0PKCsNKwwrDQ8oECgPKBAoKwws6isNKwwPKSsMKw0rDA8pDygPKQ8oKw0r6iwMKw0OKSsNKwwrDQ8oDykPKBAoKg0r6ysNKwwPKSsMKw0rDA8pDygPKQ8oKw0r6isNKw0PKCsNKwwrDQ8oDykPKA8pKwwr6ysNKwwPKSsMKw0rDA8pDygQKA8oKw0r6isNKw0OKSsNKwwrDQ8oDykPKA8pKwwrAA0FAAAAAAAA=='
+      command_off: 'JgAEASoOKwwQKCsNKg0OKRAoKwwQKA8oECgPAAEHKwwrDQ8oKw0qDQ4qDygrDQ8oDykPKA8AAQcrDCsNDygrDSsNDikOKSsNDykPKA8pDwABBioOKwwOKisMKw0PKA4qKwwPKQ8oECgPAAEGKw0rDQ8oKw0rDA4qDygqDg8oDykOKQ8AAQcqDSsNDikqDisMDykOKSsNDygPKQ4pEAABBisNKg0PKSsMLAwQJw8pKg0PKQ4pDykPAAEGKw0rDBAoKg0qDg8oECgrDQ4pDykPKA8AAQcqDSsNDikrDSsMDykPKCsNDygQKA8oEAABBisMKw0PKSoNKw0OKQ4qKg0PKQ8oDioPAA0FAAAAAA=='
+    room4_venti_low:
+      friendly_name: 'Room 4 Venti Low'
+      command_on: 'JgAEASoOKwwOKisMKg4PKA8pDygrDQ4pDykOAAEHKw0qDQ8pKw0qDQ4qDikPKSoNDykOKQ8AAQcqDSoODygrDSsMDioPKA8pKwwPKQ4pEAABBioOKQ4OKioNKw0OKQ8pDikrDQ8oDykPAAEGKg4rDA8pKg0qDg8oDykPKCoODikQKA8AAQYqDisNDygqDioNDykOKQ4qKwwPKQ8oDwABBysMKg4PKCsNKwwPKQ8oECgrDQ4pDykOAAEHKg4qDQ8pKg0rDQ8oDioOKSsNDygPKQ4AAQcqDioNDykrDSoNDikQKA8oKw0OKg4pDgABCCoNKg4PKCoOKg0OKg4pDioqDQ8pDygRAA0FAAAAAA=='
+      command_off: 'JgAEASoOKwwQKCsNKg0OKRAoKwwQKA8oECgPAAEHKwwrDQ8oKw0qDQ4qDygrDQ8oDykPKA8AAQcrDCsNDygrDSsNDikOKSsNDykPKA8pDwABBioOKwwOKisMKw0PKA4qKwwPKQ8oECgPAAEGKw0rDQ8oKw0rDA4qDygqDg8oDykOKQ8AAQcqDSsNDikqDisMDykOKSsNDygPKQ4pEAABBisNKg0PKSsMLAwQJw8pKg0PKQ4pDykPAAEGKw0rDBAoKg0qDg8oECgrDQ4pDykPKA8AAQcqDSsNDikrDSsMDykPKCsNDygQKA8oEAABBisMKw0PKSoNKw0OKQ4qKg0PKQ8oDioPAA0FAAAAAA=='
+    room4_venti_off:
+      command_off: 'JgAEASoOKwwQKCsNKg0OKRAoKwwQKA8oECgPAAEHKwwrDQ8oKw0qDQ4qDygrDQ8oDykPKA8AAQcrDCsNDygrDSsNDikOKSsNDykPKA8pDwABBioOKwwOKisMKw0PKA4qKwwPKQ8oECgPAAEGKw0rDQ8oKw0rDA4qDygqDg8oDykOKQ8AAQcqDSsNDikqDisMDykOKSsNDygPKQ4pEAABBisNKg0PKSsMLAwQJw8pKg0PKQ4pDykPAAEGKw0rDBAoKg0qDg8oECgrDQ4pDykPKA8AAQcqDSsNDikrDSsMDykPKCsNDygQKA8oEAABBisMKw0PKSoNKw0OKQ4qKg0PKQ8oDioPAA0FAAAAAA=='
+    room4_light_big_osram:
+      friendly_name: 'Room 4 Light Osram'
+      command_on:  'JgCkAAABNJMXDxcQFREVERURFRAWEBYQFjQWNBc0FjQXNBY0FzQWNBY0FzQWNBcPFhAWEBYQFg8XDxcPFw8WNBc0FjQXNBY0FgAFJgABMkkVAAxpAAExShQADGkAATJJFAAMawABMUoUAAxqAAExShQAAqEIAAnBAAExShQADGoAATFKFAAMagABM0gWAAxoAAE0SBYADGgAATNIFgAMaAABNEcWAA0FAAAAAA=='  
+      command_off: 'JgCoAAABMpQUEhQSFBIUERQSFBIUEhQSFDYUNhQ3FDYUNxM3FDYUNxMSFDcUNhQSFBITEhQSFBIUNhQSFBIUNhQ2FDcUNhQ3EwAFKAABMEkUAAxoAAEyShQADGoAATBJFAAMagABMEoUAAxqAAEwSRQADGoAATBKFAAMagABMEkVAAxpAAEwShQADGoAATBJFAAMagABMEoUAAxqAAEwShQADGkAATJJFQANBQ=='
+    room4_light_big_osram_dim_down:
+      friendly_name: 'Room 4 Light Osram Dim Down'
+      command_on:  'JgCQAAABNZIWEBYQFhAWEBYPFw8WEBYQFjQWNRY0FjUWNBY0FzQWNBcPFzQWEBYQFhAWEBYQFg8XNBYQFjQWNRY0FjQXNBY0FwAFJQABNkcWAAxoAAE0RhcADGgAATVHFwAMaAABM0YYAAxoAAE0RxYADGgAATVHFwAMaAABNUcWAAxoAAE0RxcADGgAATRHFwANBQAAAAAAAAAA=='
+    room4_light_big_osram_dim_up:
+      friendly_name: 'Room 4 Light Osram Dim Up'
+      command_on:  'JgCIAAABOZIXDxcPFw8XDxcPFhAWEBYQFjQXNBY0FzQWNBc0FjQXNBYQFhAWEBYPFw8XDxYQFhAWNBc0FjQXNBY0FjUWNBY0FwAFJQABNEcXAAxoAAEzSBYADGgAATRHFgAF6QkABnYAATRHFwAMZwABNEgWAAxoAAE0RxYAAtUIAAmLAAE0SBYADQU=='
+
+
+- platform: mqtt
+  name: "sonoff_bath_power"
+  state_topic: "stat/bath/POWER"
+  command_topic: "cmnd/bath/POWER"
+  availability_topic: "tele/bath/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+- platform: mqtt
+  name: "sonoff_shower_power"
+  state_topic: "stat/shower/POWER"
+  command_topic: "cmnd/shower/POWER"
+  availability_topic: "tele/shower/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+- platform: mqtt
+  name: "room4_t1"
+  state_topic: "stat/room4-t3/POWER1"
+  command_topic: "cmnd/room4-t3/POWER1"
+  availability_topic: "tele/room4-t3/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+- platform: mqtt
+  name: "room4_t2"
+  state_topic: "stat/room4-t3/POWER2"
+  command_topic: "cmnd/room4-t3/POWER2"
+  availability_topic: "tele/room4-t3/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+- platform: mqtt
+  name: "room4_t3"
+  state_topic: "stat/room4-t3/POWER3"
+  command_topic: "cmnd/room4-t3/POWER3"
+  availability_topic: "tele/room4-t3/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+- platform: mqtt
+  name: "room1_heating"
+  state_topic: "stat/room1_heating/POWER"
+  command_topic: "cmnd/room1_heating/POWER"
+  availability_topic: "tele/room1_heating/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+- platform: wake_on_lan
+  name:        wol_tv_room1
+  host:        !secret mediaplayer_philips-16r1_ip
+  mac_address: !secret mediaplayer_philips-16r1_mac
+
+- platform: wake_on_lan
+  name:        wol_tv_room2
+  host:        !secret mediaplayer_philips-16r2_ip
+  mac_address: !secret mediaplayer_philips-16r2_mac
+
+- platform: wake_on_lan
+  name:        wol_tv_room4
+  host:        !secret mediaplayer_philips-16r4_ip
+  mac_address: !secret mediaplayer_philips-16r4_mac
 

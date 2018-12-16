@@ -1,24 +1,121 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
 # Weather Maps
+- platform: generic
+  name: Wetter Bern Heute
+  still_image_url: '{{ states.sensor.yw_bern_day0_condition.attributes.entity_picture }}'
 
 - platform: generic
-  still_image_url: http://data.meteomedia.de/data/maps/generated/schweiz_sytl_uwz-ch_de.png
+  name: Wetter Bern Morgen
+  still_image_url: '{{ states.sensor.yw_bern_day1_condition.attributes.entity_picture }}'
+
+- platform: generic
   name: Wetter Schweiz
+  still_image_url: http://data.meteomedia.de/data/maps/generated/schweiz_sytl_uwz-ch_de.png
+  scan_interval: 600
 
 - platform: generic
-  still_image_url: http://alarm.meteocentrale.ch/images/map/schweiz_index.png
   name: Wetter Alarm Schweiz
+  still_image_url: http://alarm.meteocentrale.ch/images/map/schweiz_index.png
+  scan_interval: 600
 
 - platform: generic
-  still_image_url: http://www.unwetterzentrale.de/images/map/europe_index.png
   name: Wetter Alarm Europa
+  still_image_url: http://www.unwetterzentrale.de/images/map/europe_index.png
+  scan_interval: 600
+
+- platform: generic
+  name: Baerenplatz
+  still_image_url: http://www.baerenplatz.be/assets/images/live.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Gurten
+  still_image_url: http://www.gurten-kulm.ch/webcam/hscam002.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Alpen
+  still_image_url: http://climateold.unibe.ch/wwwnew/webcam/higher.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Thun
+  still_image_url: http://www.wsct.ch/webcam/thun.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Spiez
+  still_image_url: http://www.popnet.ch/fileadmin/Webcam/Aktuell.php
+  scan_interval: 600
+
+- platform: generic
+  name: Niesen
+  still_image_url: https://www.schoenberg.ch/images/Livecam/cam1/Webcam-Schoenberg-Gunten-Blick-auf-Niesen.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Biel
+  still_image_url: http://www.bielerseelive.ch/getimage.php?t=297fa109b4677ffd4c8fdf9b05191dbf
+  scan_interval: 600
+
+- platform: generic
+  name: Villeneuve
+  still_image_url: http://212.147.120.116:8888/record/current.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Luzern
+  still_image_url: http://www.herzog-marinecenter.ch/cam/luzern.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Tenero
+  still_image_url: http://media.campofelice.ch/campwcam/webcam/image.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Grauholz
+  still_image_url: http://www.tbamobcam.ch/tbastrecke/tba002/stb_cam26.jpg
+  scan_interval: 600
+
+- platform: generic
+  name: Muri
+  still_image_url: http://www.tbamobcam.ch/tbastrecke/tba011/stb_cam50.jpg
+  scan_interval: 600
+
+# tvheadend
+# funktioniert, aber frisst ressourcen und kommt ruckelig und ohne audio
+#- platform: ffmpeg
+#  name: livetv
+#  input: http://192.168.178.7:9981/stream/channelnumber/2?profile=webtv-h264-aac-matroska
 
 # My Cams
+# DCS-930LB
+- platform: generic
+  name: Monbijou
+  still_image_url: !secret camera_monbijou_url
+  scan_interval: 10
 
 #- platform: mjpeg
-#  mjpeg_url: http://192.168.1.16/video/mjpg.cgi
+#  mjpeg_url: !secret camera_dcs820l_url http://192.168.1.16/video/mjpg.cgi
 #  name: Garage DCS-820L
-#  username: admin
-#  password: !secret camera_dcs820l
+#  username: !secret camera_dcs820l_username
+#  password: !secret camera_dcs820l_password
 
 # DCS-820L
 # from http://forums.dlink.com/index.php?topic=57687.0
@@ -48,5 +145,4 @@
 # Achieved successful playback of these streams over TCP or UDP using various methods:
 #    RTSP Player (Android)
 #    VLC Media Player (Linux, Mac, Windows)
-
 

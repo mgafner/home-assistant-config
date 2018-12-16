@@ -1,30 +1,112 @@
-homeassistant:
-# Name of the location where Home Assistant is running
-  name: Home
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
-# get lat/long from http://www.latlong.net/convert-address-to-lat-long.html
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  
+  # Location required to calculate the time the sun rises and sets
   latitude:    !secret config_latitude
   longitude:   !secret config_longitude
 
-# Impacts weather/sunrise data (altitude above sea level) 
+  # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 508
-
-# C for Celsius, F for Fahrenheit
+  
+  # metric for Metric, imperial for Imperial
   unit_system: metric
-
-# Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Zurich
+  
+  # Customization file
+  customize: !include customize.yaml
 
-  customize:   !include customization.yaml
+#android_ip_webcam:
+#  - host:     !secret android_ip_webcam_room4_alarmclock_host
+#    name: Room4 Alarmclock
+#    port: 8080
+#    username: !secret android_ip_webcam_room4_alarmclock_username
+#    password: !secret android_ip_webcam_room4_alarmclock_password
+#    sensors:
+#      - audio_connections
+#      - battery_level
+#      - battery_temp
+#      - battery_voltage
+#      - light
+#      - motion
+#      - pressure
+#      - proximity
+#      - sound
+#      - video_connections
+#    switches:
+#      - exposure_lock
+#      - ffc
+#      - focus
+#      - gps_active
+#      - night_vision
+#      - overlay
+#      - torch
+#      - whitebalance_lock
+#      - video_recording
 
-# Allows you to issue voice commands from the frontend
+automation:    !include automations.yaml
+
+binary_sensor:
+# for the mystrom wifi button
+- platform: mystrom
+# for my internet-check
+- platform: ping
+  name: Internet
+  host: !secret internet_next_gateway
+- platform: template
+  sensors:
+    shower_heating:
+      friendly_name: "Heating after showering"
+      value_template: >-
+        {{ states.sensor.sonoff_shower_humidity.state|float > (states.sensor.shower_humidity_stats_mean.state|float + 5) }}
+    shower_ventillator:
+      friendly_name: "Ventillator after showering"
+      value_template: >-
+        {{ states.sensor.sonoff_shower_humidity.state|float > (states.sensor.shower_humidity_stats_mean.attributes.median|float + 5) }}
+
+
+camera:        !include cameras.yaml
+
+# Enables configuration UI
+config:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
 device_tracker:
-  - platform: netgear
-    host: 192.168.1.1
-    username: !secret netgear_admin_user
-    password: !secret netgear_admin_pass
+  - platform: fritz
+    host:      !secret fritz_ip
+    username:  !secret fritz_admin_user
+    password:  !secret fritz_admin_pass
+    new_device_defaults:
+      track_new_devices: True
+      hide_if_away: False
+  - platform: nmap_tracker
+    hosts:     !secret nmap_tracker_hosts
+    new_device_defaults:
+      track_new_devices: True
+      hide_if_away: False
+    
+# Cloud
+#cloud:
 
 # Discover some devices automatically
 discovery:
@@ -32,8 +114,64 @@ discovery:
 # Enables the frontend
 frontend:
 
+group:          !include groups.yaml
+
 # Enables support for tracking state changes over time.
-history:       !include history.yaml
+history:        !include history.yaml
+
+# see https://home-assistant.io/components/http/
+http:
+  api_password: !secret http_password
+  cors_allowed_origins: !secret http_cors_allowed_origins
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+  base_url:     !secret http_base_url
+  trusted_networks: !secret http_trusted_networks
+
+# api interface needed for mystrom component
+# api interface works only together with http: above
+api:
+
+# entities for hue sunrise
+# from https://149walnut.com/2017-12-using-home-assistant-and-philips-hue-to-create-a-full-colour-sunrise-alarm-clock/
+input_boolean:
+  weekday_sunrise:
+  weekend_sunrise:
+  script_sun_running:
+
+input_number:
+  weekday_alarm_hour:
+    name: Hour
+    icon: mdi:timer
+    min: 0
+    max: 23
+    step: 1
+  weekday_alarm_minutes:
+    name: Minutes
+    icon: mdi:timer
+    min: 0
+    max: 59
+    step: 5
+  weekend_alarm_hour:
+    name: Hour
+    icon: mdi:timer
+    min: 0
+    max: 23
+    step: 1
+  weekend_alarm_minutes:
+    name: Minutes
+    icon: mdi:timer
+    min: 0
+    max: 59
+    step: 5
+
+input_text:
+  sun_brightness:
+    name: Sun Brightness
+    initial: 255
+  sun_rgb_color:
+    name: Sun RGB Color
+    initial: "[ 255,172,146 ]"
 
 # View all events in a logbook
 logbook:       !include logbook.yaml
@@ -41,37 +179,169 @@ logbook:       !include logbook.yaml
 # log and debug homeassistant
 logger:
 #  default: critical
-#  default: debug
+  default: warn
+#  default: all
+
+# Enables a map showing the location of tracked devices
+map:
+
+media_player:
+#  - platform: snapcast
+#    name: snapcast
+#    host: !secret mediaplayer_snapcast_ip
+  - platform: mpd
+    name: shower_music
+    location: Shower
+    host: !secret mediaplayer_shower_ip
+
+  - platform: mpd
+    name: bath_music
+    location: Bath
+    host: !secret mediaplayer_bath_ip
+
+# for the new tv
+  - platform: philips_2016
+    # needs an additional component which is not part of the distribution, from:
+    # https://github.com/nstrelow/ha_philips_2016
+    # save in /config/custom_components/media_player
+    # community thread: https://community.home-assistant.io/t/philips-android-tv-component/17749/173
+    name: Room1 TV
+    host:     !secret mediaplayer_philips-16r1_ip
+    mac:      !secret mediaplayer_philips-16r1_mac
+    username: !secret mediaplayer_philips-16r1_user
+    password: !secret mediaplayer_philips-16r1_pass
+  - platform: philips_2016
+    name: Room2 TV
+    host:     !secret mediaplayer_philips-16r2_ip
+    mac:      !secret mediaplayer_philips-16r2_mac
+    username: !secret mediaplayer_philips-16r2_user
+    password: !secret mediaplayer_philips-16r2_pass
+  - platform: philips_2016
+    name: Room4 TV
+    host:     !secret mediaplayer_philips-16r4_ip
+    mac:      !secret mediaplayer_philips-16r4_mac
+    username: !secret mediaplayer_philips-16r4_user
+    password: !secret mediaplayer_philips-16r4_pass
+
+  - platform: kodi
+    name: Room2 Kodi
+    host: !secret mediaplayer_kodi2_ip
+
+  - platform: kodi
+    name: Room4 Kodi
+    host: !secret mediaplayer_kodi4_ip
+
+#mqtt:
+#  broker: core-mosquitto
+#  username: !secret mqtt_user
+#  password: !secret mqtt_pass
+  
+mqtt:
+  password: !secret mqtt_pass
+#  port: 1883
+#  client_id: home-assistant
+#  keepalive: 60
+#  protocol: 3.1
+#  birth_message:
+#    topic: "tele/hass1/LWT"
+#    payload: "Online"
+#    qos: 1
+#    retain: true
+#  will_message:
+#    topic: "tele/hass1/LWT"
+#    payload: "Offline"
+#    qos: 1
+#    retain: true
+
+notify:
+  - platform: rocketchat
+    name: rocketchat
+    url: !secret rocketchat_url
+    username: !secret rocketchat_user
+    password: !secret rocketchat_pass
+    room:     !secret rocketchat_room
+  - platform: pushover
+    name: pushover
+    api_key:  !secret pushover_api_key
+    user_key: !secret pushover_user_key
+
+panel_iframe:
+  bernmobil:
+    title: 'Abfahrtszeiten'
+    url:      !secret bernmobil_url
+    icon:  mdi:tram
+  livetv:
+    title: 'Fernsehen'
+    url:      !secret tvheadend_url
+    icon: mdi:television-box
+
+recorder:
+  purge_keep_days: 60
+  db_url:     !secret recorder_db_url
+  exclude:
+    domains:
+      - camera
+      - group
+      - scene
+      - sun
+    entities:
+      - sensor.date
+      - sensor.time
+    
+scene:         !include scenes.yaml
+
+script:        !include scripts.yaml
+
+sensor:        !include sensors.yaml
+
+shell_command: !include shell_commands.yaml
 
 # Track the sun
 sun:
 
+switch:        !include switches.yaml
+
+tradfri:
+  host: !secret tradfri_ip
+# important: needs autoconf (apt-get install autoconf)
+
+
+# Text to speech
+#tts:
+#  - platform: google
+
 # Checks for available updates
 updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+  # Note: This component will send some information about your system to
+  # the developers to assist with development of Home Assistant.
+  # For more information, please see:
+  # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+  # Optional, do not send any reports:
   reporting: false
 
-media_player:
-  - platform: snapcast
-    name: snapcast
-    host: 127.0.0.1
-  - platform: mpd
-    name: mpd
-    location: Living Room
-    host: 127.0.0.1
+vacuum:
+- platform: roomba
+  name: Robbie
+  host:     !secret vacuum_roomba_ip
+  username: !secret vacuum_roomba_blid
+  password: !secret vacuum_roomba_pass
 
-automation:    !include_dir_merge_list automation
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    scan_interval: 3600
+  - platform: yweather
+    scan_interval: 3600
 
-binary_sensor:
-- platform: ping
-  host: 217.168.56.93
-  name: Internet
-
-camera:        !include cameras.yaml
-cover:         !include covers.yaml
-group:         !include groups.yaml
-input_select:  !include selects.yaml
-input_slider:  !include sliders.yaml
-sensor:        !include sensors.yaml
-shell_command: !include shell_commands.yaml
-switch:        !include switches.yaml
+weblink:
+  entities:
+    - name: Router
+      url:  !secret weblink_router_url
+      icon: mdi:router-wireless
+    - name: Home Assistant
+      url: https://www.home-assistant.io
+    - name: Thunersee Spiez Infos
+      url: http://www.hydrodaten.admin.ch/de/2093.html
 

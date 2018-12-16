@@ -1,0 +1,327 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
+title: Home
+views:
+  - badges:
+      - sensor.moonphase
+      - sensor.time
+      - sun.sun
+    cards:
+      - entities:
+          - sensor.outside_temperature
+          - sensor.outside_humidity
+          - sensor.aare_bern_temperatur
+          - sensor.aare_bern_pegelstand
+          - sensor.thunersee_spiez_temperatur
+          - sensor.thunersee_spiez_pegelstand
+          - sensor.thunersee_spiez_gefahrenstufe
+          - weblink.thunersee_spiez_infos
+        show_header_toggle: false
+        title: Outside
+        type: entities
+    icon: 'mdi:home'
+    path: default_view
+    title: default_view
+  - badges: []
+    cards:
+      - entity: media_player.room1_tv
+        type: media-control
+      - entity: media_player.room2_tv
+        type: media-control
+      - entity: media_player.room2_kodi
+        type: media-control
+      - entity: media_player.room4_tv
+        type: media-control
+    icon: 'mdi:music'
+    path: media
+    title: media
+  - badges: []
+    cards:
+      - entities:
+          - entity: sensor.yw_bern_day0_condition
+          - entity: sensor.yw_bern_day0_temperature_max
+          - entity: sensor.yw_bern_day0_temperature_min
+        show_header_toggle: false
+        title: Wetter Bern Heute
+        type: entities
+      - entity: camera.wetter_schweiz
+        show_header_toggle: false
+        title: camera_schweiz
+        type: picture-entity
+      - entities:
+          - entity: sensor.yw_bern_day1_condition
+          - entity: sensor.yw_bern_day1_temperature_max
+          - entity: sensor.yw_bern_day1_temperature_min
+        show_header_toggle: false
+        title: Wetter Bern Morgen
+        type: entities
+      - entity: camera.wetter_alarm_schweiz
+        show_header_toggle: false
+        title: camera_alarm_schweiz
+        type: picture-entity
+      - entities:
+          - entity: sensor.yw_bern_day2_condition
+          - entity: sensor.yw_bern_day2_temperature_max
+          - entity: sensor.yw_bern_day2_temperature_min
+        show_header_toggle: false
+        title: Wetter Bern Uebermorgen
+        type: entities
+      - entity: camera.wetter_alarm_europa
+        show_header_toggle: false
+        title: camera_alarm_europa
+        type: picture-entity
+    icon: 'mdi:weather-partlycloudy'
+    path: weather
+    title: weather
+  - badges: []
+    cards:
+      - entities:
+          - vacuum.robbie
+        title: Cleaning
+        type: entities
+    icon: 'mdi:transit-transfer'
+    path: entry
+    title: Entry
+  - badges: []
+    cards: []
+    icon: 'mdi:pot-mix'
+    path: kitchen
+    title: Kitchen
+  - badges: []
+    cards:
+      - entities:
+          - sensor.room1_temperature
+          - sensor.room1_humidity
+        title: Room 1
+        type: entities
+      - entity: media_player.room1_tv
+        type: media-control
+    icon: 'mdi:numeric-1-box-outline'
+    path: room1
+    title: Room 1
+  - badges: []
+    cards:
+      - entity: media_player.room2_tv
+        type: media-control
+      - entity: media_player.room2_kodi
+        type: media-control
+    icon: 'mdi:numeric-2-box-outline'
+    path: room2
+    title: Room 2
+  - badges: []
+    cards: []
+    icon: 'mdi:numeric-3-box-outline'
+    path: room3
+    title: Room 3
+  - badges: []
+    cards:
+      - entities:
+          - entity: sensor.room4_temperature
+          - entity: sensor.room4_humidity
+          - entity: light.room4_bed
+          - entity: light.room4_sun
+          - entity: scene.room4_light_ceiling
+          - entity: scene.room4_venti_low
+          - entity: scene.room4_venti_mlow
+          - entity: scene.room4_venti_medium
+          - entity: scene.room4_venti_high
+          - entity: scene.room4_venti_off
+          - entity: switch.room4_t1
+          - entity: switch.room4_t2
+          - entity: switch.room4_t3
+        title: Room 4
+        type: entities
+      - entities:
+          - input_boolean.weekday_sunrise
+          - sensor.weekday_alarm_time
+          - input_number.weekday_alarm_hour
+          - input_number.weekday_alarm_minutes
+          - script.sunrise
+        title: Weekday Alarm Clock
+        type: entities
+      - entities:
+          - input_boolean.weekend_sunrise
+          - sensor.weekend_alarm_time
+          - input_number.weekend_alarm_hour
+          - input_number.weekend_alarm_minutes
+        title: Weekend Alarm Clock
+        type: entities
+      - entity: media_player.room4_tv
+        type: media-control
+    icon: 'mdi:numeric-4-box-outline'
+    path: room4
+    title: Room 4
+  - badges: []
+    cards: []
+    icon: 'mdi:numeric-5-box-outline'
+    path: room5
+    title: Room 5
+  - badges: []
+    cards: []
+    icon: 'mdi:numeric-6-box-outline'
+    path: room6
+    title: Room 6
+  - badges: []
+    cards:
+      - entities:
+          - entity: sensor.shower_door
+          - entity: switch.sonoff_shower_power
+          - entity: sensor.sonoff_shower_temperature
+          - entity: sensor.shower_temperature_stats_mean
+          - entity: sensor.sonoff_shower_humidity
+          - entity: sensor.shower_humidity_stats_mean
+          - entity: binary_sensor.shower_heating
+          - entity: binary_sensor.shower_ventillator
+        show_header_toggle: false
+        title: Shower
+        type: entities
+    icon: 'mdi:shower-head'
+    path: shower
+    title: Shower
+  - badges: []
+    cards:
+      - entities:
+          - entity: sensor.bath_door
+          - entity: switch.sonoff_bath_power
+          - entity: sensor.sonoff_bath_temperature
+          - entity: sensor.bath_temperature_stats_mean
+          - entity: sensor.sonoff_bath_humidity
+          - entity: sensor.bath_humidity_stats_mean
+        title: Bath
+        type: entities
+    icon: 'mdi:shower'
+    path: bath
+    title: Bath
+  - badges: []
+    cards: []
+    icon: 'mdi:numeric-0-box-multiple-outline'
+    path: level0
+    title: Level 0
+  - badges: []
+    cards: []
+    icon: 'mdi:arrow-down-bold-box-outline'
+    path: basement
+    title: Basement
+  - badges: []
+    cards: []
+    icon: 'mdi:car'
+    path: car
+    title: Car
+  - badges: []
+    cards: []
+    icon: 'mdi:home-minus'
+    path: studio
+    title: Studio Sandrain
+  - badges: []
+    cards: []
+    icon: 'mdi:puzzle'
+    path: puzzle
+    title: Puzzle
+  - badges: []
+    cards: []
+    icon: 'mdi:settings'
+    path: settings
+    title: Settings
+  - badges: []
+    cards:
+      - entity: camera.monbijou
+        show_header_toggle: false
+        title: camera_monbijou
+        type: picture-entity
+      - entity: camera.baerenplatz
+        show_header_toggle: false
+        title: camera_baerenplatz
+        type: picture-entity
+      - entity: camera.alpen
+        show_header_toggle: false
+        title: camera_alpen
+        type: picture-entity
+      - entity: camera.gurten
+        show_header_toggle: false
+        title: camera_gurten
+        type: picture-entity
+      - entity: camera.muri
+        show_header_toggle: false
+        title: camera_muri
+        type: picture-entity
+      - entity: camera.grauholz
+        show_header_toggle: false
+        title: camera_grauholz
+        type: picture-entity
+      - entity: camera.villeneuve
+        show_header_toggle: false
+        title: camera_villeneuve
+        type: picture-entity
+      - entity: camera.thun
+        show_header_toggle: false
+        title: camera_thun
+        type: picture-entity
+      - entity: camera.spiez
+        show_header_toggle: false
+        title: camera_spiez
+        type: picture-entity
+      - entity: camera.niesen
+        show_header_toggle: false
+        title: camera_niesen
+        type: picture-entity
+      - entity: camera.luzern
+        show_header_toggle: false
+        title: camera_luzern
+        type: picture-entity
+      - entity: camera.tenero
+        show_header_toggle: false
+        title: camera_tenero
+        type: picture-entity
+    icon: 'mdi:image-multiple'
+    path: cameras
+    title: cameras
+  - badges:
+      - sensor.internet_roundtrip
+      - sensor.homeassistant_version_newest
+    cards:
+      - entities:
+          - device_tracker.room4_phone_tinu
+          - device_tracker.room1_phone_ya
+          - device_tracker.room6_phone_neala
+          - sensor.level0_phone_hugo_last_home
+          - sensor.level0_phone_ruth_last_home
+          - sensor.level0_tablet_ruth_last_home
+          - sensor.room1_phone_ya_last_home
+          - sensor.room4_phone_tinu_last_home
+          - sensor.room6_phone_neala_last_home
+          - sensor.level0_ip_count
+        title: Status
+        type: entities
+      - entities:
+          - sensor.date
+          - sensor.time
+          - sensor.last_boot
+          - sensor.since_last_boot
+          - sensor.cpu_use
+          - sensor.cpu_speed
+          - sensor.disk_use
+          - sensor.disk_free
+        title: System Status
+        type: entities
+      - entities:
+          - sensor.fritz_netmonitor
+        title: Network Status
+        type: entities
+    icon: 'mdi:message-settings'
+    path: system
+    title: system
+

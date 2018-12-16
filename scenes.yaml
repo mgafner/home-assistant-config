@@ -14,5 +14,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
-# right now we have no shell commands
+- name: Room4 Light Ceiling
+  entities:
+    switch.room4_light_ceiling:
+      state: on
+- name: Room4 Venti High
+  entities:
+    switch.room4_venti_high:
+      state: on
+- name: Room4 Venti Medium
+  entities:
+    switch.room4_venti_medium:
+      state: on
+- name: Room4 Venti MLow
+  entities:
+    switch.room4_venti_mlow:
+      state: on
+- name: Room4 Venti Low
+  entities:
+    switch.room4_venti_low:
+      state: on
+- name: Room4 Venti Off
+  entities:
+    switch.room4_venti_off:
+      state: off
 

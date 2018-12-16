@@ -1,0 +1,57 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
+device_tracker.yaphone:
+  icon: mdi:heart
+sensor.water_temperature:
+  friendly_name: Aare Temperature
+  icon: mdi:oil-temperature
+weather.yweather:
+  friendly_name: Weather Forecast
+sensor.yw_bern_day0_temperature_min:
+  friendly_name: Min
+sensor.outside_temperature:
+  friendly_name: Current
+sensor.yw_bern_day0_temperature_max:
+  friendly_name: Max
+sensor.outside_humidity:
+  friendly_name: Humidity
+  icon: mdi:water-percent
+sensor.dark_sky_ozone:
+  friendly_name: Ozone
+  icon: mdi:periodic-table-co2
+sensor.aare_bern_temperatur:
+  friendly_name: Aare
+sensor.aare_bern_pegelstand:
+  friendly_name: Aare
+  icon: mdi:stairs
+sensor.thunersee_spiez_temperatur:
+  friendly_name: See
+sensor.thunersee_spiez_pegelstand:
+  friendly_name: See
+  icon: mdi:stairs
+sensor.thunersee_spiez_gefahrenstufe:
+  friendly_name: Gefahr
+sensor.room1_temperature:
+  friendly_name: Current
+sensor.room1_humidity:
+  friendly_name: Humidity
+  icon: mdi:water-percent
+sensor.room4_temperature:
+  friendly_name: Current
+sensor.room4_humidity:
+  friendly_name: Humidity
+  icon: mdi:water-percent

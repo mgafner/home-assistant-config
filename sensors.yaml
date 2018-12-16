@@ -1,25 +1,391 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
+- platform: alpha_vantage
+  api_key: !secret alpha_vantage_api_key
+  symbols:
+    - symbol: GOOGL
+      name: Google (CHF)
+      currency: CHF
+  foreign_exchange:
+#    - name: US Dollar USD CHF
+#      from: USD
+#      to: CHF
+#    - name: Euro EUR CHF
+#      from: EUR 
+#      to: CHF
+    - name: Bitcoin BTC CHF
+      from: BTC
+      to: CHF
+    - name: BitcoinCash BCH CHF
+      from: BCH
+      to: CHF
+#    - name: BitcoinPrivate BTCP CHF
+#      from: BTCP
+#      to: CHF
+    - name: Ethereum ETH CHF
+      from: ETH
+      to: CHF
+#    - name: Expanse EXP CHF
+#      from: EXP
+#      to: CHF
+#    - name: Litecoin LTC CHF
+#      from: LTC
+#      to: CHF
+#    - name: Zcash ZEC CHF
+#      from: ZEC
+#      to: CHF
+  scan_interval: 3600
 
 - platform: command_line
-  command: "~/bin/hass --version"
-  name: Homeassistant Version Local
-  unit_of_measurement: ""
-
-- platform: command_line
-  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version']['0'])"
   name: Homeassistant Version Newest
   unit_of_measurement: ""
+  scan_interval: 3600
 
-- platform: time_date
-  display_options:
-    - 'date'
-    - 'time'
+- platform: command_line
+  command: python3 /config/scripts/get-sensors.py {{ !secret homewizard_get_sensors }}
+  name: Homewizard
+  unit_of_measurement: ""
+#  scan_interval: 3600
 
-- platform: template
-  sensors:
-    internet_roundtrip:
-      value_template: '{{ states.binary_sensor.internet.attributes.round_trip_time_avg }}'
-      friendly_name: 'Internet Roundtrip'
-      unit_of_measurement: 'ms'
+- platform: command_line
+  name: Thunersee Spiez Pegelstand
+  command: 'curl -s https://www.wada.bve.be.ch/wasserdaten/wasser/liste/index.html | sed -e "s/<\/TD>/\/TD>\n/g" | grep -A 3 Spiez | tail -1 | sed -e "s/^.*<B>//" -e "s/&nbsp.*//"'
+  unit_of_measurement: "müM"
+  scan_interval: 3600
+
+- platform: command_line
+  name: Thunersee Spiez Temperatur
+  command: curl -s http://www.freibadspiez.ch/wiewarm/wiewarm.html | grep -A 1 Spiez | tail -1 | sed -e 's/.*">//' -e 's/ °C.*//'
+  unit_of_measurement: "°C"
+  scan_interval: 3600
+
+- platform: darksky
+  api_key: !secret darksky_api_key
+  monitored_conditions:
+  - summary
+  - icon
+  - nearest_storm_distance
+  - precip_type
+    # The type of precipitation occurring.
+  - precip_intensity
+    # The average expected intensity of precipitation occurring.
+  - precip_probability
+    # A value between 0 and 1 which is representing the probability of precipitation.
+  - precip_accumulation
+    # Daily snow accumulation. Returns unknown if no snow accumulation available.
+  - temperature
+    # The current temperature.
+  - apparent_temperature
+    # A numerical value representing the apparent (or “feels like”) temperature.
+  - dew_point
+    # The dew point.
+  - wind_speed
+    # The wind speed.
+  - wind_bearing
+    # Where the wind is coming from in degrees, with true north at 0° and progressing clockwise.
+  - cloud_cover
+    # The percentage of sky occluded by clouds.
+  - humidity
+    # The relative humidity.
+  - pressure
+    # The sea-level air pressure in millibars.
+  - visibility
+    # The average visibility.
+  - ozone
+    # The columnar density of total atmospheric ozone in Dobson.
+  - minutely_summary
+    # A human-readable text summary for the next hour.
+  - hourly_summary
+    # A human-readable text summary for the next 24 hours.
+  - daily_summary
+    # A human-readable text summary for the next 7 days.
+  - temperature_high
+    # Today’s daytime expected high temperature.
+  - temperature_low
+    # Today’s overnight expected low temperature.
+  - apparent_temperature_high
+    # Today’s daytime expected apparent high temperature.
+  - apparent_temperature_low
+    # Today’s overnight expected apparent low temperature.
+  - precip_intensity_max
+    # Today’s expected maximum intensity of precipitation.
+  - uv_index
+    # The current UV index.
+  update_interval:
+    minutes: 10
+  forecast:
+  - 1
+    
+- platform: fritzbox_netmonitor
+  host: !secret fritz_ip
+
+- platform: moon
+
+- platform: mqtt
+  name: "Sonoff Bath Temperature"
+  state_topic: "tele/bath/SENSOR"
+  value_template: "{{ value_json['AM2301'].Temperature }}"
+  unit_of_measurement: "°C"
+- platform: mqtt
+  name: "Sonoff Bath Humidity"
+  state_topic: "tele/bath/SENSOR"
+  value_template: "{{ value_json['AM2301'].Humidity }}"
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "Sonoff Shower Temperature"
+  state_topic: "tele/shower/SENSOR"
+  value_template: "{{ value_json['AM2301'].Temperature }}"
+  unit_of_measurement: "°C"
+- platform: mqtt
+  name: "Sonoff Shower Humidity"
+  state_topic: "tele/shower/SENSOR"
+  value_template: "{{ value_json['AM2301'].Humidity }}"
+  unit_of_measurement: "%"
+
+- platform: rest
+  name: Kitchen Thermometer
+  resource: http://localhost:8123/local/sensor-2.json
+  method: GET
+  value_template: '{{ value_json.te }}'
+  unit_of_measurement: "°C"
+  json_attributes: 
+      - id
+      - name
+      - channel
+      - model
+      - hu 
+      - te+
+      - te+t 
+      - te-
+      - te-t
+      - hu+
+      - hu+t 
+      - hu- 
+      - hu-t 
+      - outside
+      - favourite
+
+- platform: rest
+  name: Room1 Thermometer
+  resource: http://localhost:8123/local/sensor-1.json
+  method: GET
+  value_template: '{{ value_json.te }}'
+  unit_of_measurement: "°C"
+  json_attributes: 
+      - id
+      - name
+      - channel
+      - model
+      - hu 
+      - te+
+      - te+t 
+      - te-
+      - te-t
+      - hu+
+      - hu+t 
+      - hu- 
+      - hu-t 
+      - outside
+      - favourite
+      
+- platform: rest
+  name: Room4 Thermometer
+  resource: http://localhost:8123/local/sensor-0.json
+  method: GET
+  value_template: '{{ value_json.te }}'
+  unit_of_measurement: "°C"
+  json_attributes: 
+      - id
+      - name
+      - channel
+      - model
+      - hu 
+      - te+
+      - te+t 
+      - te-
+      - te-t
+      - hu+
+      - hu+t 
+      - hu- 
+      - hu-t 
+      - outside
+      - favourite
+
+- platform: rest
+  name: House Energymeter
+  resource: http://localhost:8123/local/energymeter-0.json
+  method: GET
+  value_template: '{{ value_json.po }}'
+  unit_of_measurement: "°C"
+  json_attributes: 
+      - id
+      - name
+      - key
+      - code
+      - dayTotal
+      - po+
+      - po+t 
+      - po-
+      - po-t
+      - lowBattery
+      - favourite
+
+- platform: rest
+  name: Room1 Temperature
+  resource: !secret homewizard_get_sensors
+  method: GET
+  value_template: '{{ value_json.response.thermometers[1].te }}'
+  unit_of_measurement: "°C"
+  command_timeout: 20
+
+- platform: rest
+  name: Room1 Humidity
+  resource: !secret homewizard_get_sensors
+  value_template: '{{ value_json.response.thermometers[1].hu }}'
+  unit_of_measurement: "%"
+  command_timeout: 20
+
+- platform: rest
+  name: Room4 Temperature
+  resource: !secret homewizard_get_sensors
+  method: GET
+  value_template: '{{ value_json.response.thermometers[0].te }}'
+  unit_of_measurement: "°C"
+  command_timeout: 20
+
+- platform: rest
+  name: Room4 Humidity
+  resource: !secret homewizard_get_sensors
+  value_template: '{{ value_json.response.thermometers[0].hu }}'
+  unit_of_measurement: "%"
+  command_timeout: 20
+
+- platform: rest
+  name: outside temperature
+  resource: !secret homewizard_get_sensors
+  method: GET
+  value_template: '{{ value_json.response.thermometers[2].te }}'
+  unit_of_measurement: "°C"
+  command_timeout: 20
+
+- platform: rest
+  name: outside humidity
+  resource: !secret homewizard_get_sensors
+  value_template: '{{ value_json.response.thermometers[2].hu }}'
+  unit_of_measurement: "%"
+  command_timeout: 20
+
+- platform: rest
+  name: Power Use Current 
+  resource: !secret homewizard_get_sensors
+  method: GET
+  value_template: '{{ value_json.response.energymeters[0].po }}'
+  unit_of_measurement: "W"
+  command_timeout: 20
+
+- platform: rest
+  name: Power Use Day Total 
+  resource: !secret homewizard_get_sensors
+  method: GET
+  value_template: '{{ value_json.response.energymeters[0].dayTotal }}'
+  unit_of_measurement: "kWh"
+  command_timeout: 20
+  scan_interval: 3600
+
+- platform: rest
+  name: wattcher_battery
+  resource: !secret homewizard_get_sensors
+  method: GET
+  value_template: '{{ value_json.response.energymeters[0].lowBattery }}'
+  unit_of_measurement: ""
+  command_timeout: 20
+  scan_interval: 3600
+
+
+- platform: rest
+  name: Aare Bern Temperatur
+  resource: http://aare.schwumm.ch/aare.json
+  unit_of_measurement: "°C"
+  value_template: '{{ value_json.temperature }}'
+  scan_interval: 3600
+
+- platform: rest
+  name: Aare Bern Pegelstand
+  resource: http://aare.schwumm.ch/aare.json
+  unit_of_measurement: "müM"
+  value_template: '{{ value_json.height }}'
+  scan_interval: 3600
+
+- platform: scrape
+  name: Level0 IP Count
+  resource: !secret level0_router_url
+  username: !secret level0_router_username
+  password: !secret level0_router_password
+  select: 'td:nth-of-type(15)'
+  value_template: '{{ value|int }}'
+  unit_of_measurement: ''
+
+- platform: statistics
+  name: Bath Temperature Stats
+  entity_id: sensor.sonoff_bath_temperature
+  unit_of_measurement: "°C"
+  sampling_size: 250
+- platform: statistics
+  name: Bath Humidity Stats
+  entity_id: sensor.sonoff_bath_humidity
+  unit_of_measurement: "%"
+  sampling_size: 250
+- platform: statistics
+  name: Shower Temperature Stats
+  entity_id: sensor.sonoff_shower_temperature
+  unit_of_measurement: "°C"
+  sampling_size: 250
+- platform: statistics
+  name: Shower Humidity Stats
+  entity_id: sensor.sonoff_shower_humidity
+  unit_of_measurement: "%"
+  sampling_size: 250
+- platform: statistics
+  name: Aare Stats
+  entity_id: sensor.aare
+  unit_of_measurement: "°C"
+  sampling_size: 250
+
+- platform: sql
+  db_url: !secret sensor_sql_db_url
+  # database schema see: https://www.home-assistant.io/docs/backend/database/
+  queries:
+#    - name: level0_phone_hugo_last_home
+#      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.hugophone' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+#      column: 'last_changed'
+#    - name: level0_phone_ruth_last_home
+#      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.ruthphone' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+#      column: 'last_changed'
+    - name: room1_phone_ya_last_home
+      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room1_phone_ya' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+      column: 'last_changed'
+    - name: room4_phone_tinu_last_home
+      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room4_phone_tinu' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+      column: 'last_changed'
+    - name: room6_phone_neala_last_home
+      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.nealaphone' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+      column: 'last_changed'
 
 - platform: systemmonitor
   resources:
@@ -29,9 +395,144 @@
       arg: /
     - type: processor_use
     - type: network_in
-      arg: wlan1
+      arg: eth0
     - type: network_out
-      arg: wlan1
+      arg: eth0
+    - type: network_in
+      arg: wlan0
+    - type: network_out
+      arg: wlan0
     - type: last_boot
-    - type: since_last_boot
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
 
+- platform: template
+  sensors:
+    internet_roundtrip:
+      value_template: '{% if states.binary_sensor.internet.attributes.round_trip_time_avg %}{{ states.binary_sensor.internet.attributes.round_trip_time_avg }}{% endif %}' 
+      friendly_name: 'Internet Roundtrip'
+      unit_of_measurement: 'ms'
+    shower_humidity_median:
+      value_template: '{{ states.sensor.shower_humidity_stats_mean.attributes.median }}'
+      friendly_name: 'Shower Humidity Median'
+      unit_of_measurement: '%'
+    thunersee_spiez_gefahrenstufe:
+      friendly_name: "Thunersee Spiez Gefahrenstufe"
+      value_template: >-
+        {% if states('sensor.thunersee_spiez_pegelstand')|float > 558.55 %}
+          GS5
+        {% elif states('sensor.thunersee_spiez_pegelstand')|float > 558.30  %}
+          GS4
+        {% elif states('sensor.thunersee_spiez_pegelstand')|float > 558.15  %}
+          GS3
+        {% elif states('sensor.thunersee_spiez_pegelstand')|float > 558.00  %}
+          GS2
+        {% else %}
+          GS1
+        {% endif %}      
+    # Gefahrenstufen siehe https://www.hydrodaten.admin.ch/de/die-5-gefahrenstufen-fur-hochwasser.html
+      icon_template: >-
+        {% if states('sensor.thunersee_spiez_pegelstand')|float > 558.55 %}
+          mdi:network-strength-4-alert
+        {% elif states('sensor.thunersee_spiez_pegelstand')|float > 558.30  %}
+          mdi:network-strength-3-alert
+        {% elif states('sensor.thunersee_spiez_pegelstand')|float > 558.15  %}
+          mdi:network-strength-2-alert
+        {% elif states('sensor.thunersee_spiez_pegelstand')|float > 558.00  %}
+          mdi:network-strength-1-alert
+        {% else %}
+          mdi:check
+        {% endif %}      
+    moonphase:
+    # got from https://community.home-assistant.io/t/moon-platform/19373/11
+      friendly_name: 'Moonphase'
+      entity_id: sensor.moon
+      #value_template: '{{ states.sensor.moon.state }}'
+      value_template: >
+        {% if is_state('sensor.moon', 'new_moon') %}
+          1: Neumond (0º)
+        {% elif is_state('sensor.moon', 'waxing_crescent') %}
+          2: zunehmende Sichel (45º)
+        {% elif is_state('sensor.moon', 'first_quarter') %}
+          3: erstes Viertel (90º)
+        {% elif is_state('sensor.moon', 'waxing_gibbous') %}
+          4: zweites Viertel (135º)
+        {% elif is_state('sensor.moon', 'full_moon') %}
+          5: Vollmond (180º)
+        {% elif is_state('sensor.moon', 'waning_gibbous') %}
+          6: drittes Viertel (225º)
+        {% elif is_state('sensor.moon', 'last_quarter') %}
+          7: abnehmender Halbmond (270º)
+        {% elif is_state('sensor.moon', 'waning_crescent') %}
+          8: abnehmende Sichel (315º)
+        {% endif %}
+      entity_picture_template: >
+        {% if is_state('sensor.moon', 'new_moon') %}
+          /local/moon_phases/NNewMoon.jpg
+        {% elif is_state('sensor.moon', 'waxing_crescent') %}
+          /local/moon_phases/NWaxingCrescent.jpg
+        {% elif is_state('sensor.moon', 'first_quarter') %}
+          /local/moon_phases/NFirstQuarter.jpg
+        {% elif is_state('sensor.moon', 'waxing_gibbous') %}
+          /local/moon_phases/NWaxingGibbous.jpg
+        {% elif is_state('sensor.moon', 'full_moon') %}
+          /local/moon_phases/NFullMoon.jpg
+        {% elif is_state('sensor.moon', 'waning_gibbous') %}
+          /local/moon_phases/NWaningGibbous.jpg
+        {% elif is_state('sensor.moon', 'last_quarter') %}
+          /local/moon_phases/NLastQuarter.jpg
+        {% elif is_state('sensor.moon', 'waning_crescent') %}
+          /local/moon_phases/NWaningCrescent.jpg
+        {% endif %}
+
+# for hue sunrise
+# from https://149walnut.com/2017-12-using-home-assistant-and-philips-hue-to-create-a-full-colour-sunrise-alarm-clock/      
+- platform: template
+  sensors:
+    weekday_alarm_time:
+      friendly_name: 'Time'
+      value_template: '{{ "%02d:%02d" | format(states("input_number.weekday_alarm_hour") | int, states("input_number.weekday_alarm_minutes") | int) }}'
+    weekend_alarm_time:
+      friendly_name: 'Time'
+      value_template: '{{ "%02d:%02d" | format(states("input_number.weekend_alarm_hour") | int, states("input_number.weekend_alarm_minutes") | int) }}'
+
+- platform: time_date
+  display_options:
+    - 'date'
+    - 'time'
+
+- platform: version
+  name: Homeassistant Version current
+
+- platform: yweather
+  name: yw_bern_day0
+  woeid: 781788
+  scan_interval: 3600
+  monitored_conditions:
+  - weather
+  - temp_min
+  - temp_max
+  - temperature
+  - humidity
+  - visibility
+- platform: yweather
+  forecast: 1
+  name: yw_bern_day1
+  woeid: 781788
+  scan_interval: 3600
+  monitored_conditions:
+  - weather
+  - temp_min
+  - temp_max
+  - visibility
+- platform: yweather
+  forecast: 2
+  name: yw_bern_day2
+  woeid: 781788
+  scan_interval: 3600
+  monitored_conditions:
+  - weather
+  - temp_min
+  - temp_max
+  - visibility

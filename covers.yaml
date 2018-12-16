@@ -1,8 +1,0 @@
-- platform: command_line
-  covers:
-    music_prevnext:
-      command_open:  "bash /home/mgafner/bin/mpd-remote-bash.sh -c next"
-      command_close: "bash /home/mgafner/bin/mpd-remote-bash.sh -c prev"
-      command_stop:  "bash /home/mgafner/bin/mpd-remote-bash.sh -c playpause"
-      friendly_name: "Music: Next - Play/Pause - Prev"
-
