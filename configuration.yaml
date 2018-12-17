@@ -266,10 +266,10 @@ notify:
     user_key: !secret pushover_user_key
 
 panel_iframe:
-  lovelace:
-    title: 'Lovelace'
-    url:      !secret lovelace_url
-    icon:  mdi:heart
+#  lovelace:
+#    title: 'Lovelace'
+#    url:      !secret lovelace_url
+#    icon:  mdi:heart
   tileboard:
     title: 'Tileboard'
     url:      !secret tileboard_url
