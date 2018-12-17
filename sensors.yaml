@@ -57,7 +57,7 @@
   scan_interval: 3600
 
 - platform: command_line
-  command: python3 /config/scripts/get-sensors.py {{ !secret homewizard_get_sensors }}
+  command: !secret sensor_homewizard_command_line
   name: Homewizard
   unit_of_measurement: ""
 #  scan_interval: 3600
@@ -445,7 +445,6 @@
           mdi:check
         {% endif %}      
     moonphase:
-    # got from https://community.home-assistant.io/t/moon-platform/19373/11
       friendly_name: 'Moonphase'
       entity_id: sensor.moon
       #value_template: '{{ states.sensor.moon.state }}'
