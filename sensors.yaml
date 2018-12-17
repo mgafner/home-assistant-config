@@ -445,6 +445,7 @@
           mdi:check
         {% endif %}      
     moonphase:
+    # got from https://community.home-assistant.io/t/moon-platform/19373/11
       friendly_name: 'Moonphase'
       entity_id: sensor.moon
       #value_template: '{{ states.sensor.moon.state }}'
