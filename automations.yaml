@@ -145,6 +145,7 @@
   trigger:
     platform: state
     entity_id: switch.room4_t1
+    from: 'off'
     to: 'on'
   action:
   - service: switch.turn_on
@@ -156,6 +157,7 @@
   trigger:
     platform: state
     entity_id: switch.room4_t2
+    from: 'on'
     to: 'off'
   action:
     service: switch.turn_off
@@ -165,6 +167,7 @@
   trigger:
     platform: state
     entity_id: switch.room4_t2
+    from: 'off'
     to: 'on'
   action:
     service: switch.turn_on
@@ -174,6 +177,7 @@
   trigger:
     platform: state
     entity_id: switch.room4_t3
+    from: 'on'
     to: 'off'
   condition:
     condition: state
@@ -187,6 +191,7 @@
   trigger:
     platform: state
     entity_id: switch.room4_t3
+    from: 'off'
     to: 'on'
   action:
     service: light.turn_on
@@ -196,10 +201,14 @@
   trigger:
     platform: state
     entity_id: light.room4_sun
+    from: 'off'
     to: 'on'
   condition:
     condition: state
     entity_id: switch.room4_t3
+    state: 'off'
+    condition: state
+    entity_id: input_boolean.script_sun_running
     state: 'off'
   action:
     service: switch.turn_on
@@ -209,6 +218,7 @@
   trigger:
     platform: state
     entity_id: light.room4_sun
+    from: 'off'
     to: 'on'
   condition:
     condition: state
@@ -222,6 +232,7 @@
   trigger:
     platform: state
     entity_id: light.room4_sun
+    from: 'on'
     to: 'off'
   action:
     service: switch.turn_off
