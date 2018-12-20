@@ -290,3 +290,32 @@
   action:
   - service: script.turn_on
     entity_id: script.sunrise
+- id: Shower Turn Heating on
+  alias: Shower showering detected
+  trigger:
+    platform: state
+    entity_id: binary_sensor.shower_heating
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: sensor.shower_door
+    state: 'closed'
+  action:
+    service: switch.turn_on
+    entity_id: switch.sonoff_shower_power
+- id: Shower Turn Heating off
+  alias: Shower showering finished
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.shower_heating
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: sensor.shower_door
+      from: 'closed'
+      to: 'open'
+  action:
+    service: switch.turn_off
+    entity_id: switch.sonoff_shower_power
+
