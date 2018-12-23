@@ -297,10 +297,10 @@
     entity_id: binary_sensor.shower_heating
     from: 'off'
     to: 'on'
-  condition:
-    condition: state
-    entity_id: sensor.shower_door
-    state: 'closed'
+#  condition:
+#    condition: state
+#    entity_id: sensor.shower_door
+#    state: 'closed'
   action:
     service: switch.turn_on
     entity_id: switch.sonoff_shower_power

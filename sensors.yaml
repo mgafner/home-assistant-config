@@ -60,7 +60,7 @@
   command: !secret sensor_homewizard_command_line
   name: Homewizard
   unit_of_measurement: ""
-#  scan_interval: 3600
+  scan_interval: 600
 
 - platform: command_line
   name: Thunersee Spiez Pegelstand

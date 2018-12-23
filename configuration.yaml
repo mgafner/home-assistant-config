@@ -210,18 +210,32 @@ media_player:
     mac:      !secret mediaplayer_philips-16r1_mac
     username: !secret mediaplayer_philips-16r1_user
     password: !secret mediaplayer_philips-16r1_pass
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret mediaplayer_philips-16r1_mac
+
   - platform: philips_2016
     name: Room2 TV
     host:     !secret mediaplayer_philips-16r2_ip
     mac:      !secret mediaplayer_philips-16r2_mac
     username: !secret mediaplayer_philips-16r2_user
     password: !secret mediaplayer_philips-16r2_pass
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret mediaplayer_philips-16r2_mac
+
   - platform: philips_2016
     name: Room4 TV
     host:     !secret mediaplayer_philips-16r4_ip
     mac:      !secret mediaplayer_philips-16r4_mac
     username: !secret mediaplayer_philips-16r4_user
     password: !secret mediaplayer_philips-16r4_pass
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret mediaplayer_philips-16r4_mac
 
   - platform: kodi
     name: Room2 Kodi
