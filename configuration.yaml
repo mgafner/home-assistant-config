@@ -85,6 +85,12 @@ binary_sensor:
 
 camera:        !include cameras.yaml
 
+cast:
+  media_player:
+    - host: !secret mediaplayer_philips-16r1_ip
+    - host: !secret mediaplayer_philips-16r2_ip
+    - host: !secret mediaplayer_philips-16r4_ip
+
 # Enables configuration UI
 config:
 
