@@ -213,20 +213,6 @@
   action:
     service: switch.turn_on
     entity_id: switch.room4_t3
-- id: Room 4 Sun on detected 2
-  alias: Room 4 Sun on detected 2
-  trigger:
-    platform: state
-    entity_id: light.room4_sun
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: state
-    entity_id: input_boolean.script_sun_running
-    state: 'off'
-  action:
-    service: script.turn_on
-    entity_id: script.sun_daytime_light
 - id: Room 4 Sun off detected
   alias: Room 4 Sun off detected
   trigger:
@@ -325,4 +311,34 @@
   action:
     service: switch.turn_off
     entity_id: switch.sonoff_shower_power
-
+- id: Room 4 Sun Light Time of Day Brightness
+  # example with only one entity id
+  trigger:
+    platform: state
+    entity_id: light.room4_sun
+    from: 'off'
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: light.room4_sun
+        brightness: '{% if now().hour > 23 or now().hour < 7%} 1 {% else %} 255 {% endif %}'
+        color_name: '{% if now().hour > 23 or now().hour < 7%} orange {% else %} white {% endif %}'
+        transition: 1
+- id: Room 4 Hue Lights Time of Day Brightness
+  # example with more than one entity id
+  trigger:
+    platform: state
+    entity_id: 
+      - light.room4_bed
+      - light.room4_desk
+      - light.room4_door
+    from: 'off'
+    to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: '{{ trigger.entity_id }}'
+        brightness: '{% if now().hour > 23 or now().hour < 7%} 1 {% else %} 255 {% endif %}'
+        color_temp: '{% if now().hour > 23 or now().hour < 7%} 500 {% else %} 324 {% endif %}'
+        transition: 1
