@@ -361,8 +361,9 @@
         entity_id: light.room4_desk
         # set the brightness depending in relation to sunset and 11pm
         # formula is: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
-        brightness: "{{ ( 253 / (( 23 * 60 + 59) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60  + 59) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
+        brightness: "{{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
         # same thing for the color temperature
         # minimal temperature = 153 and maximal = 500, so the difference is 347
-        color_temp: "{{ (( 347 / (( 23 * 60 + 59) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60  + 59) - ( now().hour|int * 60 + now().minute|int ))) + 153) | int }}"
+        # formula is: color_temp = ( temp-difference / (11pm - sunset-time) * (now - sunset-time) + minimal-temperature
+        color_temp: "{{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 153) | int }}"
         transition: 300
