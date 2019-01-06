@@ -204,12 +204,12 @@
     from: 'off'
     to: 'on'
   condition:
-    condition: state
-    entity_id: switch.room4_t3
-    state: 'off'
-    condition: state
-    entity_id: input_boolean.script_sun_running
-    state: 'off'
+    - condition: state
+      entity_id: switch.room4_t3
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.script_sun_running
+      state: 'off'
   action:
     service: switch.turn_on
     entity_id: switch.room4_t3
@@ -238,6 +238,13 @@
           light.turn_off
         {%- endif -%}
       entity_id: light.room4_desk
+    - service_template: >
+        {%- if is_state('light.room4_sun', 'off') -%}
+          light.turn_off
+        {%- endif -%}
+      entity_id: 
+        - light.room4_bed
+        - light.room4_door
 - id: Weekday Sunrise
   alias: Weekday Sunrise
   initial_state: 'on'
@@ -311,7 +318,9 @@
   action:
     service: switch.turn_off
     entity_id: switch.sonoff_shower_power
-- id: Room 4 Sun Light Time of Day Brightness
+- id: Room4 Sun Light Time of Day Brightness Switch on
+  alias: Room4 Sun Light Time of Day Brightness Switch on
+  # this is for the Hue Iris Product, which does not have a color_temp or kelvin feature
   # example with only one entity id
   trigger:
     platform: state
@@ -319,13 +328,22 @@
     from: 'off'
     to: 'on'
   action:
+    - service: persistent_notification.create
+      data:
+        message: "Hue switched on"
     - service: light.turn_on
       data_template:
         entity_id: light.room4_sun
-        brightness: '{% if now().hour > 23 or now().hour < 7%} 1 {% else %} 255 {% endif %}'
-        color_name: '{% if now().hour > 23 or now().hour < 7%} orange {% else %} white {% endif %}'
-        transition: 1
-- id: Room 4 Hue Lights Time of Day Brightness
+        # when switching light on: set brightness depending on hour of day
+        # during night from 23h to 7h:       dim fully
+        # during evening from sunset to 23h: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
+        # during day from 7 to sunset:       full brightness
+        brightness: "{% if now().hour > 23 or now().hour < 7 %} 1 {% elif states.sun.sun.state == 'below_horizon' %} {{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }} {% else %} 255 {% endif %}"
+        # see color_names here: https://www.w3.org/TR/css-color-3/#svg-color
+        color_name: "{% if now().hour > 23 or now().hour < 7 %} darkorange {% elif states.sun.sun.state == 'below_horizon' %} sandybrown {% else %} cornsilk {% endif %}"
+        transition: 0
+- id: Room4 Hue Lights Time of Day Brightness Switch on
+  alias: Room4 Hue Lights Time of Day Brightness Switch on
   # example with more than one entity id
   trigger:
     platform: state
@@ -339,10 +357,19 @@
     - service: light.turn_on
       data_template:
         entity_id: '{{ trigger.entity_id }}'
-        brightness: '{% if now().hour > 23 or now().hour < 7%} 1 {% else %} 255 {% endif %}'
-        color_temp: '{% if now().hour > 23 or now().hour < 7%} 500 {% else %} 324 {% endif %}'
-        transition: 1
-- id: Room4 Hue Lights Time of Evening Brightness
+        # when switching light on: set brightness depending on hour of day
+        # during night from 23h to 7h:       dim fully
+        # during evening from sunset to 23h: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
+        # during day from 7 to sunset:       full brightness
+        brightness: "{% if now().hour > 23 or now().hour < 7 %} 1 {% elif states.sun.sun.state == 'below_horizon' %} {{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }} {% else %} 255 {% endif %}"
+        # when switching light on: set color_temp depending on hour of day
+        # during night from 23h to 7h:       fully warm light
+        # during evening from sunset to 23h: color_temp = ( temp-difference / (11pm - sunset-time) * (now - sunset-time) + offset
+        # during day from 7 to sunset:       cold light (focussed on work)
+        color_temp: "{% if now().hour > 23 or now().hour < 7 %} 500 {% elif states.sun.sun.state == 'below_horizon' %} {{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 225) | int }} {% else %} 324 {% endif %}"
+        transition: 0
+- id: Room4 Hue Lights Time of Evening Brightness Automatic
+  alias: Room4 Hue Lights Time of Evening Brightness Automatic
   trigger:
     platform: time
     # This will match every 5 minutes
@@ -351,6 +378,8 @@
   condition:
     - condition: sun
       after: sunset
+    - condition: time
+      before: '23:00:00'
     - condition: state
       entity_id: light.room4_desk
       state: 'on'
@@ -361,9 +390,45 @@
         entity_id: light.room4_desk
         # set the brightness depending in relation to sunset and 11pm
         # formula is: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
-        brightness: "{{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
+        brightness: "{{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
         # same thing for the color temperature
         # minimal temperature = 153 and maximal = 500, so the difference is 347
         # formula is: color_temp = ( temp-difference / (11pm - sunset-time) * (now - sunset-time) + minimal-temperature
-        color_temp: "{{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 153) | int }}"
+        color_temp: "{{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 225) | int }}"
         transition: 300
+- id: Room4 Sun Light Time of Evening Brightness Automatic
+  alias: Room4 Sun Light Time of Evening Brightness Automatic
+  trigger:
+    platform: time
+    # This will match every 5 minutes
+    minutes: '/5'
+    seconds: 00
+  condition:
+    - condition: sun
+      after: sunset
+    - condition: time
+      before: '23:00:00'
+    - condition: state
+      entity_id: light.room4_sun
+      state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: light.room4_sun
+        # set the brightness depending in relation to sunset and 11pm
+        # formula is: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
+        brightness: "{{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
+        transition: 300
+- id: Example with persistent notification
+  alias: Example with persistent notification
+  # this will never fire because of that combination of trigger and condition
+  trigger:
+    platform: time
+    hours: 23
+  condition:
+    - condition: sun
+      before: sunset
+  action:
+    - service: persistent_notification.create
+      data_template:
+        message: "{% if now().hour > 23 %} 1 {% elif states.sun.sun.state == 'below_horizon' %} {{ ( 23 * 60 ) }} {% else %} 25 {% endif %}"
