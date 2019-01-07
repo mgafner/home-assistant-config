@@ -328,9 +328,6 @@
     from: 'off'
     to: 'on'
   action:
-    - service: persistent_notification.create
-      data:
-        message: "Hue switched on"
     - service: light.turn_on
       data_template:
         entity_id: light.room4_sun
@@ -341,7 +338,7 @@
         brightness: "{% if now().hour > 23 or now().hour < 7 %} 1 {% elif states.sun.sun.state == 'below_horizon' %} {{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }} {% else %} 255 {% endif %}"
         # see color_names here: https://www.w3.org/TR/css-color-3/#svg-color
         color_name: "{% if now().hour > 23 or now().hour < 7 %} darkorange {% elif states.sun.sun.state == 'below_horizon' %} sandybrown {% else %} cornsilk {% endif %}"
-        transition: 0
+        transition: 1
 - id: Room4 Hue Lights Time of Day Brightness Switch on
   alias: Room4 Hue Lights Time of Day Brightness Switch on
   # example with more than one entity id
@@ -367,7 +364,7 @@
         # during evening from sunset to 23h: color_temp = ( temp-difference / (11pm - sunset-time) * (now - sunset-time) + offset
         # during day from 7 to sunset:       cold light (focussed on work)
         color_temp: "{% if now().hour > 23 or now().hour < 7 %} 500 {% elif states.sun.sun.state == 'below_horizon' %} {{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 225) | int }} {% else %} 324 {% endif %}"
-        transition: 0
+        transition: 1
 - id: Room4 Hue Lights Time of Evening Brightness Automatic
   alias: Room4 Hue Lights Time of Evening Brightness Automatic
   trigger:
