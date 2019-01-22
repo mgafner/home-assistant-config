@@ -192,9 +192,15 @@ logger:
 map:
 
 media_player:
-#  - platform: snapcast
-#    name: snapcast
-#    host: !secret mediaplayer_snapcast_ip
+  - platform: snapcast
+    name: snapcast
+    host: !secret mediaplayer_kodi2_snapcast_ip
+  - platform: snapcast
+    name: snapcast
+    host: !secret mediaplayer_kodi4_snapcast_ip
+  - platform: snapcast
+    name: snapcast
+    host: !secret mediaplayer_noti4_snapcast_ip
   - platform: mpd
     name: shower_music
     location: Shower

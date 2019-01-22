@@ -223,8 +223,8 @@
   action:
     service: switch.turn_off
     entity_id: switch.room4_t3
-- id: Room 4 Sun toggle
-  alias: Room 4 Sun toggle
+- id: Room 4 Hue toggle
+  alias: Room 4 Hue toggle
   trigger:
     platform: state
     entity_id: binary_sensor.button22_single
@@ -237,12 +237,16 @@
         {%- else -%}
           light.turn_off
         {%- endif -%}
-      entity_id: light.room4_desk
+      entity_id: 
+        - light.room4_desk
+        - light.room4_bed
+        - light.room4_door
     - service_template: >
         {%- if is_state('light.room4_sun', 'off') -%}
           light.turn_off
         {%- endif -%}
       entity_id: 
+        - light.room4_desk
         - light.room4_bed
         - light.room4_door
 - id: Weekday Sunrise
@@ -377,14 +381,12 @@
       after: sunset
     - condition: time
       before: '23:00:00'
-    - condition: state
-      entity_id: light.room4_desk
-      state: 'on'
   action:
     - service: light.turn_on
       data_template:
-#        entity_id: '{{ condition.entity_id }}'
-        entity_id: light.room4_desk
+        # based on the idea of petro in his example at https://community.home-assistant.io/t/template-multiple-entities-problem/50476/32
+        # and modified to work for my need
+        entity_id: "{% set lights = [ 'light.room4_bed', 'light.room4_desk', 'light.room4_door' ] %}{%- for light in lights if is_state(light, 'on') %}{% if loop.first %}{% else %}, {% endif %}{{ lights[lights.index(light)] }}{% endfor %}"
         # set the brightness depending in relation to sunset and 11pm
         # formula is: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
         brightness: "{{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
