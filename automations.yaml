@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
-- id: Ya Leave Home Notification
+- id: ya_leave_home_notification
   alias: Ya Leave Home Notification
   trigger:
   - platform: state
@@ -25,7 +25,7 @@
   - service: notify.pushover
     data:
       message: Ya left the house
-- id: Ya Enter Home Notification
+- id: ya_enter_home_notification
   alias: Ya Enter Home Notification
   trigger:
   - platform: state
@@ -36,7 +36,7 @@
   - service: notify.pushover
     data:
       message: Ya came home
-- id: Neala Leave Home Notification
+- id: neala_leave_home_notification
   alias: Neala Leave Home Notification
   trigger:
   - platform: state
@@ -47,7 +47,7 @@
   - service: notify.pushover
     data:
       message: Neala left the house
-- id: Neala Enter Home Notification
+- id: neala_enter_home_notification
   alias: Neala Enter Home Notification
   trigger:
   - platform: state
@@ -58,7 +58,7 @@
   - service: notify.pushover
     data:
       message: Neala came home
-- id: Level0 Enter Home Notification
+- id: level0_enter_home_notification
   alias: Level0 Enter Home Notification
   trigger:
   - platform: numeric_state
@@ -68,7 +68,7 @@
   - service: notify.pushover
     data:
       message: Level0 is busy
-- id: Level0 Leave Home Notification
+- id: level0_leave_home_notification
   alias: Level0 Leave Home Notification
   trigger:
   - platform: state
@@ -78,7 +78,7 @@
   - service: notify.pushover
     data:
       message: Level0 is free
-- id: Level0 No Connection Notification
+- id: level0_no_connection_notification
   alias: Level0 No Connection Notification
   trigger:
   - platform: numeric_state
@@ -88,7 +88,7 @@
   - service: notify.pushover
     data:
       message: Level0 Counter is below two, check Network Connection
-- id: Update Available Notification
+- id: update_available_notification
   alias: Update Available Notification
   trigger:
   - platform: state
@@ -100,7 +100,7 @@
         }}, installed Version is {{ states.sensor.homeassistant_version_local.state
         }}. See release notes at: https://home-assistant.io/blog/categories/release-notes/'
       title: Home Assistant Update Available
-- id: Bath Music Play
+- id: bath_music_play
   alias: Bath Music Play
   trigger:
   - platform: state
@@ -110,7 +110,7 @@
   action:
   - service: media_player.media_play
     entity_id: media_player.bath_music
-- id: Bath Music Pause
+- id: bath_music_pause
   alias: Bath Music Pause
   trigger:
   - entity_id: sensor.bath_door
@@ -120,7 +120,7 @@
   action:
   - service: media_player.media_pause
     entity_id: media_player.bath_music
-- id: Shower Music Play
+- id: shower_music_play
   alias: Shower Music Play
   trigger:
   - platform: state
@@ -130,7 +130,7 @@
   action:
   - service: media_player.media_play
     entity_id: media_player.shower_music
-- id: Shower Music Pause
+- id: shower_music_pause
   alias: Shower Music Pause
   trigger:
   - platform: state
@@ -140,7 +140,7 @@
   action:
   - service: media_player.media_pause
     entity_id: media_player.shower_music
-- id: Room 4 Light toggle
+- id: room4_light_toggle
   alias: Room 4 Light
   trigger:
     platform: state
@@ -152,7 +152,7 @@
     entity_id: switch.room4_light_ceiling
   - service: switch.turn_off
     entity_id: switch.room4_t1
-- id: Room 4 Venti off
+- id: room4_venti_off
   alias: Room 4 Venti off
   trigger:
     platform: state
@@ -162,7 +162,7 @@
   action:
     service: switch.turn_off
     entity_id: switch.room4_venti_mlow
-- id: Room 4 Venti on
+- id: room4_venti_on
   alias: Room 4 Venti on
   trigger:
     platform: state
@@ -172,7 +172,7 @@
   action:
     service: switch.turn_on
     entity_id: switch.room4_venti_mlow
-- id: Room 4 Sun off
+- id: room4_sun_off
   alias: Room 4 Sun off
   trigger:
     platform: state
@@ -186,7 +186,7 @@
   action:
     service: script.turn_on
     entity_id: script.sunset
-- id: Room 4 Sun on
+- id: room4_sun_on
   alias: Room 4 Sun on
   trigger:
     platform: state
@@ -196,7 +196,7 @@
   action:
     service: light.turn_on
     entity_id: light.room4_sun
-- id: Room 4 Sun on detected
+- id: room4_sun_on_detected
   alias: Room 4 Sun on detected
   trigger:
     platform: state
@@ -213,7 +213,7 @@
   action:
     service: switch.turn_on
     entity_id: switch.room4_t3
-- id: Room 4 Sun off detected
+- id: room4_sun_off_detected
   alias: Room 4 Sun off detected
   trigger:
     platform: state
@@ -223,7 +223,7 @@
   action:
     service: switch.turn_off
     entity_id: switch.room4_t3
-- id: Room 4 Hue toggle
+- id: room4_hue_toggle
   alias: Room 4 Hue toggle
   trigger:
     platform: state
@@ -249,12 +249,12 @@
         - light.room4_desk
         - light.room4_bed
         - light.room4_door
-- id: Weekday Sunrise
+- id: weekday_sunrise
   alias: Weekday Sunrise
   initial_state: 'on'
   trigger:
-  - platform: time
-    minutes: /1
+  - platform: time_pattern
+    minutes: '/1'
     seconds: 0
   condition:
   - condition: time
@@ -273,12 +273,12 @@
   action:
   - service: script.turn_on
     entity_id: script.sunrise
-- id: Weekend Sunrise
+- id: weekend_sunrise
   alias: Weekend Sunrise
   initial_state: 'on'
   trigger:
-  - platform: time
-    minutes: /1
+  - platform: time_pattern
+    minutes: '/1'
     seconds: 0
   condition:
   - condition: time
@@ -294,7 +294,7 @@
   action:
   - service: script.turn_on
     entity_id: script.sunrise
-- id: Shower Turn Heating on
+- id: shower_turn_heating_on
   alias: Shower showering detected
   trigger:
     platform: state
@@ -308,7 +308,7 @@
   action:
     service: switch.turn_on
     entity_id: switch.sonoff_shower_power
-- id: Shower Turn Heating off
+- id: shower_turn_heating_off
   alias: Shower showering finished
   trigger:
     - platform: state
@@ -322,7 +322,7 @@
   action:
     service: switch.turn_off
     entity_id: switch.sonoff_shower_power
-- id: Room4 Sun Light Time of Day Brightness Switch on
+- id: room4_sun_light_time_of_day_brightness_switch_on
   alias: Room4 Sun Light Time of Day Brightness Switch on
   # this is for the Hue Iris Product, which does not have a color_temp or kelvin feature
   # example with only one entity id
@@ -343,7 +343,7 @@
         # see color_names here: https://www.w3.org/TR/css-color-3/#svg-color
         color_name: "{% if now().hour > 23 or now().hour < 7 %} darkorange {% elif states.sun.sun.state == 'below_horizon' %} sandybrown {% else %} cornsilk {% endif %}"
         transition: 1
-- id: Room4 Hue Lights Time of Day Brightness Switch on
+- id: room4_hue_lights_time_of_day_brightness_switch_on
   alias: Room4 Hue Lights Time of Day Brightness Switch on
   # example with more than one entity id
   trigger:
@@ -369,10 +369,10 @@
         # during day from 7 to sunset:       cold light (focussed on work)
         color_temp: "{% if now().hour > 23 or now().hour < 7 %} 500 {% elif states.sun.sun.state == 'below_horizon' %} {{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 225) | int }} {% else %} 324 {% endif %}"
         transition: 1
-- id: Room4 Hue Lights Time of Evening Brightness Automatic
+- id: room4_hue_lights_time_of_evening_brightness_automatic
   alias: Room4 Hue Lights Time of Evening Brightness Automatic
   trigger:
-    platform: time
+    platform: time_pattern
     # This will match every 5 minutes
     minutes: '/5'
     seconds: 00
@@ -395,10 +395,10 @@
         # formula is: color_temp = ( temp-difference / (11pm - sunset-time) * (now - sunset-time) + minimal-temperature
         color_temp: "{{ (( 347 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( now().hour|int * 60 + now().minute|int ) - ( as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60 + as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int) )) + 225) | int }}"
         transition: 300
-- id: Room4 Sun Light Time of Evening Brightness Automatic
+- id: room4_sun_light_time_of_evening_brightness_automatic
   alias: Room4 Sun Light Time of Evening Brightness Automatic
   trigger:
-    platform: time
+    platform: time_pattern
     # This will match every 5 minutes
     minutes: '/5'
     seconds: 00
@@ -418,11 +418,11 @@
         # formula is: brightness = ( max-brightness-steps / (11pm - sunset-time) * (11pm - now)
         brightness: "{{ ( 253 / (( 23 * 60 ) - as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%H', 0) | int * 60+ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom('%M', 0) | int ) * ( ( 23 * 60 ) - ( now().hour|int * 60 + now().minute|int ))) | int }}"
         transition: 300
-- id: Example with persistent notification
+- id: example_with_persistent_notification
   alias: Example with persistent notification
   # this will never fire because of that combination of trigger and condition
   trigger:
-    platform: time
+    platform: time_pattern
     hours: 23
   condition:
     - condition: sun
