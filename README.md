@@ -29,7 +29,7 @@ My Home Assistant (https://home-assistant.io) configuration
 * some Website Scrapers to get information about sea level and water temperature
 
 ## Sonoff Configuration / Firmware
-You can find the sonoff switches on (AliExpress)[https://www.aliexpress.com/].
+You can find the sonoff switches on [AliExpress](https://www.aliexpress.com/).
 
 I flashed my switches with the [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware using [esptool](https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool) and an USB-Serial Converter with the well known CH340 Chip from [hobby-elektronik.ch](https://hobby-elektronik.ch/ESP8266-ESP8285-ESP32/ESP8266-Zubehoer/USB-zu-Seriell-Adapter-fuer-ESP8266-ESP-01::348.html).
 
