@@ -31,20 +31,20 @@ My Home Assistant (https://home-assistant.io) configuration
 ## Sonoff Configuration / Firmware
 You can find the sonoff switches on (AliExpress)[https://www.aliexpress.com/].
 
-I flashed my switches with the [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware using [esptool](https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool) and an USB-Serial Converter with the well known CH340 Chip from (hobby-elektronik.ch)[https://hobby-elektronik.ch/ESP8266-ESP8285-ESP32/ESP8266-Zubehoer/USB-zu-Seriell-Adapter-fuer-ESP8266-ESP-01::348.html].
+I flashed my switches with the [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware using [esptool](https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool) and an USB-Serial Converter with the well known CH340 Chip from [hobby-elektronik.ch](https://hobby-elektronik.ch/ESP8266-ESP8285-ESP32/ESP8266-Zubehoer/USB-zu-Seriell-Adapter-fuer-ESP8266-ESP-01::348.html).
 
 For the cable, see these pictures:
 
 ### USB-Serial converter
-!(USB-Serial Converter)[docs/converter-original.jpg]
-!(USB-Serial Converter with attached cable)[docs/converter.jpg]
-!(USB-Serial Converter Pinout)[docs/converter-pinout.png]
+![USB-Serial Converter](docs/converter-original.jpg)
+![USB-Serial Converter with attached cable](docs/converter.jpg)
+![USB-Serial Converter Pinout](docs/converter-pinout.png)
 
 ### Sonoff Board
-!(Sonoff T1 Touch Board)[docs/board-pins.jpg]
+![Sonoff T1 Touch Board](docs/board-pins.jpg)
 
 ### Flashing
-You can find the firmware for your Sonoff Device on the github page of Sonoff-Tasmota. See (here)[https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool#download-sonoff-tasmota] how to download and flash the image.
+You can find the firmware for your Sonoff Device on the github page of Sonoff-Tasmota. See [here](https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool#download-sonoff-tasmota) how to download and flash the image.
 
 ## History
 ### older Release
