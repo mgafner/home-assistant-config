@@ -28,10 +28,25 @@ My Home Assistant (https://home-assistant.io) configuration
 * many Webcams to see the weather in lovely places of switzerland using the [HomeAssistant Generic Camera Component](https://www.home-assistant.io/components/camera.generic/)
 * some Website Scrapers to get information about sea level and water temperature
 
+## Sonoff Configuration / Firmware
+You can find the sonoff switches on (AliExpress)[https://www.aliexpress.com/].
+
+I flashed my switches with the [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware using [esptool](https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool) and an USB-Serial Converter with the well known CH340 Chip from (hobby-elektronik.ch)[https://hobby-elektronik.ch/ESP8266-ESP8285-ESP32/ESP8266-Zubehoer/USB-zu-Seriell-Adapter-fuer-ESP8266-ESP-01::348.html].
+
+For the cable, see these pictures:
+
+### USB-Serial converter
+!(USB-Serial Converter)[docs/converter-original.jpg]
+!(USB-Serial Converter with attached cable)[docs/converter.jpg]
+!(USB-Serial Converter Pinout)[docs/converter-pinout.png]
+
+### Sonoff Board
+!(Sonoff T1 Touch Board)[docs/board-pins.jpg]
+
+### Flashing
+You can find the firmware for your Sonoff Device on the github page of Sonoff-Tasmota. See (here)[https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool#download-sonoff-tasmota] how to download and flash the image.
+
 ## History
-
-this setups i am not using anymore:
-
 ### older Release
 
 i moved to a new flat in the meantime and many things changed. The old release is available in this [branch](https://github.com/mgafner/home-assistant-config/tree/Release1)
