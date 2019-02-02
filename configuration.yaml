@@ -321,7 +321,19 @@ recorder:
     entities:
       - sensor.date
       - sensor.time
-    
+
+rss_feed_template:
+  # Accessible on <Home Assistant url>/api/rss_template/garden
+  # Example: https://localhost:8123/api/rss_template/garden
+  # Example: https://localhost:8123/api/rss_template/garden?api_password=yoursecureapipass
+  # more details at https://www.home-assistant.io/components/rss_feed_template/
+  office_notification:
+    requires_api_password: yes
+    title: "My Office Notifications"
+    items:
+    - title:       "{{ state_attr('sensor.imap_office_tools', 'subject') }}"
+      description: "{{ state_attr('sensor.imap_office_tools', 'body') }}"
+
 scene:         !include scenes.yaml
 
 script:        !include scripts.yaml

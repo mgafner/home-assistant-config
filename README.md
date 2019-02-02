@@ -27,6 +27,7 @@ My Home Assistant (https://home-assistant.io) configuration
 * Darksky-Weather using the [HomeAssistant Dark Sky Component](https://www.home-assistant.io/components/weather.darksky/)
 * many Webcams to see the weather in lovely places of switzerland using the [HomeAssistant Generic Camera Component](https://www.home-assistant.io/components/camera.generic/)
 * some Website Scrapers to get information about sea level and water temperature
+* **NEW** Mail to RSS gateway with [IMAP Sensor](https://www.home-assistant.io/components/sensor.imap_email_content/) and [RSS Feed Template](https://www.home-assistant.io/components/rss_feed_template/)
 
 ## Sonoff Configuration / Firmware
 You can find the sonoff switches on [AliExpress](https://www.aliexpress.com/).

@@ -134,6 +134,16 @@
 - platform: fritzbox_netmonitor
   host: !secret fritz_ip
 
+# documentation: https://www.home-assistant.io/components/sensor.imap_email_content/
+- platform: imap_email_content
+  name:     imap_office_tools
+  server:   !secret imap_office_server
+  port:     993
+  username: !secret imap_office_user
+  password: !secret imap_office_pass
+  folder:   !secret imap_office_folder
+  senders:  !secret imap_office_senders
+
 - platform: moon
 
 - platform: mqtt
