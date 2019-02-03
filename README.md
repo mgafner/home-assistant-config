@@ -47,6 +47,25 @@ For the cable, see these pictures:
 ### Flashing
 You can find the firmware for your Sonoff Device on the github page of Sonoff-Tasmota. See [here](https://github.com/arendst/Sonoff-Tasmota/wiki/Esptool#download-sonoff-tasmota) how to download and flash the image.
 
+[@olibrian](https://github.com/olibrian/) sent me these step by step instructions:
+      
+      
+      # Installation
+      pip install esptool
+      
+      # Authorization for users
+      sudo usermod -a -G dialout <USERNAME>
+      
+      # Backup of the current firmware
+      esptool.py -p /dev/ttyUSB0 read_flash 0x00000 0x100000 image1M.bin
+      
+      # Delete firmware
+      esptool.py -p /dev/ttyUSB0 erase_flash
+      
+      # Upload new firmware
+      esptool.py -p /dev/ttyUSB0 write_flash --flash_size 1MB --flash_mode dout 0x00000 sonoff-basic.bin 
+
+
 ## History
 ### older Release
 
