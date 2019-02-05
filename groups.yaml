@@ -74,7 +74,6 @@ system:
     - sensor.internet_roundtrip
     - sensor.homeassistant_version_local
     - sensor.homeassistant_version_newest
-    - sensor.disk_free_
     - group.Status
     - group.System_Status
     - group.Network_Status

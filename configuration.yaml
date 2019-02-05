@@ -120,7 +120,7 @@ discovery:
 # Enables the frontend
 frontend:
 
-#group:          !include groups.yaml
+group:          !include groups.yaml
 
 # Enables support for tracking state changes over time.
 history:        !include history.yaml
