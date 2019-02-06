@@ -2,23 +2,27 @@
  This is my configuration file for the panel near my bed.
 */
 
+var mysecrets = JSON.parse(window.secrets);
+
 var CONFIG = {
-   customTheme: CUSTOM_THEMES.MOBILE, // CUSTOM_THEMES.TRANSPARENT, CUSTOM_THEMES.MATERIAL, CUSTOM_THEMES.MOBILE, CUSTOM_THEMES.COMPACT, CUSTOM_THEMES.HOMEKIT, CUSTOM_THEMES.WINPHONE, CUSTOM_THEMES.WIN95
-   transition: TRANSITIONS.ANIMATED_GPU, //ANIMATED or SIMPLE (better perfomance)
-   entitySize: ENTITY_SIZES.SMALL, //SMALL, BIG are available
+   customTheme: CUSTOM_THEMES.MOBILE,      // CUSTOM_THEMES.TRANSPARENT, CUSTOM_THEMES.MATERIAL, 
+                                           // CUSTOM_THEMES.MOBILE, CUSTOM_THEMES.COMPACT, 
+                                           // CUSTOM_THEMES.HOMEKIT, CUSTOM_THEMES.WINPHONE, CUSTOM_THEMES.WIN95
+   transition: TRANSITIONS.ANIMATED_GPU,   // ANIMATED or SIMPLE (better perfomance)
+   entitySize: ENTITY_SIZES.SMALL,         // SMALL, BIG are available
    tileSize: 50,
    tileMargin: 6,
-   serverUrl: "https://localhost",
-   wsUrl: "wss://localhost/api/websocket",
-   authToken: null, // optional: make an long live token and put it here
-   //googleApiKey: "XXXXXXXXXX", // Required if you are using Google Maps for device tracker
-   debug: false, // Prints entities and state change info to the console.
+   serverUrl:      mysecrets.serverUrl,
+   wsUrl:          mysecrets.wsUrl,
+   authToken:      mysecrets.authToken,    // optional: make an long live token and put it here
+   //googleApiKey: mysecrets.googleApiKey, // Required if you are using Google Maps for device tracker
+   debug: false,                           // Prints entities and state change info to the console.
 
    // next fields are optional
    events: [],
    timeFormat: 24,
-   menuPosition: MENU_POSITIONS.LEFT, // or BOTTOM
-   hideScrollbar: true, // horizontal scrollbar
+   menuPosition: MENU_POSITIONS.LEFT,      // or BOTTOM
+   hideScrollbar: true,                    // horizontal scrollbar
    groupsAlign: GROUP_ALIGNS.HORIZONTALLY, // or VERTICALLY
    //groupsAlign: GROUP_ALIGNS.VERTICALLY, // or VERTICALLY
 
