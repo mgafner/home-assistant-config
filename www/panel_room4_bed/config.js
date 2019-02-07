@@ -2,7 +2,14 @@
  This is my configuration file for the panel near my bed.
 */
 
-var mysecrets = JSON.parse(window.secrets);
+if ("secrets" in window) {
+  // secrets.js was loaded and global variable is defined
+  var mysecrets = JSON.parse(window.secrets);
+} else {
+  // secrets.js couldn't be loaded and global variable is not defined
+  // load defaults
+  var mysecrets = JSON.parse('{"serverUrl" : "https://hassio.local:8123", "wsUrl" : "wss://hassio.local:8123/api/websocket", "authToken": null, "googleApiKey" : "XXXXXXXXX" }');
+}
 
 var CONFIG = {
    customTheme: CUSTOM_THEMES.MOBILE,      // CUSTOM_THEMES.TRANSPARENT, CUSTOM_THEMES.MATERIAL, 
