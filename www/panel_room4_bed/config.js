@@ -49,17 +49,15 @@ var CONFIG = {
    },
 */
 
-  screensaver: {// optional. https://github.com/resoai/TileBoard/wiki/Screensaver-configuration
-      timeout: 60, // after 5 mins of inactive
-      slidesTimeout: 10, // 10s for one slide
+  // optional. https://github.com/resoai/TileBoard/wiki/Screensaver-configuration
+  screensaver: {
+      timeout: 60, 
+      slidesTimeout: 10, 
       styles: { fontSize: '40px' },
-      leftTop: [{ type: SCREENSAVER_ITEMS.DATETIME }], // put datetime to the left-bottom of screensaver
+      leftTop: [{ type: SCREENSAVER_ITEMS.DATETIME }], 
       slides: [
-     //    { bg: 'images/bg1.jpeg' },
-     //    { bg: 'images/bg3.jpg' },
          {
-            // bg: 'images/bg2.png',
-            rightBottom: [ // put text to the 2nd slide
+            rightBottom: [ 
                {
                   type: SCREENSAVER_ITEMS.CUSTOM_HTML,
                   html: '',
