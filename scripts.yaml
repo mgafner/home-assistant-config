@@ -1,0 +1,126 @@
+# This file is part of home-assistant-config
+# https://github.com/mgafner/home-assistant-config
+#
+# This is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+
+room4_light_toggle:
+  sequence:
+    - service: light.toggle
+      entity_id: light.room4_sun
+    - service_template: >
+        {%- if is_state('light.room4_sun', 'on') -%}
+          light.turn_on
+        {%- else -%}
+          light.turn_off
+        {%- endif -%}
+      entity_id:
+        - light.room4_desk
+        - light.room4_bed
+        - light.room4_door
+    - service_template: >
+        {%- if is_state('light.room4_sun', 'off') -%}
+          light.turn_off
+        {%- endif -%}
+      entity_id:
+        - light.room4_desk
+        - light.room4_bed
+        - light.room4_door
+sun_daytime_light:
+  sequence:
+  - data_template:
+      brightness: "{{ states('input_text.Sun_brightness') | int }}"
+#      rgb_color: "{{ states('input_text.Sun_rgb_color') }}"
+      rgb_color: [ 255,172,146 ]
+      entity_id: light.room4_sun
+      transition: 2
+    service: homeassistant.turn_on
+  - delay: '2'
+sunset:
+  sequence:
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_on
+  - data:
+      brightness: 1
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      transition: 300
+    service: homeassistant.turn_on
+  - delay: '300'
+  - data:
+      entity_id: light.room4_sun
+    service: homeassistant.turn_off
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_off
+sunrise:
+  sequence:
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_on
+  - data:
+      brightness: 1
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 0
+      - 0
+    service: homeassistant.turn_on
+  - delay: '1'
+  - data:
+      brightness: 20
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      transition: 70
+    service: homeassistant.turn_on
+  - delay: '70'
+  - data:
+      brightness: 40
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 60
+      - 0
+      transition: 70
+    service: homeassistant.turn_on
+  - delay: '70'
+  - data:
+      brightness: 60
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 120
+      - 60
+      transition: 70
+    service: homeassistant.turn_on
+  - delay: '70'
+  - data:
+      brightness: 255
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 180
+      - 110
+      transition: 700
+    service: homeassistant.turn_on
+  - delay: '700'
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_off

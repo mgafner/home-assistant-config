@@ -229,26 +229,8 @@
     platform: state
     entity_id: binary_sensor.button22_single
   action:
-    - service: light.toggle
-      entity_id: light.room4_sun
-    - service_template: >
-        {%- if is_state('light.room4_sun', 'on') -%}
-          light.turn_on
-        {%- else -%}
-          light.turn_off
-        {%- endif -%}
-      entity_id: 
-        - light.room4_desk
-        - light.room4_bed
-        - light.room4_door
-    - service_template: >
-        {%- if is_state('light.room4_sun', 'off') -%}
-          light.turn_off
-        {%- endif -%}
-      entity_id: 
-        - light.room4_desk
-        - light.room4_bed
-        - light.room4_door
+    - service: script.turn_on
+      entity_id: script.room4_light_toggle
 - id: weekday_sunrise
   alias: Weekday Sunrise
   initial_state: 'on'
