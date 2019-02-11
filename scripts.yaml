@@ -36,3 +36,81 @@ room4_light_toggle:
         - light.room4_desk
         - light.room4_bed
         - light.room4_door
+sunset:
+  sequence:
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_on
+  - data:
+      brightness: 1
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      transition: 300
+    service: homeassistant.turn_on
+  - delay: '300'
+  - data:
+      entity_id: light.room4_sun
+    service: homeassistant.turn_off
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_off
+sunrise:
+  sequence:
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_on
+  - data:
+      brightness: 1
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 0
+      - 0
+    service: homeassistant.turn_on
+  - delay: '1'
+  - data:
+      brightness: 20
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      transition: 70
+    service: homeassistant.turn_on
+  - delay: '70'
+  - data:
+      brightness: 40
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 60
+      - 0
+      transition: 70
+    service: homeassistant.turn_on
+  - delay: '70'
+  - data:
+      brightness: 60
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 120
+      - 60
+      transition: 70
+    service: homeassistant.turn_on
+  - delay: '70'
+  - data:
+      brightness: 255
+      entity_id: light.room4_sun
+      rgb_color:
+      - 255
+      - 180
+      - 110
+      transition: 700
+    service: homeassistant.turn_on
+  - delay: '700'
+  - data:
+      entity_id: input_boolean.script_sun_running
+    service: input_boolean.turn_off
