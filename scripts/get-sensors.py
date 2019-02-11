@@ -44,6 +44,16 @@ sys.stdout = f
 print(json.dumps(RESPONSE.json()["response"]["thermometers"][2]))
 f.close()
 
+f = open("/config/www/sensor-3.json", "w")
+sys.stdout = f
+print(json.dumps(RESPONSE.json()["response"]["thermometers"][3]))
+f.close()
+
+f = open("/config/www/sensor-4.json", "w")
+sys.stdout = f
+print(json.dumps(RESPONSE.json()["response"]["thermometers"][4]))
+f.close()
+
 f = open("/config/www/energymeter-0.json", "w")
 sys.stdout = f
 print(json.dumps(RESPONSE.json()["response"]["energymeters"][0]))

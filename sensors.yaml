@@ -20,25 +20,25 @@
     - symbol: GOOGL
       name: Google (CHF)
       currency: CHF
-  foreign_exchange:
+#  foreign_exchange:
 #    - name: US Dollar USD CHF
 #      from: USD
 #      to: CHF
 #    - name: Euro EUR CHF
 #      from: EUR 
 #      to: CHF
-    - name: Bitcoin BTC CHF
-      from: BTC
-      to: CHF
-    - name: BitcoinCash BCH CHF
-      from: BCH
-      to: CHF
+#    - name: Bitcoin BTC CHF
+#      from: BTC
+#      to: CHF
+#    - name: BitcoinCash BCH CHF
+#      from: BCH
+#      to: CHF
 #    - name: BitcoinPrivate BTCP CHF
 #      from: BTCP
 #      to: CHF
-    - name: Ethereum ETH CHF
-      from: ETH
-      to: CHF
+#    - name: Ethereum ETH CHF
+#      from: ETH
+#      to: CHF
 #    - name: Expanse EXP CHF
 #      from: EXP
 #      to: CHF
@@ -51,16 +51,10 @@
   scan_interval: 3600
 
 - platform: command_line
-  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version']['0'])"
+  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
   name: Homeassistant Version Newest
   unit_of_measurement: ""
   scan_interval: 3600
-
-#- platform: command_line
-#  command: !secret sensor_homewizard_command_line
-#  name: Homewizard
-#  unit_of_measurement: ""
-#  scan_interval: 600
 
 - platform: command_line
   name: Thunersee Spiez Pegelstand
@@ -168,6 +162,14 @@
   value_template: "{{ value_json['AM2301'].Humidity }}"
   unit_of_measurement: "%"
 
+# the next sensors i fetch through local rest api
+# the files are created with a small python script which is called by commandline sensor:
+- platform: command_line
+  command: !secret sensor_homewizard_command_line
+  name: Homewizard
+  unit_of_measurement: ""
+  scan_interval: 60
+
 - platform: rest
   name: Kitchen Thermometer
   resource: http://localhost:8123/local/sensor-2.json
@@ -215,6 +217,29 @@
       - favourite
       
 - platform: rest
+  name: Room2 Thermometer
+  resource: http://localhost:8123/local/sensor-4.json
+  method: GET
+  value_template: '{{ value_json.te }}'
+  unit_of_measurement: "°C"
+  json_attributes: 
+      - id
+      - name
+      - channel
+      - model
+      - hu 
+      - te+
+      - te+t 
+      - te-
+      - te-t
+      - hu+
+      - hu+t 
+      - hu- 
+      - hu-t 
+      - outside
+      - favourite
+      
+- platform: rest
   name: Room4 Thermometer
   resource: http://localhost:8123/local/sensor-0.json
   method: GET
@@ -238,6 +263,29 @@
       - favourite
 
 - platform: rest
+  name: Room6 Thermometer
+  resource: http://localhost:8123/local/sensor-3.json
+  method: GET
+  value_template: '{{ value_json.te }}'
+  unit_of_measurement: "°C"
+  json_attributes: 
+      - id
+      - name
+      - channel
+      - model
+      - hu 
+      - te+
+      - te+t 
+      - te-
+      - te-t
+      - hu+
+      - hu+t 
+      - hu- 
+      - hu-t 
+      - outside
+      - favourite
+      
+- platform: rest
   name: House Energymeter
   resource: http://localhost:8123/local/energymeter-0.json
   method: GET
@@ -256,77 +304,49 @@
       - lowBattery
       - favourite
 
-- platform: rest
-  name: Room1 Temperature
-  resource: !secret homewizard_get_sensors
-  method: GET
-  value_template: '{{ value_json.response.thermometers[1].te }}'
-  unit_of_measurement: "°C"
-  command_timeout: 20
-
-- platform: rest
-  name: Room1 Humidity
-  resource: !secret homewizard_get_sensors
-  value_template: '{{ value_json.response.thermometers[1].hu }}'
-  unit_of_measurement: "%"
-  command_timeout: 20
-
-- platform: rest
-  name: Room4 Temperature
-  resource: !secret homewizard_get_sensors
-  method: GET
-  value_template: '{{ value_json.response.thermometers[0].te }}'
-  unit_of_measurement: "°C"
-  command_timeout: 20
-
-- platform: rest
-  name: Room4 Humidity
-  resource: !secret homewizard_get_sensors
-  value_template: '{{ value_json.response.thermometers[0].hu }}'
-  unit_of_measurement: "%"
-  command_timeout: 20
-
-- platform: rest
-  name: outside temperature
-  resource: !secret homewizard_get_sensors
-  method: GET
-  value_template: '{{ value_json.response.thermometers[2].te }}'
-  unit_of_measurement: "°C"
-  command_timeout: 20
-
-- platform: rest
-  name: outside humidity
-  resource: !secret homewizard_get_sensors
-  value_template: '{{ value_json.response.thermometers[2].hu }}'
-  unit_of_measurement: "%"
-  command_timeout: 20
-
-- platform: rest
-  name: Power Use Current 
-  resource: !secret homewizard_get_sensors
-  method: GET
-  value_template: '{{ value_json.response.energymeters[0].po }}'
-  unit_of_measurement: "W"
-  command_timeout: 20
-
-- platform: rest
-  name: Power Use Day Total 
-  resource: !secret homewizard_get_sensors
-  method: GET
-  value_template: '{{ value_json.response.energymeters[0].dayTotal }}'
-  unit_of_measurement: "kWh"
-  command_timeout: 20
-  scan_interval: 3600
-
-- platform: rest
-  name: wattcher_battery
-  resource: !secret homewizard_get_sensors
-  method: GET
-  value_template: '{{ value_json.response.energymeters[0].lowBattery }}'
-  unit_of_measurement: ""
-  command_timeout: 20
-  scan_interval: 3600
-
+# commented out / deactivated because i get more values the way i do above
+# i keep some examples for memory:
+#
+#- platform: rest
+#  name: Room1 Temperature
+#  resource: !secret homewizard_get_sensors
+#  method: GET
+#  value_template: '{{ value_json.response.thermometers[1].te }}'
+#  unit_of_measurement: "°C"
+#  command_timeout: 20
+#
+#- platform: rest
+#  name: Room1 Humidity
+#  resource: !secret homewizard_get_sensors
+#  value_template: '{{ value_json.response.thermometers[1].hu }}'
+#  unit_of_measurement: "%"
+#  command_timeout: 20
+#
+#- platform: rest
+#  name: Power Use Current 
+#  resource: !secret homewizard_get_sensors
+#  method: GET
+#  value_template: '{{ value_json.response.energymeters[0].po }}'
+#  unit_of_measurement: "W"
+#  command_timeout: 20
+#
+#- platform: rest
+#  name: Power Use Day Total 
+#  resource: !secret homewizard_get_sensors
+#  method: GET
+#  value_template: '{{ value_json.response.energymeters[0].dayTotal }}'
+#  unit_of_measurement: "kWh"
+#  command_timeout: 20
+#  scan_interval: 3600
+#
+#- platform: rest
+#  name: wattcher_battery
+#  resource: !secret homewizard_get_sensors
+#  method: GET
+#  value_template: '{{ value_json.response.energymeters[0].lowBattery }}'
+#  unit_of_measurement: ""
+#  command_timeout: 20
+#  scan_interval: 3600
 
 - platform: rest
   name: Aare Bern Temperatur
@@ -342,14 +362,24 @@
   value_template: '{{ value_json.height }}'
   scan_interval: 3600
 
-- platform: scrape
+# doesn't work anymore
+# debug shows correct html
+# configuration is correct as documentation as of version 0.87 
+#- platform: scrape
+#  name: Level0 IP Count
+#  authentication: basic
+#  resource: !secret level0_router_url
+#  username: !secret level0_router_username
+#  password: !secret level0_router_password
+#  select: 'td:nth-of-type(15)'
+#  value_template: '{{ value|int }}'
+#  unit_of_measurement: ''
+# using curl commandline instead for now
+- platform: command_line
   name: Level0 IP Count
-  resource: !secret level0_router_url
-  username: !secret level0_router_username
-  password: !secret level0_router_password
-  select: 'td:nth-of-type(15)'
-  value_template: '{{ value|int }}'
+  command: !secret level0_router_cmd_line
   unit_of_measurement: ''
+  scan_interval: 300
 
 - platform: statistics
   name: Bath Temperature Stats
@@ -394,7 +424,7 @@
       query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room4_phone_tinu' AND state = 'home' ORDER BY created DESC LIMIT 1;"
       column: 'last_changed'
     - name: room6_phone_neala_last_home
-      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.nealaphone' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room6_phone_neala' AND state = 'home' ORDER BY created DESC LIMIT 1;"
       column: 'last_changed'
 
 - platform: systemmonitor
@@ -515,34 +545,3 @@
 - platform: version
   name: Homeassistant Version current
 
-- platform: yweather
-  name: yw_bern_day0
-  woeid: 781788
-  scan_interval: 3600
-  monitored_conditions:
-  - weather
-  - temp_min
-  - temp_max
-  - temperature
-  - humidity
-  - visibility
-- platform: yweather
-  forecast: 1
-  name: yw_bern_day1
-  woeid: 781788
-  scan_interval: 3600
-  monitored_conditions:
-  - weather
-  - temp_min
-  - temp_max
-  - visibility
-- platform: yweather
-  forecast: 2
-  name: yw_bern_day2
-  woeid: 781788
-  scan_interval: 3600
-  monitored_conditions:
-  - weather
-  - temp_min
-  - temp_max
-  - visibility

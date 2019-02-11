@@ -14,6 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
+resources:
+  - type: js
+    url: /local/custom-lovelace/entity-attributes-card.js?v=2
+  - type: js
+    url: /local/custom-lovelace/monster-card.js?v=2
 title: Home
 views:
   - badges:
@@ -22,14 +27,12 @@ views:
       - sun.sun
     cards:
       - entities:
-          - sensor.outside_temperature
-          - sensor.outside_humidity
-          - sensor.aare_bern_temperatur
-          - sensor.aare_bern_pegelstand
-          - sensor.thunersee_spiez_temperatur
-          - sensor.thunersee_spiez_pegelstand
-          - sensor.thunersee_spiez_gefahrenstufe
-          - weblink.thunersee_spiez_infos
+          - entity: sensor.aare_bern_temperatur
+          - entity: sensor.aare_bern_pegelstand
+          - entity: sensor.thunersee_spiez_temperatur
+          - entity: sensor.thunersee_spiez_pegelstand
+          - entity: sensor.thunersee_spiez_gefahrenstufe
+          - entity: weblink.thunersee_spiez_infos
         show_header_toggle: false
         title: Outside
         type: entities
@@ -52,9 +55,9 @@ views:
   - badges: []
     cards:
       - entities:
-          - entity: sensor.yw_bern_day0_condition
-          - entity: sensor.yw_bern_day0_temperature_max
-          - entity: sensor.yw_bern_day0_temperature_min
+          - entity: sensor.dark_sky_summary
+          - entity: sensor.dark_sky_humidity
+          - entity: sensor.dark_sky_temperature
         show_header_toggle: false
         title: Wetter Bern Heute
         type: entities
@@ -63,9 +66,8 @@ views:
         title: camera_schweiz
         type: picture-entity
       - entities:
-          - entity: sensor.yw_bern_day1_condition
-          - entity: sensor.yw_bern_day1_temperature_max
-          - entity: sensor.yw_bern_day1_temperature_min
+          - entity: sensor.dark_sky_summary_1
+          - entity: sensor.dark_sky_humidity_1
         show_header_toggle: false
         title: Wetter Bern Morgen
         type: entities
@@ -73,13 +75,6 @@ views:
         show_header_toggle: false
         title: camera_alarm_schweiz
         type: picture-entity
-      - entities:
-          - entity: sensor.yw_bern_day2_condition
-          - entity: sensor.yw_bern_day2_temperature_max
-          - entity: sensor.yw_bern_day2_temperature_min
-        show_header_toggle: false
-        title: Wetter Bern Uebermorgen
-        type: entities
       - entity: camera.wetter_alarm_europa
         show_header_toggle: false
         title: camera_alarm_europa
@@ -91,7 +86,13 @@ views:
     cards:
       - entities:
           - vacuum.robbie
+        show_header_toggle: false
         title: Cleaning
+        type: entities
+      - entities:
+          - entity: device_tracker.entry_gateway_homewizard
+        show_header_toggle: false
+        title: System
         type: entities
     icon: 'mdi:transit-transfer'
     path: entry
@@ -104,8 +105,8 @@ views:
   - badges: []
     cards:
       - entities:
-          - sensor.room1_temperature
-          - sensor.room1_humidity
+          - entity: sensor.room1_thermometer
+        show_header_toggle: false
         title: Room 1
         type: entities
       - entity: media_player.room1_tv
@@ -115,6 +116,10 @@ views:
     title: Room 1
   - badges: []
     cards:
+      - type: entities
+        entities:
+          - entity: sensor.room2_thermometer
+        show_header_toggle: false
       - entity: media_player.room2_tv
         type: media-control
       - entity: media_player.room2_kodi
@@ -130,37 +135,47 @@ views:
   - badges: []
     cards:
       - entities:
-          - entity: sensor.room4_temperature
-          - entity: sensor.room4_humidity
-          - entity: light.room4_bed
+          - entity: sensor.room4_thermometer
+          - entity: script.room4_light_toggle
+          - entity: light.room4_door
+          - entity: light.room4_desk
           - entity: light.room4_sun
+          - entity: light.room4_bed
           - entity: scene.room4_light_ceiling
           - entity: scene.room4_venti_low
           - entity: scene.room4_venti_mlow
           - entity: scene.room4_venti_medium
           - entity: scene.room4_venti_high
           - entity: scene.room4_venti_off
-          - entity: switch.room4_t1
-          - entity: switch.room4_t2
-          - entity: switch.room4_t3
+          - entity: script.room4_light_toggle
+        show_header_toggle: false
         title: Room 4
         type: entities
+      - entity: media_player.room4_tv
+        type: media-control
       - entities:
           - input_boolean.weekday_sunrise
           - sensor.weekday_alarm_time
           - input_number.weekday_alarm_hour
           - input_number.weekday_alarm_minutes
           - script.sunrise
+        show_header_toggle: false
         title: Weekday Alarm Clock
         type: entities
+      - entity: media_player.room4_kodi
+        type: media-control
       - entities:
-          - input_boolean.weekend_sunrise
-          - sensor.weekend_alarm_time
-          - input_number.weekend_alarm_hour
-          - input_number.weekend_alarm_minutes
+          - entity: input_boolean.weekend_sunrise
+          - entity: sensor.weekend_alarm_time
+          - entity: input_number.weekend_alarm_hour
+          - entity: input_number.weekend_alarm_minutes
+          - entity: script.sunset
+        show_header_toggle: false
         title: Weekend Alarm Clock
         type: entities
-      - entity: media_player.room4_tv
+      - entity: media_player.snapcast_client_a0_c9_a0_94_1b_e2_2
+        type: media-control
+      - entity: media_player.snapcast_client_b8_27_eb_14_4b_cc
         type: media-control
     icon: 'mdi:numeric-4-box-outline'
     path: room4
@@ -171,7 +186,11 @@ views:
     path: room5
     title: Room 5
   - badges: []
-    cards: []
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.room6_thermometer
+        show_header_toggle: false
     icon: 'mdi:numeric-6-box-outline'
     path: room6
     title: Room 6
@@ -184,10 +203,26 @@ views:
           - entity: sensor.shower_temperature_stats_mean
           - entity: sensor.sonoff_shower_humidity
           - entity: sensor.shower_humidity_stats_mean
-          - entity: binary_sensor.shower_heating
-          - entity: binary_sensor.shower_ventillator
         show_header_toggle: false
         title: Shower
+        type: entities
+      - entities:
+          - entity: binary_sensor.shower_heating
+          - entity: binary_sensor.shower_ventillator
+          - entity: automation.shower_showering_detected
+          - entity: automation.shower_showering_finished
+        show_header_toggle: false
+        title: Shower Automations
+        type: entities
+      - entity: media_player.shower_music
+        type: media-control
+      - entities:
+          - entity: device_tracker.shower_raspi
+            secondary_info: last-changed
+          - entity: device_tracker.shower_sonoff
+            secondary_info: last-changed
+        show_header_toggle: false
+        title: Shower States
         type: entities
     icon: 'mdi:shower-head'
     path: shower
@@ -201,13 +236,30 @@ views:
           - entity: sensor.bath_temperature_stats_mean
           - entity: sensor.sonoff_bath_humidity
           - entity: sensor.bath_humidity_stats_mean
+        show_header_toggle: false
         title: Bath
         type: entities
+      - entities:
+          - entity: device_tracker.bath_raspi
+          - entity: device_tracker.bath_sonoff
+        show_header_toggle: false
+        title: Bath States
+        type: entities
+      - entity: media_player.bath_music
+        type: media-control
     icon: 'mdi:shower'
     path: bath
     title: Bath
   - badges: []
-    cards: []
+    cards:
+      - entities:
+          - sensor.level0_ip_count
+          - sensor.level0_phone_hugo_last_home
+          - sensor.level0_phone_ruth_last_home
+          - sensor.level0_tablet_ruth_last_home
+        show_header_toggle: false
+        title: Status
+        type: entities
     icon: 'mdi:numeric-0-box-multiple-outline'
     path: level0
     title: Level 0
@@ -232,7 +284,51 @@ views:
     path: puzzle
     title: Puzzle
   - badges: []
-    cards: []
+    cards:
+      - entities:
+          - entity: script.sunset
+          - entity: script.sunrise
+          - entity: input_boolean.script_sun_running
+        title: Scripts
+        type: entities
+      - card:
+          entities:
+            - entity: automation.bath_music_pause
+            - entity: automation.bath_music_play
+            - entity: automation.example_with_persistent_notification
+            - entity: automation.level0_enter_home_notification
+            - entity: automation.level0_leave_home_notification
+            - entity: automation.level0_no_connection_notification
+            - entity: automation.neala_enter_home_notification
+            - entity: automation.neala_leave_home_notification
+            - entity: automation.room4_hue_lights_time_of_day_brightness_switch_on
+            - entity: automation.room4_hue_lights_time_of_evening_brightness_automatic
+            - entity: automation.room4_sun_light_time_of_day_brightness_switch_on
+            - entity: automation.room4_sun_light_time_of_evening_brightness_automatic
+            - entity: automation.room_4_light
+            - entity: automation.room_4_sun_off
+            - entity: automation.room_4_sun_off_detected
+            - entity: automation.room_4_sun_on
+            - entity: automation.room_4_sun_on_detected
+            - entity: automation.room_4_sun_toggle
+            - entity: automation.room_4_venti_off
+            - entity: automation.room_4_venti_on
+            - entity: automation.shower_music_pause
+            - entity: automation.shower_music_play
+            - entity: automation.shower_showering_detected
+            - entity: automation.shower_showering_finished
+            - entity: automation.update_available_notification
+            - entity: automation.weekday_sunrise
+            - entity: automation.weekend_sunrise
+            - entity: automation.ya_enter_home_notification
+            - entity: automation.ya_leave_home_notification
+          show_header_toggle: false
+          title: All Automations
+          type: Entities
+        filter:
+          include:
+            - domain: automation
+        type: 'custom:monster-card'
     icon: 'mdi:settings'
     path: settings
     title: Settings
@@ -294,32 +390,37 @@ views:
       - sensor.homeassistant_version_newest
     cards:
       - entities:
-          - device_tracker.room4_phone_tinu
-          - device_tracker.room1_phone_ya
-          - device_tracker.room6_phone_neala
-          - sensor.level0_phone_hugo_last_home
-          - sensor.level0_phone_ruth_last_home
-          - sensor.level0_tablet_ruth_last_home
-          - sensor.room1_phone_ya_last_home
-          - sensor.room4_phone_tinu_last_home
-          - sensor.room6_phone_neala_last_home
-          - sensor.level0_ip_count
+          - entity: device_tracker.room4_phone_tinu
+          - entity: device_tracker.room1_phone_ya
+          - entity: device_tracker.room6_phone_neala
+          - entity: sensor.room1_phone_ya_last_home
+          - entity: sensor.room4_phone_tinu_last_home
+          - entity: sensor.room6_phone_neala_last_home
+        show_header_toggle: false
         title: Status
         type: entities
       - entities:
-          - sensor.date
-          - sensor.time
-          - sensor.last_boot
-          - sensor.since_last_boot
-          - sensor.cpu_use
-          - sensor.cpu_speed
-          - sensor.disk_use
-          - sensor.disk_free
+          - entity: sensor.date
+          - entity: sensor.time
+          - entity: sensor.last_boot
+          - entity: sensor.disk_use_percent
+          - entity: sensor.disk_free
+          - entity: sensor.load_1m
+          - entity: sensor.load_5m
+          - entity: sensor.load_15m
+        show_header_toggle: false
         title: System Status
         type: entities
       - entities:
           - sensor.fritz_netmonitor
+        show_header_toggle: false
         title: Network Status
+        type: entities
+      - entities:
+          - entity: device_tracker.pc19216817825
+          - entity: device_tracker.guest_liu
+        show_header_toggle: false
+        title: Guests
         type: entities
     icon: 'mdi:message-settings'
     path: system

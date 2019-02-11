@@ -186,6 +186,7 @@ logbook:       !include logbook.yaml
 logger:
 #  default: critical
   default: warn
+#  default: debug
 #  default: all
 
 # Enables a map showing the location of tracked devices
@@ -347,6 +348,9 @@ sun:
 
 switch:        !include switches.yaml
 
+# new since 0.87
+system_health:
+
 tradfri:
   host: !secret tradfri_ip
 # important: needs autoconf (apt-get install autoconf)
@@ -377,8 +381,6 @@ vacuum:
 weather:
   - platform: darksky
     api_key: !secret darksky_api_key
-    scan_interval: 3600
-  - platform: yweather
     scan_interval: 3600
 
 weblink:
