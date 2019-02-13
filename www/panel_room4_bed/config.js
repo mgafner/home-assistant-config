@@ -87,7 +87,7 @@ var CONFIG = {
                    title: 'Bett',
                    subtitle: 'Zimmer 4',
                    id: 'light.room4_bed',
-                   type: TYPES.LIGHT,
+                   type: TYPES.SWITCH,
                    states: {
                       on: "On",
                       off: "Off"
@@ -95,22 +95,7 @@ var CONFIG = {
                    icons: {
                       on: "mdi-lightbulb-on",
                       off: "mdi-lightbulb",
-                   },
-                   sliders: [
-                      {
-                         title: 'Brightness',
-                         field: 'brightness',
-                         max: 255,
-                         min: 0,
-                         step: 5,
-                         request: {
-                            type: "call_service",
-                            domain: "light",
-                            service: "turn_on",
-                            field: "brightness"
-                         }
-                      }
-                   ]
+                   }
                 },
 		{
 		   position: [2, 0],
@@ -119,71 +104,7 @@ var CONFIG = {
 		   title: 'Schreibtisch',
 		   subtitle: 'Zimmer4',
 		   id: 'light.room4_desk',
-		   type: TYPES.LIGHT,
-		   states: {
-		      on: "On",
-		      off: "Off"
-		   },
-		   icons: {
-		      on: "mdi-lightbulb-on",
-		      off: "mdi-lightbulb",
-		   },
-		   sliders: [
-		      {
-			 title: 'Brightness',
-			 field: 'brightness',
-			 max: 255,
-			 min: 0,
-			 step: 5,
-			 request: {
-			    type: "call_service",
-			    domain: "light",
-			    service: "turn_on",
-			    field: "brightness"
-			 }
-		      }
-		   ]
-		},
-                {  
-                   position: [4, 0],
-                   height: 2,
-                   width: 2,
-                   title: 'Schrank',
-                   subtitle: 'Zimmer4',
-                   id: 'light.room4_door',
-                   type: TYPES.LIGHT,
-                   states: {
-                      on: "On",
-                      off: "Off"
-                   },
-                   icons: {
-                      on: "mdi-lightbulb-on",
-                      off: "mdi-lightbulb",
-                   },
-                   sliders: [
-                      {  
-                         title: 'Brightness',
-                         field: 'brightness',
-                         max: 255,
-                         min: 0,
-                         step: 5, 
-                         request: {
-                            type: "call_service",
-                            domain: "light",
-                            service: "turn_on",
-                            field: "brightness"
-                         }
-                      }
-                   ]
-                },
-		{
-		   position: [6, 0],
-                   height: 2,
-                   width: 2,
-		   title: 'Deckenlampe',
-		   subtitle: 'Zimmer4',
-		   id: 'switch.room4_t1',
-		   type: TYPES.LIGHT,
+		   type: TYPES.SWITCH,
 		   states: {
 		      on: "On",
 		      off: "Off"
@@ -193,6 +114,34 @@ var CONFIG = {
 		      off: "mdi-lightbulb",
 		   }
 		},
+                {  
+                   position: [4, 0],
+                   height: 2,
+                   width: 2,
+                   title: 'Schrank',
+                   subtitle: 'Zimmer4',
+                   id: 'light.room4_door',
+                   type: TYPES.SWITCH,
+                   states: {
+                      on: "On",
+                      off: "Off"
+                   },
+                   icons: {
+                      on: "mdi-lightbulb-on",
+                      off: "mdi-lightbulb",
+                   }
+                },
+		{
+		   position: [6, 0],
+                   height: 2,
+                   width: 2,
+		   title: 'Deckenlampe',
+		   subtitle: 'Zimmer4',
+		   id: 'scene.room4_light_ceiling',
+		   type: TYPES.SCENE,
+		   state: false,
+		   icon: "mdi-lightbulb"
+		},
 		{  
 		   position: [8, 0],
                    height: 2,
@@ -200,7 +149,7 @@ var CONFIG = {
 		   title: 'Sonnenlicht',
 		   subtitle: 'Zimmer 4',
 		   id: 'light.room4_sun',
-		   type: TYPES.LIGHT,
+		   type: TYPES.SWITCH,
 		   states: {
 		      on: "On",
 		      off: "Off"
@@ -208,22 +157,7 @@ var CONFIG = {
 		   icons: {
 		      on: "mdi-lightbulb-on",
 		      off: "mdi-lightbulb",
-		   },
-		   sliders: [
-		      {
-			 title: 'Brightness',
-			 field: 'brightness',
-			 max: 255,
-			 min: 0,
-			 step: 5,
-			 request: {
-			    type: "call_service",
-			    domain: "light",
-			    service: "turn_on",
-			    field: "brightness"
-			 }
-		      }
-		   ]
+		   }
 		}, // end sonne
                 {  
                    position: [0, 2],
@@ -286,17 +220,27 @@ var CONFIG = {
 		      {
 			 title: 'Küche',
 			 icon: 'mdi-temperature-celsius',
-			 value: '&sensor.outside_temperature.state'
+			 value: '&sensor.kitchen_thermometer.state'
 		      },
 		      {
 			 title: 'Ya',
 			 icon: 'mdi-temperature-celsius',
-			 value: '&sensor.room1_temperature.state'
+			 value: '&sensor.room1_thermometer.state'
+		      },
+		      {
+			 title: 'Living',
+			 icon: 'mdi-temperature-celsius',
+			 value: '&sensor.room2_thermometer.state'
 		      },
 		      {
 			 title: 'Tinu',
 			 icon: 'mdi-temperature-celsius',
-			 value: '&sensor.room4_temperature.state'
+			 value: '&sensor.room4_thermometer.state'
+		      },
+		      {
+			 title: 'Neala',
+			 icon: 'mdi-temperature-celsius',
+			 value: '&sensor.room6_thermometer.state'
 		      }
 		   ]
 		},
@@ -304,18 +248,12 @@ var CONFIG = {
                    position: [6, 2],
                    height: 2,
                    width: 2,
-                   title: 'Ventillator',
+                   title: 'Ventillator on',
                    subtitle: 'Zimmer4',
-                   id: 'switch.room4_t2',
-                   type: TYPES.LIGHT,
-                   states: {
-                      on: "On",
-                      off: "Off"
-                   },
-                   icons: {
-                      on: "mdi-lightbulb-on",
-                      off: "mdi-lightbulb",
-                   }
+                   id: 'scene.room4_venti_mlow',
+                   type: TYPES.SCENE,
+                   state: false, 
+                   icon: "mdi-wind-turbine"
                 },
                 {
                    position: [8, 2],
@@ -328,8 +266,29 @@ var CONFIG = {
                       off: "mdi-weather-sunset"
                    },
                    state: false
+                },
+                {
+                   position: [6, 4],
+                   height: 2,
+                   width: 2,
+                   title: 'Ventillator off',
+                   subtitle: 'Zimmer4',
+                   id: 'scene.room4_venti_off',
+                   type: TYPES.SCENE,
+                   state: false,
+                   icon: "mdi-wind-turbine"
+                },
+                {
+                   position: [8, 4],
+                   height: 2,
+                   width: 2,
+                   title: 'Alles Licht',
+                   subtitle: 'Zimmer4',
+                   type: TYPES.SCRIPT,
+                   id: 'script.room4_light_toggle',
+                   icon: "mdi-lightbulb",
+                   state: false
                 }
-
                ]
             }
          ] // end groups page 1
