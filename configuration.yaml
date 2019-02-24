@@ -97,6 +97,8 @@ config:
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
+default_config:
+
 device_tracker:
   - platform: fritz
     host:      !secret fritz_ip
@@ -194,25 +196,20 @@ map:
 
 media_player:
   - platform: snapcast
-    name: snapcast
     host: !secret mediaplayer_kodi2_snapcast_ip
   - platform: snapcast
-    name: snapcast
     host: !secret mediaplayer_kodi4_snapcast_ip
   - platform: snapcast
-    name: snapcast
     host: !secret mediaplayer_noti4_snapcast_ip
   - platform: mpd
     name: shower_music
-    location: Shower
     host: !secret mediaplayer_shower_ip
-
   - platform: mpd
     name: bath_music
-    location: Bath
     host: !secret mediaplayer_bath_ip
 
 # for the new tv
+# update: not working with 0.88 :(
   - platform: philips_2016
     # needs an additional component which is not part of the distribution, from:
     # https://github.com/nstrelow/ha_philips_2016
@@ -309,6 +306,8 @@ panel_iframe:
     title: 'Fernsehen'
     url:      !secret tvheadend_url
     icon: mdi:television-box
+
+person:
 
 recorder:
   purge_keep_days: 60

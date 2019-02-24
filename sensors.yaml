@@ -136,7 +136,7 @@
   username: !secret imap_office_user
   password: !secret imap_office_pass
   folder:   !secret imap_office_folder
-  senders:  !secret imap_office_senders
+#  senders:  !secret imap_office_senders
 
 - platform: moon
 
@@ -384,27 +384,27 @@
 - platform: statistics
   name: Bath Temperature Stats
   entity_id: sensor.sonoff_bath_temperature
-  unit_of_measurement: "°C"
+#  unit_of_measurement: "°C"
   sampling_size: 250
 - platform: statistics
   name: Bath Humidity Stats
   entity_id: sensor.sonoff_bath_humidity
-  unit_of_measurement: "%"
+#  unit_of_measurement: "%"
   sampling_size: 250
 - platform: statistics
   name: Shower Temperature Stats
   entity_id: sensor.sonoff_shower_temperature
-  unit_of_measurement: "°C"
+#  unit_of_measurement: "°C"
   sampling_size: 250
 - platform: statistics
   name: Shower Humidity Stats
   entity_id: sensor.sonoff_shower_humidity
-  unit_of_measurement: "%"
+#  unit_of_measurement: "%"
   sampling_size: 250
 - platform: statistics
   name: Aare Stats
   entity_id: sensor.aare
-  unit_of_measurement: "°C"
+#  unit_of_measurement: "°C"
   sampling_size: 250
 
 - platform: sql
