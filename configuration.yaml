@@ -209,21 +209,17 @@ media_player:
     host: !secret mediaplayer_bath_ip
 
 # for the new tv
-# update: not working with 0.88 :(
   - platform: philips_2016
     # needs an additional component which is not part of the distribution, from:
     # https://github.com/nstrelow/ha_philips_2016
-    # save in /config/custom_components/media_player
+    # save in /config/custom_components/media_player bevore 0.88
+    # save in /config/custom_components/philips_2016 starting with 0.88
     # community thread: https://community.home-assistant.io/t/philips-android-tv-component/17749/173
     name: Room1 TV
     host:     !secret mediaplayer_philips-16r1_ip
     mac:      !secret mediaplayer_philips-16r1_mac
     username: !secret mediaplayer_philips-16r1_user
     password: !secret mediaplayer_philips-16r1_pass
-    turn_on_action:
-      service: wake_on_lan.send_magic_packet
-      data:
-        mac: !secret mediaplayer_philips-16r1_mac
 
   - platform: philips_2016
     name: Room2 TV
@@ -231,10 +227,6 @@ media_player:
     mac:      !secret mediaplayer_philips-16r2_mac
     username: !secret mediaplayer_philips-16r2_user
     password: !secret mediaplayer_philips-16r2_pass
-    turn_on_action:
-      service: wake_on_lan.send_magic_packet
-      data:
-        mac: !secret mediaplayer_philips-16r2_mac
 
   - platform: philips_2016
     name: Room4 TV
@@ -242,10 +234,6 @@ media_player:
     mac:      !secret mediaplayer_philips-16r4_mac
     username: !secret mediaplayer_philips-16r4_user
     password: !secret mediaplayer_philips-16r4_pass
-    turn_on_action:
-      service: wake_on_lan.send_magic_packet
-      data:
-        mac: !secret mediaplayer_philips-16r4_mac
 
   - platform: kodi
     name: Room2 Kodi

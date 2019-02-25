@@ -120,7 +120,7 @@
     # Today’s expected maximum intensity of precipitation.
   - uv_index
     # The current UV index.
-  update_interval:
+  scan_interval:
     minutes: 10
   forecast:
   - 1

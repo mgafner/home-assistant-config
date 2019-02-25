@@ -1,6 +1,4 @@
 """Philips TV"""
-"""from: https://github.com/nstrelow/ha_philips_2016"""
-"""community: https://community.home-assistant.io/t/philips-android-tv-component/17749/208 """
 import homeassistant.helpers.config_validation as cv
 import argparse
 import json
@@ -14,14 +12,19 @@ import voluptuous as vol
 
 from base64 import b64encode,b64decode
 from datetime import timedelta, datetime
-from homeassistant.components.media_player import (SUPPORT_STOP, SUPPORT_PLAY, SUPPORT_NEXT_TRACK, SUPPORT_PAUSE,
-                                                   SUPPORT_PREVIOUS_TRACK, SUPPORT_VOLUME_SET, PLATFORM_SCHEMA, SUPPORT_TURN_OFF, SUPPORT_TURN_ON,
-                                                   SUPPORT_VOLUME_MUTE, SUPPORT_VOLUME_STEP, SUPPORT_SELECT_SOURCE, MediaPlayerDevice)
+from homeassistant.components.media_player import (MediaPlayerDevice, PLATFORM_SCHEMA)
+from homeassistant.components.media_player.const import (SUPPORT_STOP, SUPPORT_PLAY, SUPPORT_NEXT_TRACK, SUPPORT_PAUSE,
+                                                   SUPPORT_PREVIOUS_TRACK, SUPPORT_VOLUME_SET, SUPPORT_TURN_OFF, SUPPORT_TURN_ON,
+                                                   SUPPORT_VOLUME_MUTE, SUPPORT_VOLUME_STEP, SUPPORT_SELECT_SOURCE)
 from homeassistant.const import (CONF_HOST, CONF_MAC, CONF_NAME, CONF_USERNAME, CONF_PASSWORD,
-                                 STATE_OFF, STATE_IDLE, STATE_UNKNOWN, STATE_PLAYING, STATE_PAUSED)
+                                 STATE_OFF, STATE_ON, STATE_IDLE, STATE_UNKNOWN, STATE_PLAYING, STATE_PAUSED)
 from homeassistant.util import Throttle
 from requests.auth import HTTPDigestAuth
 from requests.adapters import HTTPAdapter
+
+# Workaround to suppress warnings about SSL certificates in Home Assistant log
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 REQUIREMENTS = ['wakeonlan==1.1.6']
 
@@ -75,17 +78,18 @@ class PhilipsTV(MediaPlayerDevice):
         self._wol = wakeonlan
         self._state = STATE_UNKNOWN
         self._on = False
+        self._api_online = False
         self._min_volume = 0
         self._max_volume = 60
         self._volume = 0
         self._muted = False
-        self._channel_id = None
-        self._channel_name = None
+        self._channel_id = ''
+        self._channel_name = ''
         self._connfail = 0
-        self._source = None
+        self._source = ''
         self._source_list = []
-        self._media_cont_type = None
-        self._app_name = None
+        self._media_cont_type = ''
+        self._app_name = ''
 
     @property
     def name(self):
@@ -120,14 +124,17 @@ class PhilipsTV(MediaPlayerDevice):
     def turn_off(self):
         """Turn off the device."""
         self._tv.setPowerState('Standby')
+        self.update()
 
     def turn_on(self):
         """Turn on the device."""
-        #self._tv.setPowerState('On')
         i = 0
-        while ((not self._tv.on) and (i < 15)):
-            if not self._on:
+        # TODO: This is blocking and self._tv.on will not change until 20 iterations are done
+        while ((not self._tv.on) and (i < 20)):
+            if not self._api_online:
+                _LOGGER.info("Sending WOL: %s", i)
                 self.wol()
+            _LOGGER.info("Setting powerstate: %s", i)
             self._tv.setPowerState('On')
             time.sleep(2)
             i += 1
@@ -156,6 +163,7 @@ class PhilipsTV(MediaPlayerDevice):
         self._state = STATE_PLAYING
 
     def media_play_pause(self):
+        """Play or pause the media player."""
         if self._state == STATE_PAUSED or self._state == STATE_IDLE:
             self.media_play()
         elif self._state == STATE_PLAYING:
@@ -169,34 +177,35 @@ class PhilipsTV(MediaPlayerDevice):
     def media_stop(self):
         """Send media stop command to media player."""
         self._tv.sendKey('Stop')
+        self._state = STATE_IDLE
 
     def media_next_track(self):
         """Send next track command."""
-        if self.media_content_type == "channel":
+        if self.media_content_type == 'channel':
             self._tv.sendKey('CursorUp')
         else:
             self._tv.sendKey('FastForward')
 
     def media_previous_track(self):
         """Send the previous track command."""
-        if self.media_content_type == "channel":
+        if self.media_content_type == 'channel':
             self._tv.sendKey('CursorDown')
         else:
             self._tv.sendKey('Rewind')
 
     @property
     def source(self):
-        """Return the current input source."""
+        '''Return the current input source.'''
         return self._source
 
     def select_source(self, source):
-        self._tv.change_application(source)
+        self._tv.change_source(source)
         self._source = source
 
     @property
     def media_title(self):
         """Title of current playing media."""
-        if self.media_content_type == "channel":
+        if self.media_content_type == 'channel':
             return '{} - {}'.format(self._channel_id, self._channel_name)
         else:
             return self._channel_name
@@ -227,18 +236,21 @@ class PhilipsTV(MediaPlayerDevice):
         self._tv.update()
         self._min_volume = self._tv.min_volume
         self._max_volume = self._tv.max_volume
-        self._source_list = self._tv.app_source_list
-        self._source = self._tv.app_name
+        self._source_list = self._tv.app_source_list + self._tv.channel_source_list
+        self._source = self._tv.app_name + ' ' + self._tv.channel_name
         self._channel_id = self._tv.channel_id
         self._channel_name = self._tv.channel_name
-        self._media_cont_type = self._tv.media_content_type_1
+        self._media_cont_type = self._tv.media_content_type
         self._volume = self._tv.volume
         self._muted = self._tv.muted
         self._name = self._default_name
         self._app_name = self._tv.app_name
         self._on = self._tv.on
+        self._api_online = self._tv.api_online
         if self._tv.on:
-            if self._state == STATE_OFF or self._state == STATE_UNKNOWN:
+            if self._state == STATE_OFF or self._state == STATE_UNKNOWN or self._media_cont_type != 'app':
+                self._state = STATE_ON
+            elif self._media_cont_type == 'app':
                 self._state = STATE_IDLE
         else:
             self._state = STATE_OFF
@@ -250,25 +262,24 @@ class PhilipsTVBase(object):
         self._password = password
         self._connfail = 0
         self.on = False
-        self.name = None
-        self.min_volume = None
-        self.max_volume = None
-        self.volume = None
-        self.muted = None
-        self.sources = None
-        self.source_id = None
-        self.source_list_1 = None
-        self.app_source_list = None
-        self.applications = None
-        self.pkgNameToApp = None
-        self.channels = None
-        self.channel_id = None
-        self.media_content_type_1 = None
-        self.channel_name = None
-        self.app_name = None
+        self.api_online = False
+        self.min_volume = 0
+        self.max_volume = 60
+        self.volume = 0
+        self.muted = False
+        self.applications = {}
+        self.app_source_list = []
+        self.classNameToApp = {}
+        self.channels = {}
+        self.channel_source_list = []
+        self.channel_id = ''
+        self.media_content_type = ''
+        self.channel_name = ''
+        self.app_name = ''
         # The XTV app appears to have a bug that limits the nummber of SSL session to 100
         # The code below forces the control to keep re-using a single connection
         self._session = requests.Session()
+        self._session.verify = False
         self._session.mount('https://', HTTPAdapter(pool_connections=1))
 
     def _getReq(self, path):
@@ -277,11 +288,11 @@ class PhilipsTVBase(object):
                 self._connfail -= 1
                 return None
             resp = self._session.get(BASE_URL.format(self._host, path), verify=False, auth=HTTPDigestAuth(self._user, self._password), timeout=TIMEOUT)
-            self.on = True
+            self.api_online = True
             return json.loads(resp.text)
         except requests.exceptions.RequestException as err:
             self._connfail = CONNFAILCOUNT
-            self.on = False
+            self.api_online = False
             return None
 
     def _postReq(self, path, data):
@@ -290,22 +301,20 @@ class PhilipsTVBase(object):
                 self._connfail -= 1
                 return False
             resp = self._session.post(BASE_URL.format(self._host, path), data=json.dumps(data), verify=False, auth=HTTPDigestAuth(self._user, self._password), timeout=TIMEOUT)
-            self.on = True
+            self.api_online = True
             if resp.status_code == 200:
                 return True
             else:
                 return False
         except requests.exceptions.RequestException as err:
             self._connfail = CONNFAILCOUNT
-            self.on = False
+            self.api_online = False
             return False
 
     def update(self):
         self.getState()
-        self.getName()
         self.getApplications()
-        self.getChannelList()
-        self.getSourceList()
+        self.getChannels()
         self.getAudiodata()
         self.getChannel()
 
@@ -313,59 +322,61 @@ class PhilipsTVBase(object):
         if self.on:
             rr = self._getReq('activities/current')
             if rr:
-                pkgName = rr.get("component", {}).get("packageName")
-                if pkgName == "org.droidtv.zapster":
+                pkgName = rr.get('component', {}).get('packageName')
+                className = rr.get('component', {}).get('className')
+                if pkgName == 'org.droidtv.zapster' or pkgName == 'org.droidtv.playtv' or pkgName == 'NA':
+                    self.media_content_type = 'channel'
                     r = self._getReq('activities/tv')
-                    self.channel_id = r.get("channel", {}).get("preset")
-                    self.channel_name = r.get("channel", {}).get("name")
-                    self.media_content_type_1 = "channel"
-                else:
-                    self.media_content_type_1 = "app"
-                    if pkgName == 'com.google.android.leanbacklauncher':
-                        self.app_name = 'LeanbackLauncher'
-                        self.channel_name = self.app_name
-                    elif pkgName == 'NA':
-                        self.app_name = ''
-                        self.channel_name = ''
+                    if r:
+                        self.channel_id = r.get('channel', {}).get('preset', 'N/A')
+                        self.channel_name = r.get('channel', {}).get('name', 'N/A')
+                        self.app_name = '📺'
                     else:
-                        app = self.pkgNameToApp.get(pkgName, {})
-                        self.app_name = app["label"]
-                        self.channel_name = self.app_name
+                        self.channel_name = 'N/A'
+                        self.channel_id = 'N/A'
+                        self.app_name = '📺'
+                else:
+                    self.media_content_type = 'app'
+                    if pkgName == 'com.google.android.leanbacklauncher':
+                        self.app_name = ''
+                        self.channel_name = 'Home'
+                        self.media_content_type = ''
+                    elif pkgName == 'org.droidtv.nettvbrowser':
+                        self.app_name = '📱'
+                        self.channel_name = 'Net TV Browser'
+                    elif pkgName == 'org.droidtv.settings':
+                        self.app_name = self.classNameToApp.get(className, {}).get('label', className) if className != 'NA' else ''
+                        self.channel_name = 'Settings'
+                    else:
+                        app = self.classNameToApp.get(className, {})
+                        if 'label' in app:
+                            self.app_name = '📱'
+                            self.channel_name = app['label']
+                        else:
+                            self.app_name = className
+                            self.channel_name = pkgName
 
-    def getName(self):
-        r = self._getReq('system/name')
-        if r:
-            self.name = r['name']
-
-    def getChannelList(self):
+    def getChannels(self):
         r = self._getReq('channeldb/tv/channelLists/all')
         if r:
-            self.channels = r['Channel']
-    
-    def getSourceList(self):
-        if self.channels:
-            _atemp = []
-            for nm in self.channels:
-                _atemp.append(nm['name'])
-            self.source_list_1 = _atemp
-            
-    def change_channel(self, channeldata):
-        if channeldata:
-            for chn in self.channels:
-                if chn['name'] == channeldata:
-                    self._postReq('activities/tv', {'channel':{'ccid':chn['ccid'],'preset':chn['preset'],'name':chn['name']},'channelList':{'id':'allter','version':'30'}})
+            self.channels = dict(sorted({chn['name']:chn for chn in r['Channel']}.items(), key=lambda a: a[0].upper()))
+            self.channel_source_list = ['📺 ' + channelName for channelName in self.channels.keys()]
 
     def getApplications(self):
         r = self._getReq('applications')
         if r:
-            self.pkgNameToApp = {app['intent']['component']['packageName']:app for app in r['applications']}
+            self.classNameToApp = {app['intent']['component']['className']:app for app in r['applications']}
             self.applications = dict(sorted({app['label']:app for app in r['applications']}.items(), key=lambda a: a[0].upper()))
-            self.app_source_list = list(self.applications.keys())
-    
-    def change_application(self, app_label):
-        if app_label:
-            app = self.applications[app_label]
-            self._postReq('activities/launch', app)
+            self.app_source_list = ['📱 ' + appLabel for appLabel in self.applications.keys()]
+
+    def change_source(self, source_label):
+        if source_label:
+            if source_label.startswith('📱'):
+                app = self.applications[source_label[2:]]
+                self._postReq('activities/launch', app)
+            elif source_label.startswith('📺'):
+                chn = self.channels[source_label[2:]]
+                self._postReq('activities/tv', {'channel':{'ccid':chn['ccid'],'preset':chn['preset'],'name':chn['name']},'channelList':{'id':'allter','version':'30'}})
 
     def getState(self):
         r = self._getReq('powerstate')
