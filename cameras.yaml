@@ -98,6 +98,13 @@
   still_image_url: http://www.tbamobcam.ch/tbastrecke/tba011/stb_cam50.jpg
   scan_interval: 600
 
+# Weather Data
+- platform: generic
+  name: Lake Level
+  still_image_url: https://www.hydrodaten.admin.ch/lhg/az/plots/surface/1year_compared/2093P_ThunerS.jpg
+  scan_interval: 36000
+
+
 # tvheadend
 # funktioniert, aber frisst ressourcen und kommt ruckelig und ohne audio
 #- platform: ffmpeg

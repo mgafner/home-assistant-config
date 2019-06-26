@@ -136,7 +136,7 @@
   username: !secret imap_office_user
   password: !secret imap_office_pass
   folder:   !secret imap_office_folder
-#  senders:  !secret imap_office_senders
+  senders:  !secret imap_office_senders
 
 - platform: moon
 
