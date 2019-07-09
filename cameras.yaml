@@ -104,6 +104,11 @@
   still_image_url: https://www.hydrodaten.admin.ch/lhg/az/plots/surface/1year_compared/2093P_ThunerS.jpg
   scan_interval: 36000
 
+- platform: generic
+  name: River Level
+  still_image_url: https://www.hydrodaten.admin.ch/lhg/az/plots/surface/1year_compared/2135Q_AareBern.jpg
+  scan_interval: 36000
+
 
 # tvheadend
 # funktioniert, aber frisst ressourcen und kommt ruckelig und ohne audio
@@ -118,11 +123,11 @@
   still_image_url: !secret camera_monbijou_url
   scan_interval: 10
 
-#- platform: mjpeg
-#  mjpeg_url: !secret camera_dcs820l_url http://192.168.1.16/video/mjpg.cgi
-#  name: Garage DCS-820L
-#  username: !secret camera_dcs820l_username
-#  password: !secret camera_dcs820l_password
+- platform: mjpeg
+  mjpeg_url: !secret camera_dcs820l_url
+  name: Monbijou2
+  username: !secret camera_dcs820l_username
+  password: !secret camera_dcs820l_password
 
 # DCS-820L
 # from http://forums.dlink.com/index.php?topic=57687.0

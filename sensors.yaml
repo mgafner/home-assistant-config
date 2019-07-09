@@ -121,7 +121,7 @@
   - uv_index
     # The current UV index.
   scan_interval:
-    minutes: 10
+    minutes: 60
   forecast:
   - 1
     
@@ -407,25 +407,26 @@
 #  unit_of_measurement: "°C"
   sampling_size: 250
 
-- platform: sql
-  db_url: !secret sensor_sql_db_url
+#- platform: sql
+  # optional:
+  #db_url: !secret sensor_sql_db_url
   # database schema see: https://www.home-assistant.io/docs/backend/database/
-  queries:
+#  queries:
 #    - name: level0_phone_hugo_last_home
 #      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.hugophone' AND state = 'home' ORDER BY created DESC LIMIT 1;"
 #      column: 'last_changed'
 #    - name: level0_phone_ruth_last_home
 #      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.ruthphone' AND state = 'home' ORDER BY created DESC LIMIT 1;"
 #      column: 'last_changed'
-    - name: room1_phone_ya_last_home
-      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room1_phone_ya' AND state = 'home' ORDER BY created DESC LIMIT 1;"
-      column: 'last_changed'
-    - name: room4_phone_tinu_last_home
-      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room4_phone_tinu' AND state = 'home' ORDER BY created DESC LIMIT 1;"
-      column: 'last_changed'
-    - name: room6_phone_neala_last_home
-      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room6_phone_neala' AND state = 'home' ORDER BY created DESC LIMIT 1;"
-      column: 'last_changed'
+#    - name: room1_phone_ya_last_home
+#      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room1_phone_ya' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+#      column: 'last_changed'
+#    - name: room4_phone_tinu_last_home
+#      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room4_phone_tinu' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+#      column: 'last_changed'
+#    - name: room6_phone_neala_last_home
+#      query: "SELECT last_changed FROM states WHERE entity_id = 'device_tracker.room6_phone_neala' AND state = 'home' ORDER BY created DESC LIMIT 1;"
+#      column: 'last_changed'
 
 - platform: systemmonitor
   resources:

@@ -15,21 +15,18 @@
 # along with this file.  If not, see <http://www.gnu.org/licenses/>.
 
 homeassistant:
+  # not needed to write in config anymore, as of 0.95 this is configurable in the UI
   # Name of the location where Home Assistant is running
-  name: Home
-  
+  #name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude:    !secret config_latitude
-  longitude:   !secret config_longitude
-
+  #latitude:    !secret config_latitude
+  #longitude:   !secret config_longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 508
-  
+  #elevation: 508
   # metric for Metric, imperial for Imperial
-  unit_system: metric
-  
+  #unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: Europe/Zurich
+  #time_zone: Europe/Zurich
   
   # Customization file
   customize: !include customize.yaml
@@ -124,6 +121,11 @@ frontend:
 
 group:          !include groups.yaml
 
+# Home Assistant Component Store
+# https://custom-components.github.io/hacs
+hacs:
+  token: !secret hacs_token
+
 # Enables support for tracking state changes over time.
 history:        !include history.yaml
 
@@ -195,12 +197,12 @@ logger:
 map:
 
 media_player:
-  - platform: snapcast
-    host: !secret mediaplayer_kodi2_snapcast_ip
-  - platform: snapcast
-    host: !secret mediaplayer_kodi4_snapcast_ip
-  - platform: snapcast
-    host: !secret mediaplayer_noti4_snapcast_ip
+#  - platform: snapcast
+#    host: !secret mediaplayer_kodi2_snapcast_ip
+#  - platform: snapcast
+#    host: !secret mediaplayer_kodi4_snapcast_ip
+#  - platform: snapcast
+#    host: !secret mediaplayer_noti4_snapcast_ip
   - platform: mpd
     name: shower_music
     host: !secret mediaplayer_shower_ip
@@ -209,7 +211,7 @@ media_player:
     host: !secret mediaplayer_bath_ip
 
 # for the new tv
-  - platform: philips_2016
+  - platform: philips_android_tv
     # needs an additional component which is not part of the distribution, from:
     # https://github.com/nstrelow/ha_philips_2016
     # save in /config/custom_components/media_player bevore 0.88
@@ -221,14 +223,14 @@ media_player:
     username: !secret mediaplayer_philips-16r1_user
     password: !secret mediaplayer_philips-16r1_pass
 
-  - platform: philips_2016
+  - platform: philips_android_tv
     name: Room2 TV
     host:     !secret mediaplayer_philips-16r2_ip
     mac:      !secret mediaplayer_philips-16r2_mac
     username: !secret mediaplayer_philips-16r2_user
     password: !secret mediaplayer_philips-16r2_pass
 
-  - platform: philips_2016
+  - platform: philips_android_tv
     name: Room4 TV
     host:     !secret mediaplayer_philips-16r4_ip
     mac:      !secret mediaplayer_philips-16r4_mac
@@ -368,6 +370,7 @@ vacuum:
 weather:
   - platform: darksky
     api_key: !secret darksky_api_key
+    mode: daily
     scan_interval: 3600
 
 weblink:
